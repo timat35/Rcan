@@ -1,0 +1,171 @@
+\name{csu_asr}
+\alias{csu_asr}
+\title{csu_asr}
+
+\description{
+\code{csu_asr} calculate Age-Standardized Rate (ASR) and Truncated Age-Stadardized Rate (TASR) across different population (Registry, year, sex...)
+}
+\usage{
+csu_asr(df_data,
+		var_age = "age",
+		var_cases = "cases",
+		var_py ="py",
+		var_by=NULL,
+		var_age_group=NULL,
+		missing_age = NULL,
+		var_st_err = NULL,
+		first_age = 1,
+		last_age = 18,
+		db_rate = 100000,
+		pop_base = "SEGI",
+		correction_info = FALSE,
+		var_asr = "asr",
+		age_dropped = FALSE)
+}
+
+\arguments{
+  \item{df_data}{
+  Data (need to be R dataframe format, see example to import csv file).
+}
+    \item{var_age}{
+	(Optional, String) Age group variable: (numerical) 18 5-years age-group, 0-4, 5-9, .. 85+ and an optional missing age.\cr
+	The value can be 1,2..19, as well as 0,5,..85 or other value as long are they are numerical.\cr
+	Default is "age".
+}
+  \item{var_cases}{
+		(Optional, String) Number of cases variable (incidence).\cr
+		Default is "cases".
+}
+  \item{var_py}{
+		(Optional, String) Population year variable.\cr
+		Default is "py".
+}
+  \item{var_by}{
+		(Optional) Variables over which the ASR will be calculated (sex, country, cancer ...).\cr
+		Any variable included in the next option var_age_group \bold{must} be also include here.
+}
+  \item{var_age_group}{
+		(Optional) Variables over which the number of population age-group might change.\cr
+		For example the last age group (70+, 75+, 80+ or 85+) can vary across registries, or year, but not across sex.
+}
+  \item{missing_age}{
+		(Optional) Age value representing the missing age cases. If not precise, missing age value will not affect the calculation.
+}
+  \item{var_st_err}{
+		(Optional, String) Calculate the Standard error and name of the new variable. 
+}
+  \item{first_age}{
+		First age group included (for Truncated ASR). Default is 1,  \bold{must} be between 1 and 17. 1 represents 0-4, 2 represents 5-9, ... 5 represente 20-24 etc.\cr
+}
+  \item{last_age}{
+		Last age group included (for Truncated ASR). Default is 18, \bold{must} be between 2 and 18. 2 represents 5-9, ... 5 represente 20-24, ... 18 represents 85+ etc.\cr
+		To calculate ASR for 15-69 years, use: first_age(4) last_age(14)
+}
+  \item{db_rate}{
+		The denominator population. Default is 100000.
+}
+  \item{pop_base}{
+		(Optional, "SEGI" or "EURO")\cr
+		SEGI population by default.\cr
+		EURO is the european standard population.
+}
+  \item{correction_info}{
+		(Optional) Compute the variable "correction" : percentage of missing age cases.
+}
+  \item{var_asr}{
+		(Optional) Name of the new variable for the ASR. Default is "asr".
+}
+  \item{age_dropped}{
+		(Optional) Only for truncated ASR. Option to add if the age group not used are already dropped from the data.\cr
+		First_age and last_age option \bold{must} still be filled.
+}
+}
+\details{
+	This function take automatically account the number of age group (last age group can be 70+,75+,80+,85+):\cr
+	If the population data stops before 85+ (75+ for instance), the population data \bold{must} be 0 when the population data is unknown so, the program can detect automatically the last age group (70+,75+,80+ or 85+) for population.
+
+}
+\value{
+	Give the list of population with less than 18 age group (last age group: 70+, 75+, 80+).\cr
+	Return a dataframe.
+	
+}
+\references{
+	\url{https://www.iarc.fr/en/publications/pdfs-online/epi/sp95/sp95-chap11.pdf}
+
+}
+\author{
+	Mathieu Laversanne
+}
+
+\seealso{
+	\code{\link{csu_eapc}}
+	\code{\link{csu_ageSpecific}}
+}
+
+\examples{
+data(csu_registry_data_1)
+data(csu_registry_data_2)
+
+# you can import your data from csv file using read.csv:
+# mydata <-  read.csv("mydata.csv", sep=",")
+
+# Age standardized rate (ASR) with no missing age cases.
+result <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  var_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"))
+				  
+# you can export your result as csv file using write.csv:
+# write.csv(result, file="result.csv")
+				  
+# ASR,  with the percentage of correction due to missing age cases. 
+result <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  var_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"),
+				  missing_age = 19,				  
+				  correction_info = TRUE)	
+				  
+# ASR and standard error with missing age.
+result <- csu_asr(csu_registry_data_2, 
+                  "age", "cases", "py",
+                  var_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
+                  var_age_group = c("registry_label"), 
+                  var_st_err = "st_err",
+				  missing_age = 99)
+				  
+# Truncated ASR, 25-69 years.
+result <- csu_asr(csu_registry_data_2, 
+                  "age", "cases", "py",
+                  var_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
+                  var_age_group = c("registry_label"), 
+                  var_st_err = "st_err",
+				  first_age = 6, 
+				  last_age = 14,
+				  missing_age = 99)	
+
+# Truncated ASR, 0-15 with denominator population = 1000000. 
+result <- csu_asr(csu_registry_data_2, 
+                  "age", "cases", "py",
+                  var_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
+                  var_age_group = c("registry_label"), 
+                  var_st_err = "st_err",
+				  first_age = 1, 
+				  last_age = 3, 
+				  missing_age = 99,	
+				  db_rate = 1000000)		
+				  
+# ASR with EURO population as reference (instead of SEGI)
+result <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  var_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"),
+				  missing_age = 19,
+                  pop_base = "EURO")
+				    		  
+}
+
+
+
+
