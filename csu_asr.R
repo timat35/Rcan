@@ -250,6 +250,7 @@ function(df_data,var_age="age", var_cases="cases", var_py="py", var_by=NULL, var
   setnames(df_data,  "CSU_P", var_py)
   
   temp <- last_age*5-1
+  if (last_age == 18)  temp <- paste0((temp-4),"+")
   cat("ASR have been computed for the age group ", (first_age-1)*5,"-", temp , "\n",  sep="" )
   temp<- NULL
   
