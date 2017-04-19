@@ -1,5 +1,5 @@
 
-csu_tick_generator <- function(max,min = 0,log_scale=FALSE) {
+.csu_tick_generator <- function(max,min = 0,log_scale=FALSE) {
   
   
   temp_log_max = 10^floor(log10(max))
@@ -106,13 +106,13 @@ csu_tick_generator <- function(max,min = 0,log_scale=FALSE) {
   
 }
 
-csu_axes_label <- function(l) {
+.csu_axes_label <- function(l) {
   
   l <- format(l, big.mark = ",", scientific = FALSE, drop0trailing = TRUE)
   
 }
 
-csu_year_tick_generator <- function(min, max) {
+.csu_year_tick_generator <- function(min, max) {
   
   temp1 <- min - (min %% 5)
   temp2 <- max - (max %% 5) +5
@@ -138,7 +138,7 @@ csu_year_tick_generator <- function(min, max) {
 }
 
 
-csu_format_export <- function(type, plot_title) {
+.csu_format_export <- function(type, plot_title) {
   
   if (type == "pdf") {
     

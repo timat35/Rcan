@@ -104,7 +104,7 @@ csu_trend <- function (
     
     csu_plot <- csu_plot +
       coord_cartesian( ylim=c(-temp_expand_y, temp_expand_y_up),  expand = TRUE)+
-      scale_y_continuous(name = paste("ASR", formatC(100000, format="d", big.mark=",")),
+      scale_y_continuous(name = yaxes_title,
                          breaks=tick$tick_list,
                          labels=.csu_axes_label,
                          expand = c(0,0)
@@ -161,8 +161,11 @@ csu_trend <- function (
   grid.draw(gt_plot)
   
   if (!is.null(format_export)) {
+    cat("plot exported:\n","\"", getwd(),"/", plot_title , ".",format_export,"\"",  sep="" )
     dev.off()
   }
+  
+
   
   
   if (bool_dum_by) {

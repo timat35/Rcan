@@ -154,6 +154,7 @@ csu_ageSpecific <-
       } 
     }
     
+    #create age label
     max_age <- max(dt_data$nb_age_group)
     age_label <- c("0-4","5-9","10-14","15-19","20-24","25-39","30-34","35-39","40-44", "45-49","50-54","55-59","60-64","65-69","70-74","75-79","80-84","85+")
     
@@ -164,7 +165,7 @@ csu_ageSpecific <-
         if (max_age  < 16) {
           age_label <- c(age_label[1:14],"70+") 
           if (max_age  == 15) {
-            age_label <- c(age_label[1:14],"65+") 
+            age_label <- c(age_label[1:13],"65+") 
           } else {
             stop('The data need at least 15 age-group, see documentation: Help(csu_graph_ageSpecific)')
           }
