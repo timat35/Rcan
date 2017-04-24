@@ -162,9 +162,11 @@
     
   } else if (type == "png") {
     
+    png(paste(plot_title,".",type, sep=""),width = png_width, height = png_height, units = "px",res = 200) 
     
     
   } else if (type == "tiff") {
     
+    tiff(paste(plot_title,".",type, sep=""),width = tiff_width, height = tiff_height units = "px",res = 300,compression ="lzw")
   }
 }
