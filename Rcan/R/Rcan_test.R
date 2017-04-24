@@ -34,15 +34,13 @@ missing_age = 99
 db_rate = 100000
 logscale = TRUE
 plot_title = "CSU_title"
-format_export = "pdf"
+format_export = NULL
 first_age = 7
 last_age = 16
 age_dropped=FALSE
 span = 5
 type = "Both"
 
-
-landscape <- TRUE
 
 dt_data <- data.table(df_data)
 setnames(dt_data, var_age, "CSU_A")
@@ -129,7 +127,6 @@ if (type == "Period") {
 } else if (type == "Cohort"){
   year_tick <- .csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_cohort))
 } else {
-  landscape <- TRUE
   year_tick <- .csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_Y))
 }
 
@@ -150,7 +147,7 @@ color_scale <- scales::seq_gradient_pal(low = "#60b1e2", high = "#0b3e6b")(seq(0
 
 #format
 if (!is.null(format_export)) {
-  .csu_format_export(format_export, plot_title = plot_title, landscape=landscape)
+  .csu_format_export(format_export, plot_title = plot_title)
 }
 
 
