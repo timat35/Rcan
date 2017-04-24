@@ -158,7 +158,7 @@
     
   } else if (type == "svg") {
     
-    svg(paste(plot_title,".",type, sep=""),width = pdf_width, height = pdf_width) 
+    svg(paste(plot_title,".",type, sep=""),width = pdf_width, height = pdf_height) 
     
   } else if (type == "png") {
     
@@ -167,6 +167,6 @@
     
   } else if (type == "tiff") {
     
-    tiff(paste(plot_title,".",type, sep=""),width = tiff_width, height = tiff_height units = "px",res = 300,compression ="lzw")
+    tiff(paste(plot_title,".",type, sep=""),width = tiff_width, height = tiff_height,units = "px",res = 300,compression ="lzw")
   }
 }

@@ -77,9 +77,10 @@ csu_trend(df_data,
 }
 
 \seealso{
+	\code{\link{csu_ageSpecific}}
 	\code{\link{csu_asr}}
 	\code{\link{csu_eapc}}
-	\code{\link{csu_ageSpecific}}
+	\code{\link{csu_trendCohortPeriod}}
 }
 
 \examples{

@@ -96,6 +96,8 @@ csu_ageSpecific(df_data,
 \seealso{
 	\code{\link{csu_asr}}
 	\code{\link{csu_eapc}}
+	\code{\link{csu_trend}}
+	\code{\link{csu_trendCohortPeriod}}
 }
 
 \examples{

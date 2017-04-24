@@ -167,6 +167,6 @@
     
   } else if (type == "tiff") {
     
-    tiff(paste(plot_title,".",type, sep=""),width = tiff_width, height = tiff_height units = "px",res = 300,compression ="lzw")
+    tiff(paste(plot_title,".",type, sep=""),width = tiff_width, height = tiff_height,units = "px",res = 300,compression ="lzw")
   }
 }

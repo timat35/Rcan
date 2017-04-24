@@ -274,7 +274,7 @@ csu_ageSpecific <-
       geom_line(aes(color=CSU_BY), size = 1)+
       ggtitle(plot_title)+
       coord_cartesian( ylim=c(-temp_expand_y, temp_expand_y_up),  expand = TRUE)+ 
-      scale_y_continuous(name = paste("Age-specific incidence rate per", formatC(db_rate, format="d")),
+      scale_y_continuous(name = paste("Age-specific rate per", formatC(db_rate, format="d")),
                          breaks=seq(0, temp_top, temp_tick),
                          expand = c(0,0)
       )+
