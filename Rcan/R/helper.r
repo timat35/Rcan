@@ -122,7 +122,7 @@
     year_list <- seq(temp1,temp2,year_space)
     year_minor_list <- year_list
     
-  } else if (temp2- temp1 <= 80) {
+  } else  {
     year_space <- 10 
     if (temp1 %% 10 > 0) {
       year_list <- seq(temp1+5,temp2,year_space)

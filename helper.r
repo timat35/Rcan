@@ -122,7 +122,7 @@
     year_list <- seq(temp1,temp2,year_space)
     year_minor_list <- year_list
     
-  } else if (temp2- temp1 <= 80) {
+  } else  {
     year_space <- 10 
     if (temp1 %% 10 > 0) {
       year_list <- seq(temp1+5,temp2,year_space)
@@ -138,23 +138,33 @@
 }
 
 
-.csu_format_export <- function(type, plot_title) {
+.csu_format_export <- function(type, plot_title, landscape=FALSE) {
+  
+  #http://www.altelia.fr/actualites/calculateur-resolution-definition-format.htm
+  
+  # 6 inch = 15.24 cm
+  #10,795
+  
+  png_width <- ifelse(landscape, 2339 , 1654 )
+  png_height <- ifelse(landscape, 1654 , 2339 )
+  tiff_width <- ifelse(landscape, 3508 , 2480 )
+  tiff_height <- ifelse(landscape, 2480 , 3508 )
+  pdf_width <- ifelse(landscape, 11.692 , 8.267 )    
+  pdf_height <- ifelse(landscape, 8.267 , 11.692 )   
   
   if (type == "pdf") {
     
-    pdf(paste(plot_title,".",type, sep=""))
+    pdf(paste(plot_title,".",type, sep=""),width = pdf_width, height = pdf_height) 
     
   } else if (type == "svg") {
     
-    svg(paste(plot_title,".",type, sep=""))
+    svg(paste(plot_title,".",type, sep=""),width = pdf_width, height = pdf_width) 
     
   } else if (type == "png") {
     
-    png(paste(plot_title,".",type, sep=""))
     
     
   } else if (type == "tiff") {
     
-    tiff(paste(plot_title,".",type, sep=""))
   }
 }
