@@ -1,5 +1,19 @@
 csu_asr <-
-function(df_data,var_age="age", var_cases="cases", var_py="py", var_by=NULL, var_age_group=NULL, missing_age = NULL, var_st_err=NULL, first_age = 1, last_age = 18, db_rate = 100000, pop_base = "SEGI", correction_info=FALSE, var_asr="asr", age_dropped = FALSE) {
+function(df_data,
+	var_age="age",
+	var_cases="cases",
+	var_py="py",
+	group_by=NULL,
+	var_age_group=NULL,
+	missing_age = NULL,
+	db_rate = 100000,
+	first_age = 1,
+	last_age = 18,
+	pop_base = "SEGI",
+	var_st_err=NULL,
+	correction_info=FALSE,
+	var_asr="asr",
+	age_dropped = FALSE) {
   
   
   bool_dum_by <- FALSE
@@ -33,10 +47,10 @@ function(df_data,var_age="age", var_cases="cases", var_py="py", var_by=NULL, var
   
 
     
-  if (is.null(var_by)) {
+  if (is.null(group_by)) {
     
     df_data$CSU_dum_by <- "dummy_by"
-    var_by <- "CSU_dum_by"
+    group_by <- "CSU_dum_by"
     bool_dum_by <- TRUE
     
   }
@@ -46,13 +60,13 @@ function(df_data,var_age="age", var_cases="cases", var_py="py", var_by=NULL, var
     
     df_data$CSU_dum_age <- "dummy_age_gr"
     var_age_group <- "CSU_dum_age"
-    var_by <- c(var_by, "CSU_dum_age")
+    group_by <- c(group_by, "CSU_dum_age")
     bool_dum_age <- TRUE
     
   }
   
   
-  dt_data <- data.table(df_data, key = var_by) 
+  dt_data <- data.table(df_data, key = group_by) 
   setnames(dt_data, var_age, "CSU_A")
   setnames(dt_data, var_cases, "CSU_C")
   setnames(dt_data, var_py, "CSU_P")
@@ -126,8 +140,8 @@ function(df_data,var_age="age", var_cases="cases", var_py="py", var_by=NULL, var
   if (!is.null(missing_age)) {
     
     
-    dt_data[, total:=sum(CSU_C), by=var_by] #add total
-    dt_data[!is.na(dt_data$age_factor) , total_known:=sum(CSU_C), by=var_by] #add total_know
+    dt_data[, total:=sum(CSU_C), by=group_by] #add total
+    dt_data[!is.na(dt_data$age_factor) , total_known:=sum(CSU_C), by=group_by] #add total_know
     dt_data$correction <- dt_data$total / dt_data$total_know 
     dt_data[is.na(dt_data$correction),correction:=1 ] 
     dt_data$total <- NULL
@@ -179,7 +193,7 @@ function(df_data,var_age="age", var_cases="cases", var_py="py", var_by=NULL, var
     
     if (i %in% dt_data$nb_age_group) {
       
-      dt_data[dt_data$nb_age_group == i & dt_data$age_factor >= i , CSU_C:=sum(CSU_C), by=var_by] #add total_know
+      dt_data[dt_data$nb_age_group == i & dt_data$age_factor >= i , CSU_C:=sum(CSU_C), by=group_by] #add total_know
       dt_data[dt_data$nb_age_group == i & dt_data$age_factor > i & !is.na(dt_data$age_factor), CSU_C := 0] 
       
     } 
@@ -208,7 +222,7 @@ function(df_data,var_age="age", var_cases="cases", var_py="py", var_by=NULL, var
   # to check order 
   dt_data<- dt_data[order(dt_data$index_order ),]
   
-  dt_data<-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P),asr=sum(asr),st_err = sum(st_err),correction = max(correction)), by=var_by]
+  dt_data<-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P),asr=sum(asr),st_err = sum(st_err),correction = max(correction)), by=group_by]
   
   dt_data$asr <- dt_data$asr / total_pop
   dt_data$asr <- dt_data$asr * dt_data$correction

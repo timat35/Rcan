@@ -9,15 +9,8 @@ Description: Theses functions are design by the Cancer Surveillance Unit at IARC
 License: GPL (>=2)
 URL: http://timat.org/matR
 LazyLoad: yes
-Imports:
-	data.table, 
-	stats,
-	ggplot2,
-	grid,
-	scales,
-	grDevices,
-	graphics,
-	utils
-
-
-
+Imports: data.table, stats, ggplot2, grid, scales, grDevices, graphics,
+        utils
+NeedsCompilation: no
+Packaged: 2017-04-25 15:39:33 UTC; laversannem
+Built: R 3.3.1; ; 2017-04-25 15:40:45 UTC; windows

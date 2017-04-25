@@ -2,27 +2,34 @@ csu_trend <- function (
   df_data,
   var_trend = "asr",
   var_year = "year",
-  var_by = NULL,
+  group_by = NULL,
   logscale = TRUE,
   smoothing = 0.3,
   legend = csu_trend_legend(),
-  plot_title = "csu_title",
   yaxes_title = "Age standardized (world) rate per 100,000",
+  plot_title = "csu_title",
   format_export = NULL) {
   
+  linesize <- 0.75
+  
+  if (!is.null(smoothing)) {
+	if (smoothing == 0) {
+	smoothing <- NULL
+	}
+  }
   
   bool_dum_by <- FALSE
-  if (is.null(var_by)) {
+  if (is.null(group_by)) {
     
     df_data$CSU_dum_by <- "dummy_by"
-    var_by <- "CSU_dum_by"
+    group_by <- "CSU_dum_by"
     bool_dum_by <- TRUE
   }
   
-  dt_data <- data.table(df_data, key = var_by)
+  dt_data <- data.table(df_data, key = group_by)
   setnames(dt_data, var_year, "CSU_Y")
   setnames(dt_data, var_trend, "CSU_T")
-  setnames(dt_data, var_by, "CSU_BY")
+  setnames(dt_data, group_by, "CSU_BY")
   
   #change by to factor
   dt_data$CSU_BY <- factor(dt_data$CSU_BY)
@@ -33,6 +40,7 @@ csu_trend <- function (
     dt_data[,CSU_T:= loess( CSU_T ~ CSU_Y, span=smoothing)$fitted, by=CSU_BY]
   }
   
+  dt_data[, max_year:=max(CSU_Y), by=CSU_BY]
   
   # to calcul y axes breaks
   tick <- .csu_tick_generator(max = max(dt_data$CSU_T), min=min(dt_data[CSU_T != 0,]$CSU_T), log_scale = logscale )
@@ -41,6 +49,7 @@ csu_trend <- function (
   
   #to calcul year axes break
   year_tick <- .csu_year_tick_generator(min(dt_data$CSU_Y),max(dt_data$CSU_Y))
+
   
   
   temp_top <- ceiling(max(dt_data$CSU_T)/tick_space)*tick_space
@@ -69,6 +78,9 @@ csu_trend <- function (
     .csu_format_export(format_export, plot_title = plot_title)
   }
   
+  xlim_inf <- min(c(year_tick$tick_list, year_tick$tick_minor_list))
+  xlim_sup <- max(c(year_tick$tick_list, year_tick$tick_minor_list))
+  
   #csu_plot
   if (logscale) {
     base_plot <- ggplot(dt_data[, CSU_T := ifelse(CSU_T==0,NA, CSU_T )], aes(CSU_Y, CSU_T))
@@ -84,7 +96,7 @@ csu_trend <- function (
          caption = NULL)+
     scale_x_continuous(name = "Year",
                        breaks=year_tick$tick_list,
-                       limits=c(year_tick$tick_list[1],year_tick$tick_list[length(year_tick$tick_list)]),
+                       limits=c(xlim_inf,xlim_sup),
                        minor_breaks = year_tick$tick_minor_list,
                        expand = c(0.015,0.015)
     )
@@ -127,23 +139,24 @@ csu_trend <- function (
       plot.margin=margin(20,20,20,20),
       axis.text = element_text(size=12, colour = "black"),
       axis.text.x = element_text(size=12,  hjust = 0.5),
-      axis.ticks= element_line(colour = "black", size = 0.5),
+      axis.ticks= element_line(colour = "black", size = linesize),
       axis.ticks.length = unit(0.2, "cm"),
       axis.line.x = element_line(colour = "black", 
-                                 size = 0.5, linetype = "solid"),
+                                 size = linesize, linetype = "solid"),
       axis.line.y = element_line(colour = "black", 
-                                 size = 0.5, linetype = "solid")
+                                 size = linesize, linetype = "solid")
     )+
     th_legend
   
-  
+
   
   if (!bool_dum_by & legend$position=="right") {
     
     csu_plot <- csu_plot + 
       geom_text(data = dt_data[CSU_Y == max_year, ],
                 aes(label = CSU_BY),
-                hjust=-0.25)+
+                hjust=0,
+                nudge_x=0.5)+
       theme(plot.margin = unit(c(0.5, legend$right_space_margin, 0.5, 0.5), "lines"))
     
   } else {
@@ -173,6 +186,8 @@ csu_trend <- function (
     df_data$CSU_dum_by <- NULL
     
   }
+  
+
   
   
   

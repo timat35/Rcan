@@ -1,5 +1,9 @@
 csu_eapc <-
-  function(df_data,var_rate, var_period, var_by= NULL,var_eapc="eapc") {
+  function(df_data,
+  var_rate="asr",
+  var_period="year",
+  group_by= NULL,
+  var_eapc="eapc") {
   
     if (!(var_rate%in% colnames(df_data))) {
       
@@ -13,16 +17,17 @@ csu_eapc <-
       
     }
     
-    #create fake group to have var_by optional 
-    bool_dum <- FALSE
-    if (is.null(var_by)) {
+    #create fake group to have group_by optional 
+    bool_dum_by <- FALSE
+    
+    if (is.null(group_by)) {
       
-      df_data$CSU_dum <- "dummy"
-      var_by <- "CSU_dum"
-      bool_dum <- TRUE
+      df_data$CSU_dum_by <- "dummy_by"
+      group_by <- "CSU_dum_by"
+      bool_dum_by <- TRUE
     }
     
-    dt_data <- data.table(df_data, key = c(var_by)) 
+    dt_data <- data.table(df_data, key = c(group_by)) 
     
     setnames(dt_data, var_rate, "CSU_R")
     setnames(dt_data, var_period, "CSU_P")
@@ -30,14 +35,14 @@ csu_eapc <-
     #check by variable adapted (ie: 1 year per variable)
     dt_data$temp <- 1
     nrow_base <- nrow(dt_data)
-    nrow_test <-  nrow(dt_data[ ,sum(temp), by=c("CSU_P",  var_by)]) 
+    nrow_test <-  nrow(dt_data[ ,sum(temp), by=c("CSU_P",  group_by)]) 
     dt_data$temp <- NULL
     if (nrow_test != nrow_base) {
       dt_data <- NULL
       stop("There is more than 1 data per year.\nUse the option by to define the sub population.\n")
     }
     
-    dt_data[, id_group:=.GRP, by=var_by]
+    dt_data[, id_group:=.GRP, by=group_by]
     
     temp_max <- max(dt_data$id_group)
     for (i in 1:temp_max) {
@@ -59,7 +64,7 @@ csu_eapc <-
     
     
     
-    dt_data<-  dt_data[,list( CSU_EAPC=mean(CSU_EAPC), CSU_UP=mean(CSU_UP),CSU_LOW=mean(CSU_LOW)), by=var_by]
+    dt_data<-  dt_data[,list( CSU_EAPC=mean(CSU_EAPC), CSU_UP=mean(CSU_UP),CSU_LOW=mean(CSU_LOW)), by=group_by]
     
     
     setnames(dt_data, "CSU_EAPC", var_eapc)
@@ -67,8 +72,8 @@ csu_eapc <-
     setnames(dt_data, "CSU_LOW", paste(var_eapc, "low", sep="_"))
     
     df_data <- data.frame(dt_data)
-    if (bool_dum) {
-      df_data$CSU_dum <- NULL
+    if (bool_dum_by) {
+      df_data$CSU_dum_by <- NULL
     }
     
     cat("EAPC with standard errors have been computed\n" )

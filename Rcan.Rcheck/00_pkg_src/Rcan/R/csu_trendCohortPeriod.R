@@ -5,17 +5,17 @@ csu_trendCohortPeriod <- function (
   var_py="py",
   var_year = "year",
   type = "Cohort",
-  year_group = 5,
   missing_age = NULL,
+  logscale = TRUE,
   db_rate = 100000,
   first_age = 6,
   last_age = 16,
+  year_group = 5,
   age_dropped=FALSE,
-  logscale = TRUE,
   plot_title = "csu_title",
   format_export = NULL) {
   
-  
+  linesize <- 0.75
   landscape <- FALSE
 
   dt_data <- data.table(df_data)
@@ -101,11 +101,11 @@ csu_trendCohortPeriod <- function (
   #to calcul year axes break
   if (type == "Period") {
     year_tick <- .csu_year_tick_generator(min(dt_data$CSU_Y),max(dt_data$CSU_Y))
-  } else if (type == "Cohort"){
-    year_tick <- .csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_cohort))
-  } else {
+  } else if (type == "Both"){
     landscape <- TRUE
     year_tick <- .csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_Y))
+  } else {
+    year_tick <- .csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_cohort))
   }
   
   
@@ -132,12 +132,13 @@ csu_trendCohortPeriod <- function (
   if (type == "Period") {
     dt_data[, CSU_Xaxes:=CSU_Y]
     Xaxes_label <- "Year of diagnosis"
-  } else if (type == "Cohort") {
-    dt_data[, CSU_Xaxes:=CSU_cohort]
-    Xaxes_label <- "Year of birth"
-  } else  {
+  } else if (type == "Both") {
     dt_data[, CSU_Xaxes:=CSU_cohort]
     Xaxes_label <- "Year of birth   |   Year of diagnosis"
+  } else  {
+    dt_data[, CSU_Xaxes:=CSU_cohort]
+    Xaxes_label <- "Year of birth"
+
   }
   
   dt_data[, temp_label:=max(CSU_Xaxes), by=CSU_age_factor]
@@ -259,12 +260,12 @@ csu_trendCohortPeriod <- function (
       plot.margin = unit(c(0.5, 2, 0.5, 0.5), "lines"),
       axis.text = element_text(size=12, colour = "black"),
       axis.text.x = element_text(size=12,  hjust = 0.5),
-      axis.ticks= element_line(colour = "black", size = 0.5),
+      axis.ticks= element_line(colour = "black", size = linesize),
       axis.ticks.length = unit(0.2, "cm"),
       axis.line.x = element_line(colour = "black", 
-                                 size = 0.5, linetype = "solid"),
+                                 size = linesize, linetype = "solid"),
       axis.line.y = element_line(colour = "black", 
-                                 size = 0.5, linetype = "solid")
+                                 size = linesize, linetype = "solid")
     )+
     th_legend
   
