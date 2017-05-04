@@ -145,6 +145,8 @@
   # 6 inch = 15.24 cm
   #10,795
   
+  plot_title <- gsub("\n", "_", plot_title)
+  
   png_width <- ifelse(landscape, 2339 , 1654 )
   png_height <- ifelse(landscape, 1654 , 2339 )
   tiff_width <- ifelse(landscape, 3508 , 2480 )

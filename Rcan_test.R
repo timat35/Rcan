@@ -2,13 +2,13 @@
 rcan_folder <- "c:/projects/Rcan"
 #install.packages("http://timat.org/matR/Rcan.tar.gz", repos=NULL)
 library(Rcan)
-#library(data.table)
-#library(ggplot2)
-#library(grid)
+library(data.table)
+library(ggplot2)
+library(grid)
 
 
-#source(paste0(rcan_folder, "/Rcan/R/helper.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
+source(paste0(rcan_folder, "/Rcan/R/helper.r"))
+source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
 
 
 #test package
@@ -16,6 +16,47 @@ library(Rcan)
 # remove.packages("Rcan")
 # install.packages("C:/Projects/Rcan/Rcan_1.3.0.tar.gz", repos=NULL)
 
+
+
+
+# test ---------
+
+data(csu_registry_data_1)
+data(csu_registry_data_2)
+
+# you can import your data from csv file using read.csv:
+# mydata <-  read.csv("mydata.csv", sep=",")
+
+# to select only 1 population.
+test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
+
+# plot age specific rate for 1 population.
+csu_ageSpecific(test,
+                plot_title = "Colombia, Liver, male")
+
+
+data(csu_registry_data_2)
+
+# you can import your data from csv file using read.csv:
+# mydata <-  read.csv("mydata.csv", sep=",")
+
+# to select only 1 population 
+test <- csu_registry_data_2[csu_registry_data_2$registry_label=="Colombia, Cali",]
+
+# to change sex variable to factor with label
+test$sex <- factor(test$sex, levels=c(1,2), labels=c("Male", "Female"))
+
+# to calculate the asr
+df_asr <- csu_asr(test,missing_age = 99,
+                  group_by  = c("registry", "registry_label", "year", "sex"),
+                  var_age_group =  c("registry", "registry_label"))
+
+# plot ASR ove year, by sex.
+csu_trend(df_asr, 
+          plot_title = "Colombia, Liver, male", smoothing = NULL)
+
+
+# test csu trend --------
 
 
 mydata <-  read.csv("data_test/data_cervix.csv", sep=",")

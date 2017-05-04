@@ -26,7 +26,7 @@ csu_trend(df_data,
 	}
   \item{var_trend}{
 	Statistics variable to be plot on Y axis.\cr
-	Usually for the ASR, but it coud be the cumulative risk, or even the number of cases.
+	Usually for the ASR, but it could be the cumulative risk, or even the number of cases.
 	}
   \item{var_year}{
 	Time variable.
@@ -68,7 +68,7 @@ csu_trend(df_data,
 }
 
 \details{
-	This function is design the plot a statistics over time. It has been design for the ASR by year, but can bve used for other statistics over time period.
+	This function is design the plot a statistics over time. It has been design for the ASR by year, but can be used for other statistics over time period.
 	The \code{group_by} option allow to compare different population or cancer.
 
 }
@@ -109,16 +109,16 @@ csu_trend(df_data,
 	
 	# plot ASR ove year, by sex.
 	csu_trend(df_asr, group_by="sex",
-                plot_title = "Colombia, Liver, male")
+                plot_title = "Colombia, Liver")
 				
 	# plot ASR over year, by sex, with no smoothing.
 	csu_trend(df_asr, group_by="sex",
-			  plot_title = "Colombia, Liver, male",
+			  plot_title = "Colombia, Liver",
 			  smoothing = NULL)
 			  
 	# plot ASR over year, by sex, with high smoothing.
 	csu_trend(df_asr, group_by="sex",
-			  plot_title = "Colombia, Liver, male",
+			  plot_title = "Colombia, Liver",
 			  smoothing = 0.5)
 				
 }
