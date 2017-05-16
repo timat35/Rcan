@@ -6,16 +6,16 @@ csu_trend <- function (
   logscale = TRUE,
   smoothing = 0.3,
   legend = csu_trend_legend(),
-  yaxes_title = "Age standardized (world) rate per 100,000",
+  yaxes_title = "Age standardized rate per 100000",
   plot_title = "csu_title",
   format_export = NULL) {
   
   linesize <- 0.75
   
   if (!is.null(smoothing)) {
-	if (smoothing == 0) {
-	smoothing <- NULL
-	}
+	  if (smoothing == 0) {
+	  smoothing <- NULL
+	  }
   }
   
   bool_dum_by <- FALSE
@@ -26,10 +26,26 @@ csu_trend <- function (
     bool_dum_by <- TRUE
   }
   
+
+  
   dt_data <- data.table(df_data, key = group_by)
   setnames(dt_data, var_year, "CSU_Y")
   setnames(dt_data, var_trend, "CSU_T")
   setnames(dt_data, group_by, "CSU_BY")
+  
+  #check by variable adapted (ie: 1 year per variable)
+  dt_data$temp <- 1
+  nrow_base <- nrow(dt_data)
+  dt_test <- dt_data[ ,temp:=sum(temp), by=c("CSU_Y",  "CSU_BY")]
+  nrow_test <-  nrow(dt_data[ ,sum(temp), by=c("CSU_Y",  "CSU_BY")]) 
+  dt_data$temp <- NULL
+  
+  if (nrow_test != nrow_base) {
+    print(head(dt_test[temp>1, ]))
+    dt_data <- NULL
+    stop("There is more than 1 data per year (see above).\nUse the option by to define the sub population.\n")
+  }
+
   
   #change by to factor
   dt_data$CSU_BY <- factor(dt_data$CSU_BY)
@@ -37,13 +53,15 @@ csu_trend <- function (
   #smooth with loess  fonction
   if (!is.null(smoothing))
   {
-    dt_data[,CSU_T:= loess( CSU_T ~ CSU_Y, span=smoothing)$fitted, by=CSU_BY]
+    dt_data[,smooth_value:= loess( CSU_T ~ CSU_Y, span=smoothing)$fitted, by=CSU_BY]
+  } else {
+    dt_data[,smooth_value:= CSU_T]
   }
   
   dt_data[, max_year:=max(CSU_Y), by=CSU_BY]
   
   # to calcul y axes breaks
-  tick <- .csu_tick_generator(max = max(dt_data$CSU_T), min=min(dt_data[CSU_T != 0,]$CSU_T), log_scale = logscale )
+  tick <- .csu_tick_generator(max = max(dt_data$smooth_value), min=min(dt_data[smooth_value != 0,]$smooth_value), log_scale = logscale )
   tick_space <- tick$tick_list[length(tick$tick_list)] - tick$tick_list[length(tick$tick_list)-1]
   
   
@@ -52,9 +70,9 @@ csu_trend <- function (
 
   
   
-  temp_top <- ceiling(max(dt_data$CSU_T)/tick_space)*tick_space
-  temp_expand_y <- max(dt_data$CSU_T)/35
-  temp_expand_y_up <- max(dt_data$CSU_T)+temp_expand_y
+  temp_top <- ceiling(max(dt_data$smooth_value)/tick_space)*tick_space
+  temp_expand_y <- max(dt_data$smooth_value)/35
+  temp_expand_y_up <- max(dt_data$smooth_value)+temp_expand_y
   if (temp_expand_y_up > temp_top-(tick_space/2)) {
     temp_expand_y_up <- temp_top+temp_expand_y
   }
@@ -75,7 +93,8 @@ csu_trend <- function (
   
   #format
   if (!is.null(format_export)) {
-    .csu_format_export(format_export, plot_title = plot_title)
+    filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
+    .csu_format_export(format_export, plot_title = filename, landscape = FALSE)
   }
   
   xlim_inf <- min(c(year_tick$tick_list, year_tick$tick_minor_list))
@@ -83,9 +102,9 @@ csu_trend <- function (
   
   #csu_plot
   if (logscale) {
-    base_plot <- ggplot(dt_data[, CSU_T := ifelse(CSU_T==0,NA, CSU_T )], aes(CSU_Y, CSU_T))
+    base_plot <- ggplot(dt_data[, smooth_value := ifelse(smooth_value==0,NA, smooth_value )], aes(CSU_Y, smooth_value))
   } else {
-    base_plot <- ggplot(dt_data, aes(CSU_Y, CSU_T))
+    base_plot <- ggplot(dt_data, aes(CSU_Y, smooth_value))
   }
   
   csu_plot <- base_plot+
@@ -174,7 +193,7 @@ csu_trend <- function (
   grid.draw(gt_plot)
   
   if (!is.null(format_export)) {
-    cat("plot exported:\n","\"", getwd(),"/", plot_title , ".",format_export,"\"",  sep="" )
+    cat("plot exported:\n","\"", getwd(),"/", filename , ".",format_export,"\"",  sep="" )
     dev.off()
   }
   
@@ -187,8 +206,18 @@ csu_trend <- function (
     
   }
   
-
+  if (is.null(smoothing)) {
+    dt_data[, smoothing:=NULL]
+  }
+    
+  dt_data[, max_year:=NULL]
   
+  setorder(dt_data,CSU_BY,CSU_Y)
+  df_data <- data.frame(dt_data)
+  setnames(df_data, "CSU_Y", var_year)
+  setnames(df_data, "CSU_T", var_trend)
+  setnames(df_data,  "CSU_BY", group_by)
+  return(invisible(df_data))
   
   
 }

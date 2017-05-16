@@ -50,13 +50,17 @@ csu_asr: no visible binding for global variable 'nb_age_group'
 csu_asr: no visible binding for global variable 'rate'
 csu_asr: no visible binding for global variable 'asr'
 csu_asr: no visible binding for global variable 'st_err'
+csu_eapc: no visible global function definition for 'head'
 csu_eapc: no visible binding for global variable 'id_group'
 csu_eapc: no visible binding for global variable 'CSU_EAPC'
 csu_eapc: no visible binding for global variable 'CSU_ST'
 csu_eapc: no visible binding for global variable 'CSU_UP'
 csu_eapc: no visible binding for global variable 'CSU_LOW'
-csu_trend: no visible binding for global variable 'CSU_T'
+csu_trend: no visible binding for global variable 'temp'
+csu_trend: no visible global function definition for 'head'
+csu_trend: no visible binding for global variable 'smooth_value'
 csu_trend: no visible binding for global variable 'CSU_BY'
+csu_trend: no visible binding for global variable 'CSU_T'
 csu_trend: no visible binding for global variable 'max_year'
 csu_trend: no visible binding for global variable 'CSU_Y'
 csu_trendCohortPeriod: no visible binding for global variable 'CSU_C'
@@ -83,8 +87,12 @@ csu_trendCohortPeriod: no visible binding for global variable
 Undefined global functions or variables:
   CSU_A CSU_BY CSU_C CSU_EAPC CSU_LOW CSU_P CSU_ST CSU_T CSU_UP
   CSU_Xaxes CSU_Y CSU_age_factor CSU_age_label CSU_cohort CSU_rate
-  age_factor asr correction id_group max_year nb_age_group rate st_err
-  temp_age temp_label temp_label2 total total_known
+  age_factor asr correction head id_group max_year nb_age_group rate
+  smooth_value st_err temp temp_age temp_label temp_label2 total
+  total_known
+Consider adding
+  importFrom("utils", "head")
+to your NAMESPACE file.
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd cross-references ... OK

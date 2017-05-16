@@ -1,5 +1,5 @@
 
-rcan_folder <- "c:/projects/Rcan"
+rcan_folder <- "c:/Projects/Rcan"
 #install.packages("http://timat.org/matR/Rcan.tar.gz", repos=NULL)
 library(Rcan)
 library(data.table)
@@ -9,13 +9,14 @@ library(grid)
 
 source(paste0(rcan_folder, "/Rcan/R/helper.r"))
 source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
+source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
+source(paste0(rcan_folder, "/Rcan/R/csu_trendCohortPeriod.r"))
 
 
 #test package
-# detach(package:Rcan)
-# remove.packages("Rcan")
-# install.packages("C:/Projects/Rcan/Rcan_1.3.0.tar.gz", repos=NULL)
-
+detach(package:Rcan)
+remove.packages("Rcan")
+install.packages("C:/Projects/Rcan/Rcan_1.3.0.tar.gz", repos=NULL)
 
 
 
@@ -32,7 +33,7 @@ test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali"
 
 # plot age specific rate for 1 population.
 csu_ageSpecific(test,
-                plot_title = "Colombia, Liver, male")
+                plot_title = "Colombia\nLiver, Males", format_export = NULL)
 
 
 data(csu_registry_data_2)
@@ -59,7 +60,7 @@ csu_trend(df_asr,
 # test csu trend --------
 
 
-mydata <-  read.csv("data_test/data_cervix.csv", sep=",")
+mydata <-  read.csv(paste0(rcan_folder,"/data_test/data_cervix.csv"), sep=",")
 
 
 # to change sex variable to factor with label
@@ -77,7 +78,7 @@ df_country <- df_asr[df_asr$country_label =="Colombia",]
 
 
 
-csu_trend(df_Incidence, group_by="country_label",
+test <- csu_trend(df_Incidence, group_by="country_label",
           var_trend="asr",
           plot_title = "Cervix",
           smoothing = 0.5,)
@@ -99,7 +100,7 @@ csu_trendCohortPeriod(df_unique2,missing_age = 19, type="Cohort",plot_title = "C
 
 
 #--------------
-mydata <-  read.csv("data_test/data_colorectum.csv", sep=",")
+mydata <-  read.csv(paste0(rcan_folder,"/data_test/data_colorectum.csv"), sep=",")
 
 
 # to change sex variable to factor with label
@@ -133,7 +134,7 @@ csu_trend(df_country, group_by="type",
           legend = csu_trend_legend(position = "right", right_space_margin = 2))
 
 df_unique1 <- mydata[mydata$type=="Incidence" & mydata$country_label == "Colombia" & mydata$sex=="Male",]
-df_unique2 <- mydata[mydata$type=="Incidence" & mydata$country_label == "Costa Rica" & mydata$sex=="Male",]
+df_unique2 <- mydata[mydata$country_label == "Costa Rica" & mydata$sex=="Male"& mydata$sex=="Male",]
 
-csu_trendCohortPeriod(df_unique1,missing_age = 19, type="Both", plot_title = "Colombia, Colorectum\n Incidence, Male")
-csu_trendCohortPeriod(df_unique2,missing_age = 19, type="Both", plot_title = "Costa rica, Colorectum\n Incidence, Male")
+csu_trendCohortPeriod(df_unique1,missing_age = 19, type="Both", plot_title = "Colombia, Colorectum\n Incidence, Male", logscale = FALSE)
+test <- csu_trendCohortPeriod(df_unique2,missing_age = 19, type="Both", plot_title = "Costa rica, Colorectum\n Incidence, Male")

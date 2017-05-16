@@ -119,50 +119,12 @@ Press [enter] to continue to age specific graph
 > 
 > csu_ageSpecific(df_colombia,
 + 			plot_title = "Colombia, Liver, male")
-   CSU_dum_by age cases     py      rate
-1    dummy_by   1     1  87531  1.142452
-2    dummy_by   2     1  98199  1.018340
-3    dummy_by   3     0 101387  0.000000
-4    dummy_by   4     0  94075  0.000000
-5    dummy_by   5     0  91324  0.000000
-6    dummy_by   6     1  79889  1.251737
-7    dummy_by   7     0  71646  0.000000
-8    dummy_by   8     1  73117  1.367671
-9    dummy_by   9     0  71875  0.000000
-10   dummy_by  10     3  59060  5.079580
-11   dummy_by  11     2  46360  4.314064
-12   dummy_by  12     5  36049 13.870010
-13   dummy_by  13     4  26294 15.212596
-14   dummy_by  14     5  22328 22.393407
-15   dummy_by  15     4  16653 24.019696
-16   dummy_by  16     8  13029 61.401489
-17   dummy_by  17     3   6630 45.248869
-18   dummy_by  18     2   4590 43.572985
 > 				
 > # plot age specific rate for 1 population, and comparison with CI5X data.
 > csu_ageSpecific(df_colombia,
 + 				plot_title = "Colombia, Liver, male",
 + 				CI5_comparison = "Liver")
 the dotted grey line represente the mean for Liver cancer in CI5 X
-   CSU_dum_by age cases     py      rate
-1    dummy_by   1     1  87531  1.142452
-2    dummy_by   2     1  98199  1.018340
-3    dummy_by   3     0 101387  0.000000
-4    dummy_by   4     0  94075  0.000000
-5    dummy_by   5     0  91324  0.000000
-6    dummy_by   6     1  79889  1.251737
-7    dummy_by   7     0  71646  0.000000
-8    dummy_by   8     1  73117  1.367671
-9    dummy_by   9     0  71875  0.000000
-10   dummy_by  10     3  59060  5.079580
-11   dummy_by  11     2  46360  4.314064
-12   dummy_by  12     5  36049 13.870010
-13   dummy_by  13     4  26294 15.212596
-14   dummy_by  14     5  22328 22.393407
-15   dummy_by  15     4  16653 24.019696
-16   dummy_by  16     8  13029 61.401489
-17   dummy_by  17     3   6630 45.248869
-18   dummy_by  18     2   4590 43.572985
 > 				
 > # plot age specific rate for 4 population, legend at the bottom and comparison with CI5X data.
 > csu_ageSpecific(csu_registry_data_1,
@@ -171,76 +133,6 @@ the dotted grey line represente the mean for Liver cancer in CI5 X
 + 				plot_title = "Liver, male",
 + 				CI5_comparison = 7)
 the dotted grey line represente the mean for Liver cancer in CI5 X
-            registry_label age cases     py        rate
-1           Colombia, Cali   1     1  87531   1.1424524
-2           Colombia, Cali   2     1  98199   1.0183403
-3           Colombia, Cali   3     0 101387   0.0000000
-4           Colombia, Cali   4     0  94075   0.0000000
-5           Colombia, Cali   5     0  91324   0.0000000
-6           Colombia, Cali   6     1  79889   1.2517368
-7           Colombia, Cali   7     0  71646   0.0000000
-8           Colombia, Cali   8     1  73117   1.3676710
-9           Colombia, Cali   9     0  71875   0.0000000
-10          Colombia, Cali  10     3  59060   5.0795801
-11          Colombia, Cali  11     2  46360   4.3140638
-12          Colombia, Cali  12     5  36049  13.8700103
-13          Colombia, Cali  13     4  26294  15.2125960
-14          Colombia, Cali  14     5  22328  22.3934074
-15          Colombia, Cali  15     4  16653  24.0196962
-16          Colombia, Cali  16     8  13029  61.4014890
-17          Colombia, Cali  17     3   6630  45.2488688
-18          Colombia, Cali  18     2   4590  43.5729847
-19        France, Calvados   1     0  21117   0.0000000
-20        France, Calvados   2     0  21213   0.0000000
-21        France, Calvados   3     0  21006   0.0000000
-22        France, Calvados   4     0  21997   0.0000000
-23        France, Calvados   5     0  23063   0.0000000
-24        France, Calvados   6     0  21571   0.0000000
-25        France, Calvados   7     0  22521   0.0000000
-26        France, Calvados   8     0  23121   0.0000000
-27        France, Calvados   9     1  22536   4.4373447
-28        France, Calvados  10     1  22448   4.4547398
-29        France, Calvados  11     6  23117  25.9549249
-30        France, Calvados  12     8  22616  35.3731871
-31        France, Calvados  13     9  15935  56.4794478
-32        France, Calvados  14     4  11848  33.7609723
-33        France, Calvados  15    20  11307 176.8815778
-34        France, Calvados  16    21   9329 225.1045128
-35        France, Calvados  17     9   6459 139.3404552
-36        France, Calvados  18     3   3651  82.1692687
-37 India, Chennai (Madras)   1     0 144142   0.0000000
-38 India, Chennai (Madras)   2     0 158199   0.0000000
-39 India, Chennai (Madras)   3     0 197631   0.0000000
-40 India, Chennai (Madras)   4     1 222188   0.4500693
-41 India, Chennai (Madras)   5     0 234221   0.0000000
-42 India, Chennai (Madras)   6     1 237541   0.4209800
-43 India, Chennai (Madras)   7     2 211177   0.9470728
-44 India, Chennai (Madras)   8     1 195740   0.5108818
-45 India, Chennai (Madras)   9     6 159213   3.7685365
-46 India, Chennai (Madras)  10     8 147203   5.4346718
-47 India, Chennai (Madras)  11     8 117672   6.7985587
-48 India, Chennai (Madras)  12     4  74313   5.3826383
-49 India, Chennai (Madras)  13    13  70325  18.4856026
-50 India, Chennai (Madras)  14    12  51733  23.1960257
-51 India, Chennai (Madras)  15    12  38101  31.4952363
-52 India, Chennai (Madras)  16     5  46630  10.7227107
-53         South Australia   1     0  46653   0.0000000
-54         South Australia   2     0  48559   0.0000000
-55         South Australia   3     1  51947   1.9250390
-56         South Australia   4     0  54755   0.0000000
-57         South Australia   5     0  56201   0.0000000
-58         South Australia   6     0  50473   0.0000000
-59         South Australia   7     0  50724   0.0000000
-60         South Australia   8     0  56548   0.0000000
-61         South Australia   9     0  56910   0.0000000
-62         South Australia  10     5  57783   8.6530640
-63         South Australia  11     8  53648  14.9120191
-64         South Australia  12     5  49823  10.0355258
-65         South Australia  13     5  42283  11.8250834
-66         South Australia  14    11  31742  34.6544011
-67         South Australia  15    10  26008  38.4497078
-68         South Australia  16    10  22285  44.8732331
-69         South Australia  17    10  26403  37.8744840
 > 				
 > 
 > 
@@ -270,50 +162,12 @@ the dotted grey line represente the mean for Liver cancer in CI5 X
 > 	# plot age specific rate for 1 population.
 > 	csu_ageSpecific(test,
 +                 plot_title = "Colombia, Liver, male")
-   CSU_dum_by age cases     py      rate
-1    dummy_by   1     1  87531  1.142452
-2    dummy_by   2     1  98199  1.018340
-3    dummy_by   3     0 101387  0.000000
-4    dummy_by   4     0  94075  0.000000
-5    dummy_by   5     0  91324  0.000000
-6    dummy_by   6     1  79889  1.251737
-7    dummy_by   7     0  71646  0.000000
-8    dummy_by   8     1  73117  1.367671
-9    dummy_by   9     0  71875  0.000000
-10   dummy_by  10     3  59060  5.079580
-11   dummy_by  11     2  46360  4.314064
-12   dummy_by  12     5  36049 13.870010
-13   dummy_by  13     4  26294 15.212596
-14   dummy_by  14     5  22328 22.393407
-15   dummy_by  15     4  16653 24.019696
-16   dummy_by  16     8  13029 61.401489
-17   dummy_by  17     3   6630 45.248869
-18   dummy_by  18     2   4590 43.572985
 > 				
 > 	# plot age specific rate for 1 population, and comparison with CI5X data.
 > 	csu_ageSpecific(test,
 + 					plot_title = "Colombia, Liver, male",
 + 					CI5_comparison = "Liver")
 the dotted grey line represente the mean for Liver cancer in CI5 X
-   CSU_dum_by age cases     py      rate
-1    dummy_by   1     1  87531  1.142452
-2    dummy_by   2     1  98199  1.018340
-3    dummy_by   3     0 101387  0.000000
-4    dummy_by   4     0  94075  0.000000
-5    dummy_by   5     0  91324  0.000000
-6    dummy_by   6     1  79889  1.251737
-7    dummy_by   7     0  71646  0.000000
-8    dummy_by   8     1  73117  1.367671
-9    dummy_by   9     0  71875  0.000000
-10   dummy_by  10     3  59060  5.079580
-11   dummy_by  11     2  46360  4.314064
-12   dummy_by  12     5  36049 13.870010
-13   dummy_by  13     4  26294 15.212596
-14   dummy_by  14     5  22328 22.393407
-15   dummy_by  15     4  16653 24.019696
-16   dummy_by  16     8  13029 61.401489
-17   dummy_by  17     3   6630 45.248869
-18   dummy_by  18     2   4590 43.572985
 > 
 > 	# plot age specific rate for 4 population, legend at the bottom and comparison with CI5X data.
 > 	csu_ageSpecific(csu_registry_data_1,
@@ -322,152 +176,12 @@ the dotted grey line represente the mean for Liver cancer in CI5 X
 + 					plot_title = "Liver, male",
 + 					CI5_comparison = 7)
 the dotted grey line represente the mean for Liver cancer in CI5 X
-            registry_label age cases     py        rate
-1           Colombia, Cali   1     1  87531   1.1424524
-2           Colombia, Cali   2     1  98199   1.0183403
-3           Colombia, Cali   3     0 101387   0.0000000
-4           Colombia, Cali   4     0  94075   0.0000000
-5           Colombia, Cali   5     0  91324   0.0000000
-6           Colombia, Cali   6     1  79889   1.2517368
-7           Colombia, Cali   7     0  71646   0.0000000
-8           Colombia, Cali   8     1  73117   1.3676710
-9           Colombia, Cali   9     0  71875   0.0000000
-10          Colombia, Cali  10     3  59060   5.0795801
-11          Colombia, Cali  11     2  46360   4.3140638
-12          Colombia, Cali  12     5  36049  13.8700103
-13          Colombia, Cali  13     4  26294  15.2125960
-14          Colombia, Cali  14     5  22328  22.3934074
-15          Colombia, Cali  15     4  16653  24.0196962
-16          Colombia, Cali  16     8  13029  61.4014890
-17          Colombia, Cali  17     3   6630  45.2488688
-18          Colombia, Cali  18     2   4590  43.5729847
-19        France, Calvados   1     0  21117   0.0000000
-20        France, Calvados   2     0  21213   0.0000000
-21        France, Calvados   3     0  21006   0.0000000
-22        France, Calvados   4     0  21997   0.0000000
-23        France, Calvados   5     0  23063   0.0000000
-24        France, Calvados   6     0  21571   0.0000000
-25        France, Calvados   7     0  22521   0.0000000
-26        France, Calvados   8     0  23121   0.0000000
-27        France, Calvados   9     1  22536   4.4373447
-28        France, Calvados  10     1  22448   4.4547398
-29        France, Calvados  11     6  23117  25.9549249
-30        France, Calvados  12     8  22616  35.3731871
-31        France, Calvados  13     9  15935  56.4794478
-32        France, Calvados  14     4  11848  33.7609723
-33        France, Calvados  15    20  11307 176.8815778
-34        France, Calvados  16    21   9329 225.1045128
-35        France, Calvados  17     9   6459 139.3404552
-36        France, Calvados  18     3   3651  82.1692687
-37 India, Chennai (Madras)   1     0 144142   0.0000000
-38 India, Chennai (Madras)   2     0 158199   0.0000000
-39 India, Chennai (Madras)   3     0 197631   0.0000000
-40 India, Chennai (Madras)   4     1 222188   0.4500693
-41 India, Chennai (Madras)   5     0 234221   0.0000000
-42 India, Chennai (Madras)   6     1 237541   0.4209800
-43 India, Chennai (Madras)   7     2 211177   0.9470728
-44 India, Chennai (Madras)   8     1 195740   0.5108818
-45 India, Chennai (Madras)   9     6 159213   3.7685365
-46 India, Chennai (Madras)  10     8 147203   5.4346718
-47 India, Chennai (Madras)  11     8 117672   6.7985587
-48 India, Chennai (Madras)  12     4  74313   5.3826383
-49 India, Chennai (Madras)  13    13  70325  18.4856026
-50 India, Chennai (Madras)  14    12  51733  23.1960257
-51 India, Chennai (Madras)  15    12  38101  31.4952363
-52 India, Chennai (Madras)  16     5  46630  10.7227107
-53         South Australia   1     0  46653   0.0000000
-54         South Australia   2     0  48559   0.0000000
-55         South Australia   3     1  51947   1.9250390
-56         South Australia   4     0  54755   0.0000000
-57         South Australia   5     0  56201   0.0000000
-58         South Australia   6     0  50473   0.0000000
-59         South Australia   7     0  50724   0.0000000
-60         South Australia   8     0  56548   0.0000000
-61         South Australia   9     0  56910   0.0000000
-62         South Australia  10     5  57783   8.6530640
-63         South Australia  11     8  53648  14.9120191
-64         South Australia  12     5  49823  10.0355258
-65         South Australia  13     5  42283  11.8250834
-66         South Australia  14    11  31742  34.6544011
-67         South Australia  15    10  26008  38.4497078
-68         South Australia  16    10  22285  44.8732331
-69         South Australia  17    10  26403  37.8744840
 > 	
 > 	# plot age specific rate for 4 population, legend at the right.
 > 	csu_ageSpecific(csu_registry_data_1,
 + 					group_by="registry_label",
 + 					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
 + 					plot_title = "Liver, male")			  		  
-            registry_label age cases     py        rate
-1           Colombia, Cali   1     1  87531   1.1424524
-2           Colombia, Cali   2     1  98199   1.0183403
-3           Colombia, Cali   3     0 101387   0.0000000
-4           Colombia, Cali   4     0  94075   0.0000000
-5           Colombia, Cali   5     0  91324   0.0000000
-6           Colombia, Cali   6     1  79889   1.2517368
-7           Colombia, Cali   7     0  71646   0.0000000
-8           Colombia, Cali   8     1  73117   1.3676710
-9           Colombia, Cali   9     0  71875   0.0000000
-10          Colombia, Cali  10     3  59060   5.0795801
-11          Colombia, Cali  11     2  46360   4.3140638
-12          Colombia, Cali  12     5  36049  13.8700103
-13          Colombia, Cali  13     4  26294  15.2125960
-14          Colombia, Cali  14     5  22328  22.3934074
-15          Colombia, Cali  15     4  16653  24.0196962
-16          Colombia, Cali  16     8  13029  61.4014890
-17          Colombia, Cali  17     3   6630  45.2488688
-18          Colombia, Cali  18     2   4590  43.5729847
-19        France, Calvados   1     0  21117   0.0000000
-20        France, Calvados   2     0  21213   0.0000000
-21        France, Calvados   3     0  21006   0.0000000
-22        France, Calvados   4     0  21997   0.0000000
-23        France, Calvados   5     0  23063   0.0000000
-24        France, Calvados   6     0  21571   0.0000000
-25        France, Calvados   7     0  22521   0.0000000
-26        France, Calvados   8     0  23121   0.0000000
-27        France, Calvados   9     1  22536   4.4373447
-28        France, Calvados  10     1  22448   4.4547398
-29        France, Calvados  11     6  23117  25.9549249
-30        France, Calvados  12     8  22616  35.3731871
-31        France, Calvados  13     9  15935  56.4794478
-32        France, Calvados  14     4  11848  33.7609723
-33        France, Calvados  15    20  11307 176.8815778
-34        France, Calvados  16    21   9329 225.1045128
-35        France, Calvados  17     9   6459 139.3404552
-36        France, Calvados  18     3   3651  82.1692687
-37 India, Chennai (Madras)   1     0 144142   0.0000000
-38 India, Chennai (Madras)   2     0 158199   0.0000000
-39 India, Chennai (Madras)   3     0 197631   0.0000000
-40 India, Chennai (Madras)   4     1 222188   0.4500693
-41 India, Chennai (Madras)   5     0 234221   0.0000000
-42 India, Chennai (Madras)   6     1 237541   0.4209800
-43 India, Chennai (Madras)   7     2 211177   0.9470728
-44 India, Chennai (Madras)   8     1 195740   0.5108818
-45 India, Chennai (Madras)   9     6 159213   3.7685365
-46 India, Chennai (Madras)  10     8 147203   5.4346718
-47 India, Chennai (Madras)  11     8 117672   6.7985587
-48 India, Chennai (Madras)  12     4  74313   5.3826383
-49 India, Chennai (Madras)  13    13  70325  18.4856026
-50 India, Chennai (Madras)  14    12  51733  23.1960257
-51 India, Chennai (Madras)  15    12  38101  31.4952363
-52 India, Chennai (Madras)  16     5  46630  10.7227107
-53         South Australia   1     0  46653   0.0000000
-54         South Australia   2     0  48559   0.0000000
-55         South Australia   3     1  51947   1.9250390
-56         South Australia   4     0  54755   0.0000000
-57         South Australia   5     0  56201   0.0000000
-58         South Australia   6     0  50473   0.0000000
-59         South Australia   7     0  50724   0.0000000
-60         South Australia   8     0  56548   0.0000000
-61         South Australia   9     0  56910   0.0000000
-62         South Australia  10     5  57783   8.6530640
-63         South Australia  11     8  53648  14.9120191
-64         South Australia  12     5  49823  10.0355258
-65         South Australia  13     5  42283  11.8250834
-66         South Australia  14    11  31742  34.6544011
-67         South Australia  15    10  26008  38.4497078
-68         South Australia  16    10  22285  44.8732331
-69         South Australia  17    10  26403  37.8744840
 > 
 > 
 > 
@@ -626,25 +340,6 @@ ASR have been computed for the age group 0-99+
 +                 plot_title = "Colombia, Liver, male",
 +                 CI5_comparison = "Liver")
 the dotted grey line represente the mean for Liver cancer in CI5 X
-   CSU_dum_by age cases     py      rate
-1    dummy_by   1     1  87531  1.142452
-2    dummy_by   2     1  98199  1.018340
-3    dummy_by   3     0 101387  0.000000
-4    dummy_by   4     0  94075  0.000000
-5    dummy_by   5     0  91324  0.000000
-6    dummy_by   6     1  79889  1.251737
-7    dummy_by   7     0  71646  0.000000
-8    dummy_by   8     1  73117  1.367671
-9    dummy_by   9     0  71875  0.000000
-10   dummy_by  10     3  59060  5.079580
-11   dummy_by  11     2  46360  4.314064
-12   dummy_by  12     5  36049 13.870010
-13   dummy_by  13     4  26294 15.212596
-14   dummy_by  14     5  22328 22.393407
-15   dummy_by  15     4  16653 24.019696
-16   dummy_by  16     8  13029 61.401489
-17   dummy_by  17     3   6630 45.248869
-18   dummy_by  18     2   4590 43.572985
 >  
 > #See more examples here:
 > help(csu_ageSpecific)
@@ -1339,16 +1034,18 @@ ASR have been computed for the age group 0-99+
 > 	
 > 	# plot ASR ove year, by sex.
 > 	csu_trend(df_asr, group_by="sex",
-+                 plot_title = "Colombia, Liver, male")
++                 plot_title = "Colombia, Liver")
 > 				
 > 	# plot ASR over year, by sex, with no smoothing.
 > 	csu_trend(df_asr, group_by="sex",
-+ 			  plot_title = "Colombia, Liver, male",
++ 			  plot_title = "Colombia, Liver",
 + 			  smoothing = NULL)
+Warning in `[.data.table`(dt_data, , `:=`(smoothing, NULL)) :
+  Adding new column 'smoothing' then assigning NULL (deleting it).
 > 			  
 > 	# plot ASR over year, by sex, with high smoothing.
 > 	csu_trend(df_asr, group_by="sex",
-+ 			  plot_title = "Colombia, Liver, male",
++ 			  plot_title = "Colombia, Liver",
 + 			  smoothing = 0.5)
 > 				
 > 
@@ -1436,226 +1133,16 @@ ASR have been computed for the age group 0-99+
 +                 group_by="registry_label",
 +                 legend=csu_trend_legend(title="registry", position="bottom", nrow = 2),
 +                 plot_title = "Legend: bottom")
-            registry_label age cases     py        rate
-1           Colombia, Cali   1     1  87531   1.1424524
-2           Colombia, Cali   2     1  98199   1.0183403
-3           Colombia, Cali   3     0 101387   0.0000000
-4           Colombia, Cali   4     0  94075   0.0000000
-5           Colombia, Cali   5     0  91324   0.0000000
-6           Colombia, Cali   6     1  79889   1.2517368
-7           Colombia, Cali   7     0  71646   0.0000000
-8           Colombia, Cali   8     1  73117   1.3676710
-9           Colombia, Cali   9     0  71875   0.0000000
-10          Colombia, Cali  10     3  59060   5.0795801
-11          Colombia, Cali  11     2  46360   4.3140638
-12          Colombia, Cali  12     5  36049  13.8700103
-13          Colombia, Cali  13     4  26294  15.2125960
-14          Colombia, Cali  14     5  22328  22.3934074
-15          Colombia, Cali  15     4  16653  24.0196962
-16          Colombia, Cali  16     8  13029  61.4014890
-17          Colombia, Cali  17     3   6630  45.2488688
-18          Colombia, Cali  18     2   4590  43.5729847
-19        France, Calvados   1     0  21117   0.0000000
-20        France, Calvados   2     0  21213   0.0000000
-21        France, Calvados   3     0  21006   0.0000000
-22        France, Calvados   4     0  21997   0.0000000
-23        France, Calvados   5     0  23063   0.0000000
-24        France, Calvados   6     0  21571   0.0000000
-25        France, Calvados   7     0  22521   0.0000000
-26        France, Calvados   8     0  23121   0.0000000
-27        France, Calvados   9     1  22536   4.4373447
-28        France, Calvados  10     1  22448   4.4547398
-29        France, Calvados  11     6  23117  25.9549249
-30        France, Calvados  12     8  22616  35.3731871
-31        France, Calvados  13     9  15935  56.4794478
-32        France, Calvados  14     4  11848  33.7609723
-33        France, Calvados  15    20  11307 176.8815778
-34        France, Calvados  16    21   9329 225.1045128
-35        France, Calvados  17     9   6459 139.3404552
-36        France, Calvados  18     3   3651  82.1692687
-37 India, Chennai (Madras)   1     0 144142   0.0000000
-38 India, Chennai (Madras)   2     0 158199   0.0000000
-39 India, Chennai (Madras)   3     0 197631   0.0000000
-40 India, Chennai (Madras)   4     1 222188   0.4500693
-41 India, Chennai (Madras)   5     0 234221   0.0000000
-42 India, Chennai (Madras)   6     1 237541   0.4209800
-43 India, Chennai (Madras)   7     2 211177   0.9470728
-44 India, Chennai (Madras)   8     1 195740   0.5108818
-45 India, Chennai (Madras)   9     6 159213   3.7685365
-46 India, Chennai (Madras)  10     8 147203   5.4346718
-47 India, Chennai (Madras)  11     8 117672   6.7985587
-48 India, Chennai (Madras)  12     4  74313   5.3826383
-49 India, Chennai (Madras)  13    13  70325  18.4856026
-50 India, Chennai (Madras)  14    12  51733  23.1960257
-51 India, Chennai (Madras)  15    12  38101  31.4952363
-52 India, Chennai (Madras)  16     5  46630  10.7227107
-53         South Australia   1     0  46653   0.0000000
-54         South Australia   2     0  48559   0.0000000
-55         South Australia   3     1  51947   1.9250390
-56         South Australia   4     0  54755   0.0000000
-57         South Australia   5     0  56201   0.0000000
-58         South Australia   6     0  50473   0.0000000
-59         South Australia   7     0  50724   0.0000000
-60         South Australia   8     0  56548   0.0000000
-61         South Australia   9     0  56910   0.0000000
-62         South Australia  10     5  57783   8.6530640
-63         South Australia  11     8  53648  14.9120191
-64         South Australia  12     5  49823  10.0355258
-65         South Australia  13     5  42283  11.8250834
-66         South Australia  14    11  31742  34.6544011
-67         South Australia  15    10  26008  38.4497078
-68         South Australia  16    10  22285  44.8732331
-69         South Australia  17    10  26403  37.8744840
 > 				
 > csu_ageSpecific(csu_registry_data_1,
 +                 group_by="registry_label",
 +                 legend=csu_trend_legend(position="right", right_space_margin = 2),
 +                 plot_title = "Legend: right, cut")
-            registry_label age cases     py        rate
-1           Colombia, Cali   1     1  87531   1.1424524
-2           Colombia, Cali   2     1  98199   1.0183403
-3           Colombia, Cali   3     0 101387   0.0000000
-4           Colombia, Cali   4     0  94075   0.0000000
-5           Colombia, Cali   5     0  91324   0.0000000
-6           Colombia, Cali   6     1  79889   1.2517368
-7           Colombia, Cali   7     0  71646   0.0000000
-8           Colombia, Cali   8     1  73117   1.3676710
-9           Colombia, Cali   9     0  71875   0.0000000
-10          Colombia, Cali  10     3  59060   5.0795801
-11          Colombia, Cali  11     2  46360   4.3140638
-12          Colombia, Cali  12     5  36049  13.8700103
-13          Colombia, Cali  13     4  26294  15.2125960
-14          Colombia, Cali  14     5  22328  22.3934074
-15          Colombia, Cali  15     4  16653  24.0196962
-16          Colombia, Cali  16     8  13029  61.4014890
-17          Colombia, Cali  17     3   6630  45.2488688
-18          Colombia, Cali  18     2   4590  43.5729847
-19        France, Calvados   1     0  21117   0.0000000
-20        France, Calvados   2     0  21213   0.0000000
-21        France, Calvados   3     0  21006   0.0000000
-22        France, Calvados   4     0  21997   0.0000000
-23        France, Calvados   5     0  23063   0.0000000
-24        France, Calvados   6     0  21571   0.0000000
-25        France, Calvados   7     0  22521   0.0000000
-26        France, Calvados   8     0  23121   0.0000000
-27        France, Calvados   9     1  22536   4.4373447
-28        France, Calvados  10     1  22448   4.4547398
-29        France, Calvados  11     6  23117  25.9549249
-30        France, Calvados  12     8  22616  35.3731871
-31        France, Calvados  13     9  15935  56.4794478
-32        France, Calvados  14     4  11848  33.7609723
-33        France, Calvados  15    20  11307 176.8815778
-34        France, Calvados  16    21   9329 225.1045128
-35        France, Calvados  17     9   6459 139.3404552
-36        France, Calvados  18     3   3651  82.1692687
-37 India, Chennai (Madras)   1     0 144142   0.0000000
-38 India, Chennai (Madras)   2     0 158199   0.0000000
-39 India, Chennai (Madras)   3     0 197631   0.0000000
-40 India, Chennai (Madras)   4     1 222188   0.4500693
-41 India, Chennai (Madras)   5     0 234221   0.0000000
-42 India, Chennai (Madras)   6     1 237541   0.4209800
-43 India, Chennai (Madras)   7     2 211177   0.9470728
-44 India, Chennai (Madras)   8     1 195740   0.5108818
-45 India, Chennai (Madras)   9     6 159213   3.7685365
-46 India, Chennai (Madras)  10     8 147203   5.4346718
-47 India, Chennai (Madras)  11     8 117672   6.7985587
-48 India, Chennai (Madras)  12     4  74313   5.3826383
-49 India, Chennai (Madras)  13    13  70325  18.4856026
-50 India, Chennai (Madras)  14    12  51733  23.1960257
-51 India, Chennai (Madras)  15    12  38101  31.4952363
-52 India, Chennai (Madras)  16     5  46630  10.7227107
-53         South Australia   1     0  46653   0.0000000
-54         South Australia   2     0  48559   0.0000000
-55         South Australia   3     1  51947   1.9250390
-56         South Australia   4     0  54755   0.0000000
-57         South Australia   5     0  56201   0.0000000
-58         South Australia   6     0  50473   0.0000000
-59         South Australia   7     0  50724   0.0000000
-60         South Australia   8     0  56548   0.0000000
-61         South Australia   9     0  56910   0.0000000
-62         South Australia  10     5  57783   8.6530640
-63         South Australia  11     8  53648  14.9120191
-64         South Australia  12     5  49823  10.0355258
-65         South Australia  13     5  42283  11.8250834
-66         South Australia  14    11  31742  34.6544011
-67         South Australia  15    10  26008  38.4497078
-68         South Australia  16    10  22285  44.8732331
-69         South Australia  17    10  26403  37.8744840
 > 
 > csu_ageSpecific(csu_registry_data_1,
 +                 group_by="registry_label",
 +                 legend=csu_trend_legend(position="right", right_space_margin = 6.5),
 +                 plot_title = "Legend: right")
-            registry_label age cases     py        rate
-1           Colombia, Cali   1     1  87531   1.1424524
-2           Colombia, Cali   2     1  98199   1.0183403
-3           Colombia, Cali   3     0 101387   0.0000000
-4           Colombia, Cali   4     0  94075   0.0000000
-5           Colombia, Cali   5     0  91324   0.0000000
-6           Colombia, Cali   6     1  79889   1.2517368
-7           Colombia, Cali   7     0  71646   0.0000000
-8           Colombia, Cali   8     1  73117   1.3676710
-9           Colombia, Cali   9     0  71875   0.0000000
-10          Colombia, Cali  10     3  59060   5.0795801
-11          Colombia, Cali  11     2  46360   4.3140638
-12          Colombia, Cali  12     5  36049  13.8700103
-13          Colombia, Cali  13     4  26294  15.2125960
-14          Colombia, Cali  14     5  22328  22.3934074
-15          Colombia, Cali  15     4  16653  24.0196962
-16          Colombia, Cali  16     8  13029  61.4014890
-17          Colombia, Cali  17     3   6630  45.2488688
-18          Colombia, Cali  18     2   4590  43.5729847
-19        France, Calvados   1     0  21117   0.0000000
-20        France, Calvados   2     0  21213   0.0000000
-21        France, Calvados   3     0  21006   0.0000000
-22        France, Calvados   4     0  21997   0.0000000
-23        France, Calvados   5     0  23063   0.0000000
-24        France, Calvados   6     0  21571   0.0000000
-25        France, Calvados   7     0  22521   0.0000000
-26        France, Calvados   8     0  23121   0.0000000
-27        France, Calvados   9     1  22536   4.4373447
-28        France, Calvados  10     1  22448   4.4547398
-29        France, Calvados  11     6  23117  25.9549249
-30        France, Calvados  12     8  22616  35.3731871
-31        France, Calvados  13     9  15935  56.4794478
-32        France, Calvados  14     4  11848  33.7609723
-33        France, Calvados  15    20  11307 176.8815778
-34        France, Calvados  16    21   9329 225.1045128
-35        France, Calvados  17     9   6459 139.3404552
-36        France, Calvados  18     3   3651  82.1692687
-37 India, Chennai (Madras)   1     0 144142   0.0000000
-38 India, Chennai (Madras)   2     0 158199   0.0000000
-39 India, Chennai (Madras)   3     0 197631   0.0000000
-40 India, Chennai (Madras)   4     1 222188   0.4500693
-41 India, Chennai (Madras)   5     0 234221   0.0000000
-42 India, Chennai (Madras)   6     1 237541   0.4209800
-43 India, Chennai (Madras)   7     2 211177   0.9470728
-44 India, Chennai (Madras)   8     1 195740   0.5108818
-45 India, Chennai (Madras)   9     6 159213   3.7685365
-46 India, Chennai (Madras)  10     8 147203   5.4346718
-47 India, Chennai (Madras)  11     8 117672   6.7985587
-48 India, Chennai (Madras)  12     4  74313   5.3826383
-49 India, Chennai (Madras)  13    13  70325  18.4856026
-50 India, Chennai (Madras)  14    12  51733  23.1960257
-51 India, Chennai (Madras)  15    12  38101  31.4952363
-52 India, Chennai (Madras)  16     5  46630  10.7227107
-53         South Australia   1     0  46653   0.0000000
-54         South Australia   2     0  48559   0.0000000
-55         South Australia   3     1  51947   1.9250390
-56         South Australia   4     0  54755   0.0000000
-57         South Australia   5     0  56201   0.0000000
-58         South Australia   6     0  50473   0.0000000
-59         South Australia   7     0  50724   0.0000000
-60         South Australia   8     0  56548   0.0000000
-61         South Australia   9     0  56910   0.0000000
-62         South Australia  10     5  57783   8.6530640
-63         South Australia  11     8  53648  14.9120191
-64         South Australia  12     5  49823  10.0355258
-65         South Australia  13     5  42283  11.8250834
-66         South Australia  14    11  31742  34.6544011
-67         South Australia  15    10  26008  38.4497078
-68         South Australia  16    10  22285  44.8732331
-69         South Australia  17    10  26403  37.8744840
 > 				
 > #See more examples here:
 > help(csu_ageSpecific)
@@ -1796,7 +1283,7 @@ _E_x_a_m_p_l_e_s:
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  29.7 1.51 35.29 NA NA 
+Time elapsed:  34.33 1.74 38.12 NA NA 
 > grDevices::dev.off()
 null device 
           1 

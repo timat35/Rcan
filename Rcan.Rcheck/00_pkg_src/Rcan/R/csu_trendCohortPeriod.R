@@ -123,9 +123,12 @@ csu_trendCohortPeriod <- function (
   #get color gradient
   color_scale <- scales::seq_gradient_pal(low = "#60b1e2", high = "#0b3e6b")(seq(0,1,length.out=length(levels(dt_data$CSU_age_factor))))
   
+  
+  
   #format
   if (!is.null(format_export)) {
-    .csu_format_export(format_export, plot_title = plot_title, landscape=landscape)
+    filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
+    .csu_format_export(format_export, plot_title = filename, landscape = landscape)
   }
   
   
@@ -209,18 +212,20 @@ csu_trendCohortPeriod <- function (
     
   }
   
+  csu_plot <- csu_plot +
+    geom_point(aes(x=CSU_Xaxes),fill="black", size = 1.5,na.rm=TRUE,shape=21,stroke=1,colour="black", show.legend=FALSE)
+  
+  if (type == "Both") {
+    csu_plot <- csu_plot+
+      geom_point(aes(x=CSU_Y),fill="black", size = 1.5,na.rm=TRUE,shape=21,stroke=1,colour="black", show.legend=FALSE)
+    
+    
+  }
+  
   
   if (logscale){
     
-    csu_plot <- csu_plot +
-      geom_point(aes(x=CSU_Xaxes),fill="black", size = 1.5,na.rm=TRUE,shape=21,stroke=1,colour="black", show.legend=FALSE)
-    
-    if (type == "Both") {
-      csu_plot <- csu_plot+
-        geom_point(aes(x=CSU_Y),fill="black", size = 1.5,na.rm=TRUE,shape=21,stroke=1,colour="black", show.legend=FALSE)
-      
-      
-    }
+
     
     csu_plot <- csu_plot +
       scale_y_continuous(name = paste("Age-specific rate per", formatC(db_rate, format="d")),
@@ -280,10 +285,28 @@ csu_trendCohortPeriod <- function (
   grid.draw(gt_plot)
   
   if (!is.null(format_export)) {
-    cat("plot exported:\n","\"", getwd(),"/", plot_title , ".",format_export,"\"\n",  sep="" )
+    cat("plot exported:\n","\"", getwd(),"/", filename , ".",format_export,"\"\n",  sep="" )
     dev.off()
   }
   
+  
+  dt_data[, CSU_age_factor:=NULL]
+  dt_data[, nb_age_group:=NULL]
+  dt_data[, temp_age:=NULL]
+  dt_data[, CSU_age_label:=NULL]
+  dt_data[, CSU_Xaxes:=NULL]
+  dt_data[, temp_label:=NULL]
+
+  
+  #setorder(dt_data,CSU_BY,CSU_Y)
+  df_data <- data.frame(dt_data)
+  
+  setnames(df_data, "CSU_A", var_age)
+  setnames(df_data, "CSU_C", var_cases)
+  setnames(df_data, "CSU_P", var_py)
+  setnames(df_data, "CSU_Y", var_year)
+
+  return(invisible(df_data))
   
   
   

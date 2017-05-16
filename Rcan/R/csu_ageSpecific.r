@@ -239,15 +239,14 @@ csu_ageSpecific <-
     
   }
   
-  
+
   #format
   if (!is.null(format_export)) {
-    .csu_format_export(format_export, plot_title = plot_title, landscape = TRUE)
+    filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
+    .csu_format_export(format_export, plot_title = filename, landscape = FALSE)
   }
   
-  
-  
-  
+
   #plot
   base_plot <- ggplot(dt_data, aes(CSU_age_factor, rate))
   
@@ -334,10 +333,7 @@ csu_ageSpecific <-
 
   }
 
-  if (!is.null(format_export)) {
-    cat("plot exported:\n","\"", getwd(),"/", plot_title , ".",format_export,"\"",  sep="" )
-    dev.off()
-  }
+
   
   
   if (var_rate!="rate") {
@@ -359,9 +355,13 @@ csu_ageSpecific <-
   setnames(df_data,  "CSU_P", var_py)
   setnames(df_data,  "CSU_BY", group_by)
     
+  if (!is.null(format_export)) {
+    cat("plot exported:\n","\"", getwd(),"/", filename , ".",format_export,"\"",  sep="" )
+    dev.off()
+  }
 
-    
+  return(invisible(df_data))
+  
 
-  return(df_data)
 
 }

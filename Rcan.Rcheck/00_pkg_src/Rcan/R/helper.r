@@ -144,6 +144,7 @@
   
   # 6 inch = 15.24 cm
   #10,795
+
   
   png_width <- ifelse(landscape, 2339 , 1654 )
   png_height <- ifelse(landscape, 1654 , 2339 )

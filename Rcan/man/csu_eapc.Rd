@@ -8,7 +8,7 @@
 \usage{
 csu_eapc(df_data,
 	var_rate="asr",
-	var_period="year",
+	var_year="year",
 	group_by=NULL,
 	var_eapc = "eapc")
 }
@@ -20,7 +20,7 @@ csu_eapc(df_data,
   \item{var_rate}{
 		Rate variable. (Standardized or not, incidence, mortality, etc..)
 }
-  \item{var_period}{
+  \item{var_year}{
 		Period variable. (Year, month, etc...)
 }
   \item{group_by}{

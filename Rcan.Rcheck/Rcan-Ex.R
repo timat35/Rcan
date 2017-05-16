@@ -343,16 +343,16 @@ flush(stderr()); flush(stdout())
 	
 	# plot ASR ove year, by sex.
 	csu_trend(df_asr, group_by="sex",
-                plot_title = "Colombia, Liver, male")
+                plot_title = "Colombia, Liver")
 				
 	# plot ASR over year, by sex, with no smoothing.
 	csu_trend(df_asr, group_by="sex",
-			  plot_title = "Colombia, Liver, male",
+			  plot_title = "Colombia, Liver",
 			  smoothing = NULL)
 			  
 	# plot ASR over year, by sex, with high smoothing.
 	csu_trend(df_asr, group_by="sex",
-			  plot_title = "Colombia, Liver, male",
+			  plot_title = "Colombia, Liver",
 			  smoothing = 0.5)
 				
 

@@ -239,23 +239,14 @@ csu_ageSpecific <-
     
   }
   
-  
+
   #format
   if (!is.null(format_export)) {
-    if (format_export == "pdf") {
-      
-      pdf(paste(plot_title,".pdf", sep=""))
-      
-    } else {
-      if (format_export == "svg") {
-        svg(paste(plot_title,".svg", sep=""))
-      }
-    }
+    filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
+    .csu_format_export(format_export, plot_title = filename, landscape = FALSE)
   }
   
-  
-  
-  
+
   #plot
   base_plot <- ggplot(dt_data, aes(CSU_age_factor, rate))
   
@@ -283,7 +274,9 @@ csu_ageSpecific <-
   
   plot <- base_plot+
     geom_line(aes(color=CSU_BY), size = 1)+
-    ggtitle(plot_title)+
+    labs(title = plot_title,
+         subtitle = NULL,
+         caption = NULL)+
     coord_cartesian( ylim=c(-temp_expand_y, temp_expand_y_up),  expand = TRUE)+ 
     scale_y_continuous(name = paste("Age-specific rate per", formatC(db_rate, format="d")),
                        breaks=seq(0, temp_top, temp_tick),
@@ -301,7 +294,7 @@ csu_ageSpecific <-
       panel.background = element_blank(),
       panel.grid.major= element_line(colour = "grey70"),
       panel.grid.minor= element_line(colour = "grey70"),
-      plot.title = element_text(size=16, margin=margin(0,0,15,0)),
+      plot.title = element_text(size=16, margin=margin(0,0,15,0),hjust = 0.5),
       axis.title = element_text(size=12),
       axis.title.y = element_text(margin=margin(0,15,0,0)),
       axis.title.x = element_text(margin=margin(15,0,0,0)),
@@ -340,9 +333,7 @@ csu_ageSpecific <-
 
   }
 
-  if (!is.null(format_export)) {
-    dev.off()
-  }
+
   
   
   if (var_rate!="rate") {
@@ -364,9 +355,13 @@ csu_ageSpecific <-
   setnames(df_data,  "CSU_P", var_py)
   setnames(df_data,  "CSU_BY", group_by)
     
+  if (!is.null(format_export)) {
+    cat("plot exported:\n","\"", getwd(),"/", filename , ".",format_export,"\"",  sep="" )
+    dev.off()
+  }
 
-    
+  return(invisible(df_data))
+  
 
-  return(df_data)
 
 }

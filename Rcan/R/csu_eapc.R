@@ -1,7 +1,7 @@
 csu_eapc <-
   function(df_data,
   var_rate="asr",
-  var_period="year",
+  var_year="year",
   group_by= NULL,
   var_eapc="eapc") {
   
@@ -11,9 +11,9 @@ csu_eapc <-
       
     }
     
-    if (!(var_period%in% colnames(df_data))) {
+    if (!(var_year%in% colnames(df_data))) {
       
-      stop('var_period value is not a variable name of the data, see documentation: Help(csu_eapc)')
+      stop('var_year value is not a variable name of the data, see documentation: Help(csu_eapc)')
       
     }
     
@@ -30,24 +30,28 @@ csu_eapc <-
     dt_data <- data.table(df_data, key = c(group_by)) 
     
     setnames(dt_data, var_rate, "CSU_R")
-    setnames(dt_data, var_period, "CSU_P")
+    setnames(dt_data, var_year, "CSU_Y")
     
     #check by variable adapted (ie: 1 year per variable)
     dt_data$temp <- 1
     nrow_base <- nrow(dt_data)
-    nrow_test <-  nrow(dt_data[ ,sum(temp), by=c("CSU_P",  group_by)]) 
+    dt_test <- dt_data[ ,temp:=sum(temp), by=c("CSU_Y", group_by)]
+    nrow_test <-  nrow(dt_data[ ,sum(temp), by=c("CSU_Y", group_by)]) 
     dt_data$temp <- NULL
+    
     if (nrow_test != nrow_base) {
+      print(head(dt_test[temp>1, ]))
       dt_data <- NULL
-      stop("There is more than 1 data per year.\nUse the option by to define the sub population.\n")
+      stop("There is more than 1 data per year (see above).\nUse the option by to define the sub population.\n")
     }
+    
     
     dt_data[, id_group:=.GRP, by=group_by]
     
     temp_max <- max(dt_data$id_group)
     for (i in 1:temp_max) {
       suppressWarnings(
-        temp <- summary(glm(CSU_R ~ CSU_P,
+        temp <- summary(glm(CSU_R ~ CSU_Y,
                             family=poisson(link="log"),
                             data=dt_data[dt_data$id_group  == i,] 
         )

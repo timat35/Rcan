@@ -15,7 +15,7 @@ csu_trend(df_data,
 		logscale = TRUE,
 		smoothing = 0.3,
 		legend = csu_trend_legend(),
-		yaxes_title = "Age standardized (world) rate per 100,000",
+		yaxes_title = "Age standardized rate per 100000",
 		plot_title = "csu_title",
 		format_export = NULL)
 }
