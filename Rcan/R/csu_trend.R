@@ -8,7 +8,8 @@ csu_trend <- function (
   legend = csu_trend_legend(),
   yaxes_title = "Age standardized rate per 100000",
   plot_title = "csu_title",
-  format_export = NULL) {
+  format_export = NULL,
+  graph_dev =FALSE) {
   
   linesize <- 0.75
   
@@ -41,9 +42,10 @@ csu_trend <- function (
   dt_data$temp <- NULL
   
   if (nrow_test != nrow_base) {
+    setkeyv(dt_test, c("CSU_BY","CSU_Y"))
     print(head(dt_test[temp>1, ]))
     dt_data <- NULL
-    stop("There is more than 1 data per year (see above).\nUse the option by to define the sub population.\n")
+    stop("There is more than 1 data per year (see above).\nUse the 'group_by' option or call the function on a subset to define the sub-population of interest.\n")
   }
 
   
@@ -188,7 +190,10 @@ csu_trend <- function (
   gt_plot <- ggplot_gtable(gb_plot)
   gt_plot$layout$clip[gt_plot$layout$name=="panel"] <- "off"
   if(is.null(format_export)) {
-    plot.new()
+    if (!graph_dev ) {
+      
+      plot.new()
+    }
   }
   grid.draw(gt_plot)
   

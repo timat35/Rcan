@@ -1,25 +1,33 @@
 
+#CI5 compaaison add checking variable
+
 rcan_folder <- "c:/Projects/Rcan"
-#install.packages("http://timat.org/matR/Rcan.tar.gz", repos=NULL)
+
+install.packages(c("ggplot2", "data.table"))
+install.packages("http://timat.org/matR/Rcan.tar.gz", repos=NULL)
+
 library(Rcan)
 library(data.table)
 library(ggplot2)
 library(grid)
-
 
 source(paste0(rcan_folder, "/Rcan/R/helper.r"))
 source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
 source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
 source(paste0(rcan_folder, "/Rcan/R/csu_trendCohortPeriod.r"))
 
+getOption("repos")
 
 #test package
 detach(package:Rcan)
 remove.packages("Rcan")
-install.packages("C:/Projects/Rcan/Rcan_1.3.0.tar.gz", repos=NULL)
+install.packages("C:/Projects/Rcan/Rcan_1.3.0.tar.gz", dependencies=NA)
 
+remove.packages("ggplot2")
 
+tempdir()
 
+help(tools)
 # test ---------
 
 data(csu_registry_data_1)
@@ -32,11 +40,24 @@ data(csu_registry_data_2)
 test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
 
 # plot age specific rate for 1 population.
-csu_ageSpecific(test,
-                plot_title = "Colombia\nLiver, Males", format_export = NULL)
+  source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
+  
+  pdf("Liver_male.pdf",height=10,width=8, onefile = FALSE)
+  
+  ggsave("Liver_male.pdf")
+  
+  csu_ageSpecific(test,
+                  plot_title = "Colombia\nLiver, Males", format_export = NULL, CI5_comparison = "Liver",graph_dev = TRUE)
+  
+  csu_ageSpecific(csu_registry_data_1,
+                  group_by="registry_label",
+                  legend=csu_trend_legend(position="bottom", nrow = 2),
+                  plot_title = "Liver, male",
+                  CI5_comparison = 7,graph_dev = FALSE)
+  data(csu_registry_data_2)
+  
+  dev.off()
 
-
-data(csu_registry_data_2)
 
 # you can import your data from csv file using read.csv:
 # mydata <-  read.csv("mydata.csv", sep=",")
@@ -116,7 +137,7 @@ df_Incidence <- df_asr[df_asr$type =="Incidence"& df_asr$sex=="Male",]
 df_mortality <- df_asr[df_asr$type =="Mortality"& df_asr$sex=="Male",]
 df_country <- df_asr[df_asr$country_label =="Colombia",]
 
-
+loess
 
 csu_trend(df_Incidence, group_by="country_label",
           var_trend="asr",
@@ -135,6 +156,29 @@ csu_trend(df_country, group_by="type",
 
 df_unique1 <- mydata[mydata$type=="Incidence" & mydata$country_label == "Colombia" & mydata$sex=="Male",]
 df_unique2 <- mydata[mydata$country_label == "Costa Rica" & mydata$sex=="Male"& mydata$sex=="Male",]
+trUE
+csu_trendCohortPeriod(df_unique1,missing_age = 19, type="Both", plot_title = "Colombia, Colorectum\n Incidence, Male", logscale = TRUE, year_group = 10)
+csu_trendCohortPeriod(df_unique2,missing_age = 19, type="Both", plot_title = "Costa rica, Colorectum\n Incidence, Male", format_export = "pdf")
 
-csu_trendCohortPeriod(df_unique1,missing_age = 19, type="Both", plot_title = "Colombia, Colorectum\n Incidence, Male", logscale = FALSE)
-test <- csu_trendCohortPeriod(df_unique2,missing_age = 19, type="Both", plot_title = "Costa rica, Colorectum\n Incidence, Male")
+
+#### create mini cran-------
+
+install.packages("ggplot2")
+
+install.packages("miniCRAN")
+library("miniCRAN")
+library("ggplot2")
+library("data.table")
+
+revolution <- c(CRAN="http://cran.microsoft.com")
+
+
+pkgs <- c("data.table", "ggplot2")
+pkgList <- pkgDep(pkgs, type="source", suggests = FALSE, availPkgs = cranJuly2014)
+
+
+dir.create(pth <- file.path(tempdir(), "miniCRAN2"))
+makeRepo(pkgList, path=pth, type=c("source", "win.binary"))
+
+list.files(pth, recursive=TRUE, full.names=FALSE)
+pkgAvail(repos=pth, type="win.binary")[, c(1:3, 5)]

@@ -17,7 +17,8 @@ csu_ageSpecific(df_data,
 		CI5_comparison = NULL,
 		var_rate = "rate",
 		plot_title = "csu_title",
-		format_export = NULL)
+		format_export = NULL,
+		graph_dev =FALSE) 
 }
   
 \arguments{
@@ -71,6 +72,10 @@ csu_ageSpecific(df_data,
 		}
 	The filename is the \code{plot_title} option.
 	}
+	\item{graph_dev}{
+		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank pages.
+	}
+
 
 }
 \details{

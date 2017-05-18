@@ -17,7 +17,8 @@ csu_trend(df_data,
 		legend = csu_trend_legend(),
 		yaxes_title = "Age standardized rate per 100000",
 		plot_title = "csu_title",
-		format_export = NULL)
+		format_export = NULL,
+		graph_dev =FALSE) 
 }
   
 \arguments{
@@ -63,6 +64,9 @@ csu_trend(df_data,
 		\code{"svg"} \tab Export in SVG format. Can be edit with \url{https://inkscape.org/fr/}.\cr
 		}
 	The filename is the \code{plot_title} option.
+	}
+	\item{graph_dev}{
+		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank pages.
 	}
 
 }
