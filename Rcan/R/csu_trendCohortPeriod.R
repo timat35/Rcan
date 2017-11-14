@@ -95,18 +95,18 @@ csu_trendCohortPeriod <- function (
   dt_data$CSU_rate <- dt_data$CSU_C/dt_data$CSU_P *db_rate
   
   # to calcul y axes breaks
-  tick <- core.csu_tick_generator(max = max(dt_data$CSU_rate), min=min(dt_data[CSU_rate != 0,]$CSU_rate), log_scale = logscale )
+  tick <- .csu_tick_generator(max = max(dt_data$CSU_rate), min=min(dt_data[CSU_rate != 0,]$CSU_rate), log_scale = logscale )
   tick_space <- tick$tick_list[length(tick$tick_list)] - tick$tick_list[length(tick$tick_list)-1]
   
   
   #to calcul year axes break
   if (type == "Period") {
-    year_tick <- core.csu_year_tick_generator(min(dt_data$CSU_Y),max(dt_data$CSU_Y))
+    year_tick <- .csu_year_tick_generator(min(dt_data$CSU_Y),max(dt_data$CSU_Y))
   } else if (type == "Both"){
     landscape <- TRUE
-    year_tick <- core.csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_Y))
+    year_tick <- .csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_Y))
   } else {
-    year_tick <- core.csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_cohort))
+    year_tick <- .csu_year_tick_generator(min(dt_data$CSU_cohort),max(dt_data$CSU_cohort))
   }
   
   
@@ -129,7 +129,7 @@ csu_trendCohortPeriod <- function (
   #format
   if (!is.null(format_export)) {
     filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
-    core.csu_format_export(format_export, plot_title = filename, landscape = landscape)
+    .csu_format_export(format_export, plot_title = filename, landscape = landscape)
   }
   
   
@@ -233,7 +233,7 @@ csu_trendCohortPeriod <- function (
                          breaks=tick$tick_list,
                          minor_breaks = tick$tick_minor_list,
                          limits=c(tick$tick_list[1],tick$tick_list[length(tick$tick_list)]),
-                         labels=core.csu_axes_label,
+                         labels=.csu_axes_label,
                          trans = "log10"
       )
   } else {
@@ -242,7 +242,7 @@ csu_trendCohortPeriod <- function (
       coord_cartesian( ylim=c(-temp_expand_y, temp_expand_y_up),  expand = TRUE)+
       scale_y_continuous(name = paste("Age-specific rate per", formatC(db_rate, format="d")),
                          breaks=tick$tick_list,
-                         labels=core.csu_axes_label,
+                         labels=.csu_axes_label,
                          expand = c(0,0)
       )
   }

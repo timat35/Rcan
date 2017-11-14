@@ -11,6 +11,8 @@ library(data.table)
 library(ggplot2)
 library(grid)
 
+
+
 #source(paste0(rcan_folder, "/Rcan/R/helper.r"))
 #source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
 #source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
@@ -24,7 +26,7 @@ getOption("repos")
 #test package
 detach(package:Rcan)
 remove.packages("Rcan")
-install.packages("C:/Projects/Rcan/Rcan_1.3.0.tar.gz", dependencies=NA)
+install.packages("C:/Projects/Rcan/Rcan_1.3.1.tar.gz", repos=NULL)
 
 remove.packages("ggplot2")
 

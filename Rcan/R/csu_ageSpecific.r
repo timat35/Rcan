@@ -245,7 +245,7 @@ csu_ageSpecific <-
   #format
   if (!is.null(format_export)) {
     filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
-    core.csu_format_export(format_export, plot_title = filename, landscape = FALSE)
+    .csu_format_export(format_export, plot_title = filename, landscape = FALSE)
   }
   
 
