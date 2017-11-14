@@ -1,4 +1,35 @@
 
+core.error_variable <- function(df_data, varname, funcname,type="numeric") {
+  
+  
+  if (!(varname%in% colnames(df_data))) {
+    
+    stop(paste0(varname, " is not a column of ",   deparse(substitute(data_test)), " ,see documentation: Help(", deparse(substitute(funcname)), ")"))
+    
+  }
+  
+  if (type == "numeric") {
+    if (!is.numeric(df_data[[varname]])) {
+      
+      
+      stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+      
+    }
+    
+  } else if (type == "character"){
+    if (!is.character(df_data[[varname]])) {
+      stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+      
+    }
+    
+  } else if (type == "factor"){
+    if (!is.factor(df_data[[varname]])) {
+      stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+      
+    }
+  }
+}
+
 
 
 

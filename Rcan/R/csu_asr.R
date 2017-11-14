@@ -19,6 +19,10 @@ function(df_data,
   bool_dum_by <- FALSE
   bool_dum_age <- FALSE
   
+  core.error_variable(df_data, var_age, csu_asr)
+  core.error_variable(df_data, var_cases, csu_asr)
+  core.error_variable(df_data, var_py, csu_asr)
+  
   if (first_age < 1 | first_age > 17 ) {
     stop('The argument "first_age" must be comprise between 1 (0-4) and 17 (80-85), see documentation: help(csu_asr)')
   }
@@ -26,25 +30,7 @@ function(df_data,
   if (last_age < 2 | last_age > 18 ) {
     stop('The argument "last_age" must be comprise between 2 (5-9) and 18 (85+), see documentation: help(csu_asr)')
   }
-  
-  if (!(var_age%in% colnames(df_data))) {
-    
-    stop('var_age value is not a variable name of the data, see documentation: Help(csu_asr)')
-    
-  }
-  
-  if (!(var_cases%in% colnames(df_data))) {
-    
-    stop('var_cases value is not a variable name of the data, see documentation: Help(csu_asr)')
-    
-  }
-  
-  if (!(var_py%in% colnames(df_data))) {
-    
-    stop('var_py value is not a variable name of the datae, see documentation: Help(csu_asr)')
-    
-  }
-  
+
 
     
   if (is.null(group_by)) {
@@ -70,28 +56,6 @@ function(df_data,
   setnames(dt_data, var_age, "CSU_A")
   setnames(dt_data, var_cases, "CSU_C")
   setnames(dt_data, var_py, "CSU_P")
-  
-  temp <- dt_data[, lapply(.SD, function(x) is.numeric(x)) ]
-  
-  if (!temp[["CSU_A"]]) {
-    
-    stop('The variable "age" must be numeric, see documentation: help(csu_asr)')
-    
-  }
-  
-  if (!temp[["CSU_P"]]) {
-    
-    stop('The variable "population" must be numeric, see documentation: help(csu_asr)')
-    
-  }
-  
-  if (!temp[["CSU_C"]]) {
-    
-    stop('The variable "age" must be numeric, see documentation: help(csu_asr)')
-    
-  }
-  
-  temp <- NULL
   
   # create index to keep order
   index_order <- c(1:nrow(dt_data))

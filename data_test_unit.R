@@ -6,6 +6,7 @@ library(data.table)
 
 rcan_folder <- "c:/Projects/Rcan"
 source(paste0(rcan_folder, "/Rcan/R/csu_asr.r"))
+source(paste0(rcan_folder, "/Rcan/R/helper.r"))
 
 test_results <- test_dir(paste0(rcan_folder, "/test"), reporter="summary")
 
