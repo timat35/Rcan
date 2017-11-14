@@ -1,5 +1,9 @@
 
-.csu_tick_generator <- function(max,min = 0,log_scale=FALSE) {
+
+
+
+
+core.csu_tick_generator <- function(max,min = 0,log_scale=FALSE) {
   
   
   temp_log_max = 10^floor(log10(max))
@@ -106,13 +110,13 @@
   
 }
 
-.csu_axes_label <- function(l) {
+core.csu_axes_label <- function(l) {
   
   l <- format(l, big.mark = ",", scientific = FALSE, drop0trailing = TRUE)
   
 }
 
-.csu_year_tick_generator <- function(min, max) {
+core.csu_year_tick_generator <- function(min, max) {
   
   temp1 <- min - (min %% 5)
   temp2 <- max - (max %% 5) +5
@@ -138,7 +142,7 @@
 }
 
 
-.csu_format_export <- function(type, plot_title, landscape=FALSE) {
+core.csu_format_export <- function(type, plot_title, landscape=FALSE) {
   
   #http://www.altelia.fr/actualites/calculateur-resolution-definition-format.htm
   

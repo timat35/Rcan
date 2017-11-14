@@ -63,12 +63,12 @@ csu_trend <- function (
   dt_data[, max_year:=max(CSU_Y), by=CSU_BY]
   
   # to calcul y axes breaks
-  tick <- .csu_tick_generator(max = max(dt_data$smooth_value), min=min(dt_data[smooth_value != 0,]$smooth_value), log_scale = logscale )
+  tick <- core.csu_tick_generator(max = max(dt_data$smooth_value), min=min(dt_data[smooth_value != 0,]$smooth_value), log_scale = logscale )
   tick_space <- tick$tick_list[length(tick$tick_list)] - tick$tick_list[length(tick$tick_list)-1]
   
   
   #to calcul year axes break
-  year_tick <- .csu_year_tick_generator(min(dt_data$CSU_Y),max(dt_data$CSU_Y))
+  year_tick <- core.csu_year_tick_generator(min(dt_data$CSU_Y),max(dt_data$CSU_Y))
 
   
   
@@ -96,7 +96,7 @@ csu_trend <- function (
   #format
   if (!is.null(format_export)) {
     filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
-    .csu_format_export(format_export, plot_title = filename, landscape = FALSE)
+    core.csu_format_export(format_export, plot_title = filename, landscape = FALSE)
   }
   
   xlim_inf <- min(c(year_tick$tick_list, year_tick$tick_minor_list))
@@ -130,7 +130,7 @@ csu_trend <- function (
                          breaks=tick$tick_list,
                          minor_breaks = tick$tick_minor_list,
                          limits=c(tick$tick_list[1],tick$tick_list[length(tick$tick_list)]),
-                         labels=.csu_axes_label,
+                         labels=core.csu_axes_label,
                          trans = "log10"
       )
   } else {
@@ -139,7 +139,7 @@ csu_trend <- function (
       coord_cartesian( ylim=c(-temp_expand_y, temp_expand_y_up),  expand = TRUE)+
       scale_y_continuous(name = yaxes_title,
                          breaks=tick$tick_list,
-                         labels=.csu_axes_label,
+                         labels=core.csu_axes_label,
                          expand = c(0,0)
       )
   } 

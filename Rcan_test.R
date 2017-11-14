@@ -3,7 +3,7 @@
 
 rcan_folder <- "c:/Projects/Rcan"
 
-install.packages(c("ggplot2", "data.table"))
+#install.packages(c("ggplot2", "data.table"))
 install.packages("http://timat.org/matR/Rcan.tar.gz", repos=NULL)
 
 library(Rcan)
@@ -11,10 +11,13 @@ library(data.table)
 library(ggplot2)
 library(grid)
 
-source(paste0(rcan_folder, "/Rcan/R/helper.r"))
-source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
-source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
-source(paste0(rcan_folder, "/Rcan/R/csu_trendCohortPeriod.r"))
+#source(paste0(rcan_folder, "/Rcan/R/helper.r"))
+#source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
+#source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
+#source(paste0(rcan_folder, "/Rcan/R/csu_eapc.r"))
+#source(paste0(rcan_folder, "/Rcan/R/csu_asr.r"))
+#source(paste0(rcan_folder, "/Rcan/R/csu_trend_legend.r"))
+#source(paste0(rcan_folder, "/Rcan/R/csu_trendCohortPeriod.r"))
 
 getOption("repos")
 
@@ -158,26 +161,3 @@ df_unique2 <- mydata[mydata$country_label == "Costa Rica" & mydata$sex=="Male"& 
 trUE
 csu_trendCohortPeriod(df_unique1,missing_age = 19, type="Both", plot_title = "Colombia, Colorectum\n Incidence, Male", logscale = TRUE, year_group = 10)
 csu_trendCohortPeriod(df_unique2,missing_age = 19, type="Both", plot_title = "Costa rica, Colorectum\n Incidence, Male", format_export = "pdf")
-
-
-#### create mini cran-------
-
-install.packages("ggplot2")
-
-install.packages("miniCRAN")
-library("miniCRAN")
-library("ggplot2")
-library("data.table")
-
-revolution <- c(CRAN="http://cran.microsoft.com")
-
-
-pkgs <- c("data.table", "ggplot2")
-pkgList <- pkgDep(pkgs, type="source", suggests = FALSE, availPkgs = cranJuly2014)
-
-
-dir.create(pth <- file.path(tempdir(), "miniCRAN2"))
-makeRepo(pkgList, path=pth, type=c("source", "win.binary"))
-
-list.files(pth, recursive=TRUE, full.names=FALSE)
-pkgAvail(repos=pth, type="win.binary")[, c(1:3, 5)]

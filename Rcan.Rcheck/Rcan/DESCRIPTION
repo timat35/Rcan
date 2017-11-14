@@ -1,5 +1,5 @@
 Package: Rcan
-Version: 1.3.0
+Version: 1.3.1
 Title: R package to help managing and analysing cancer data
 Date: 2016-09-15
 Author: Mathieu Laversanne
@@ -11,6 +11,4 @@ URL: http://timat.org/matR
 LazyLoad: yes
 Imports: data.table, stats, ggplot2, grid, scales, grDevices, graphics,
         utils
-NeedsCompilation: no
-Packaged: 2017-05-22 15:38:34 UTC; laversannem
-Built: R 3.3.1; ; 2017-05-22 15:38:52 UTC; windows
+Built: R 3.4.2; ; 2017-11-14 09:58:54 UTC; windows
