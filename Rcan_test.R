@@ -13,12 +13,13 @@ library(grid)
 
 
 
-#source(paste0(rcan_folder, "/Rcan/R/helper.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
+
+source(paste0(rcan_folder, "/Rcan/R/helper.r"))
+source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
 #source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
 #source(paste0(rcan_folder, "/Rcan/R/csu_eapc.r"))
 #source(paste0(rcan_folder, "/Rcan/R/csu_asr.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_trend_legend.r"))
+source(paste0(rcan_folder, "/Rcan/R/csu_trend_legend.r"))
 #source(paste0(rcan_folder, "/Rcan/R/csu_trendCohortPeriod.r"))
 
 getOption("repos")

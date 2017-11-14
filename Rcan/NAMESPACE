@@ -1,4 +1,4 @@
-exportPattern("^[^\\.]")
+exportPattern("^([^c])|^(c[^o])|^(co[^r])|^(cor[^e])|^(cor[^e])|^(core[^\\.])|^c$|^co$|^cor$|^core$")
 import(data.table)
 import(ggplot2)
 import(grid)
@@ -8,4 +8,3 @@ importFrom("stats", "glm", "poisson", "loess")
 importFrom("grDevices", "dev.off", "pdf", "svg", "png", "tiff")
 importFrom("graphics", "plot.new")
 importFrom("utils", "data")
-.
