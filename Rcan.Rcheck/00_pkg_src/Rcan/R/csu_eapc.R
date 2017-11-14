@@ -40,9 +40,10 @@ csu_eapc <-
     dt_data$temp <- NULL
     
     if (nrow_test != nrow_base) {
+      setkeyv(dt_test, c(group_by,"CSU_Y"))
       print(head(dt_test[temp>1, ]))
       dt_data <- NULL
-      stop("There is more than 1 data per year (see above).\nUse the option by to define the sub population.\n")
+      stop("There is more than 1 data per year (see above).\nUse the 'group_by' option or call the function on a subset to define the sub-population of interest.\n")
     }
     
     

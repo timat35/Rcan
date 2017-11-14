@@ -13,11 +13,12 @@ csu_trend(df_data,
 		var_year = "year",
 		group_by = NULL,
 		logscale = TRUE,
-		smoothing = 0.3,
+		smoothing = NULL,
 		legend = csu_trend_legend(),
 		yaxes_title = "Age standardized rate per 100000",
 		plot_title = "csu_title",
-		format_export = NULL)
+		format_export = NULL,
+		graph_dev =FALSE) 
 }
   
 \arguments{
@@ -63,6 +64,9 @@ csu_trend(df_data,
 		\code{"svg"} \tab Export in SVG format. Can be edit with \url{https://inkscape.org/fr/}.\cr
 		}
 	The filename is the \code{plot_title} option.
+	}
+	\item{graph_dev}{
+		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank page.
 	}
 
 }
@@ -111,14 +115,27 @@ csu_trend(df_data,
 	csu_trend(df_asr, group_by="sex",
                 plot_title = "Colombia, Liver")
 				
-	# plot ASR over year, by sex, with no smoothing.
+	# plot ASR over year, by sex, with small smoothing.
 	csu_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
-			  smoothing = NULL)
+			  smoothing = 0.3)
 			  
 	# plot ASR over year, by sex, with high smoothing.
 	csu_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
 			  smoothing = 0.5)
+			  
+	# Plot embedded in a graphic device
+	pdf("example_test.pdf")
+	csu_trend(df_asr, group_by="sex",
+			  plot_title = "Colombia, Liver",
+			  smoothing = 0.3,
+			  graph_dev=TRUE)
+			  
+	csu_trend(df_asr, group_by="sex",
+			  plot_title = "Colombia, Liver",
+			  smoothing = 0.5)
+				
+	dev.off()
 				
 }

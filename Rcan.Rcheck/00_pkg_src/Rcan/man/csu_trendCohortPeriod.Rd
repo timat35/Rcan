@@ -23,7 +23,8 @@ csu_trendCohortPeriod(
   year_group = 5,
   age_dropped=FALSE,
   plot_title = "csu_title",
-  format_export = NULL)
+  format_export = NULL,
+  graph_dev =FALSE) 
 }
   
 \arguments{
@@ -94,6 +95,10 @@ csu_trendCohortPeriod(
 		}
 	The filename is the \code{plot_title} option.
 	}
+	\item{graph_dev}{
+		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank page.
+	}
+
 
 }
 
@@ -167,5 +172,25 @@ csu_trendCohortPeriod(
 						  plot_title = "USA, Liver, males",
 						  type="Cohort",
 						  year_group = 2)
+						  
+	# Plot embedded in a graphic device
+	pdf("example_test.pdf")
+	csu_trendCohortPeriod(df_data=test,
+                        missing_age =99,
+                        plot_title = "USA, Liver, males",
+						type="Both",
+						first_age=7,
+						last_age=15,
+						graph_dev=TRUE)
+			  
+	csu_trendCohortPeriod(df_data=test,
+                        missing_age =99,
+                        plot_title = "USA, Liver, males",
+						type="Both",
+						first_age=7,
+						last_age=15,
+						logscale=FALSE)
+				
+	dev.off()
 				
 }

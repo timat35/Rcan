@@ -12,4 +12,4 @@ LazyLoad: yes
 Imports: data.table, stats, ggplot2, grid, scales, grDevices, graphics,
         utils
 NeedsCompilation: no
-Packaged: 2017-05-16 07:43:58 UTC; laversannem
+Packaged: 2017-05-22 15:38:34 UTC; laversannem

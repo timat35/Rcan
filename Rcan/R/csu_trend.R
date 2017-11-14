@@ -4,7 +4,7 @@ csu_trend <- function (
   var_year = "year",
   group_by = NULL,
   logscale = TRUE,
-  smoothing = 0.3,
+  smoothing = NULL,
   legend = csu_trend_legend(),
   yaxes_title = "Age standardized rate per 100000",
   plot_title = "csu_title",
@@ -212,7 +212,7 @@ csu_trend <- function (
   }
   
   if (is.null(smoothing)) {
-    dt_data[, smoothing:=NULL]
+    dt_data[, smooth_value:=NULL]
   }
     
   dt_data[, max_year:=NULL]

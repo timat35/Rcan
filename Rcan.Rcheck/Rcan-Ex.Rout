@@ -181,7 +181,37 @@ the dotted grey line represente the mean for Liver cancer in CI5 X
 > 	csu_ageSpecific(csu_registry_data_1,
 + 					group_by="registry_label",
 + 					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-+ 					plot_title = "Liver, male")			  		  
++ 					plot_title = "Liver, male")	
+> 
+>     # Plot embedded in a graphic device
+> 	pdf("test.pdf")
+> 	csu_ageSpecific(csu_registry_data_1,
++ 					group_by="registry_label",
++ 					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
++ 					plot_title = "Liver, male",
++ 					graph_dev=TRUE)	
+> 					
+> 	csu_ageSpecific(csu_registry_data_1,
++ 				group_by="registry_label",
++ 				legend=csu_trend_legend(position="bottom", nrow = 2),
++ 				plot_title = "Liver, male",
++ 				CI5_comparison = 7, 
++ 				graph_dev=FALSE)
+the dotted grey line represente the mean for Liver cancer in CI5 X
+> 				
+> 	dev.off()
+pdf 
+  2 
+> 	
+> 
+> 	
+> 	
+> 	
+> 
+> 
+> 
+> 
+> 	
 > 
 > 
 > 
@@ -364,7 +394,8 @@ _U_s_a_g_e:
                      CI5_comparison = NULL,
                      var_rate = "rate",
                      plot_title = "csu_title",
-                     format_export = NULL)
+                     format_export = NULL,
+                     graph_dev =FALSE) 
      
 _A_r_g_u_m_e_n_t_s:
 
@@ -410,6 +441,10 @@ format_export: export the graph in different format:
             '"svg"'   Export in SVG format. Can be edit with <URL: https://inkscape.org/fr/>. 
            
           The filename is the 'plot_title' option.
+
+graph_dev: If the plot is embedded in a graphics Device function (such
+          as pdf()), the graph_dev option should be set to TRUE for the
+          first graph to avoid a blank page.
 
 _D_e_t_a_i_l_s:
 
@@ -470,7 +505,24 @@ _E_x_a_m_p_l_e_s:
              csu_ageSpecific(csu_registry_data_1,
                                              group_by="registry_label",
                                              legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-                                             plot_title = "Liver, male")                                       
+                                             plot_title = "Liver, male")     
+     
+         # Plot embedded in a graphic device
+             pdf("test.pdf")
+             csu_ageSpecific(csu_registry_data_1,
+                                             group_by="registry_label",
+                                             legend=csu_trend_legend(position="right", right_space_margin = 6.5),
+                                             plot_title = "Liver, male",
+                                             graph_dev=TRUE) 
+                                             
+             csu_ageSpecific(csu_registry_data_1,
+                                     group_by="registry_label",
+                                     legend=csu_trend_legend(position="bottom", nrow = 2),
+                                     plot_title = "Liver, male",
+                                     CI5_comparison = 7, 
+                                     graph_dev=FALSE)
+                                     
+             dev.off()
      
 > 
 > 
@@ -1036,17 +1088,30 @@ ASR have been computed for the age group 0-99+
 > 	csu_trend(df_asr, group_by="sex",
 +                 plot_title = "Colombia, Liver")
 > 				
-> 	# plot ASR over year, by sex, with no smoothing.
+> 	# plot ASR over year, by sex, with small smoothing.
 > 	csu_trend(df_asr, group_by="sex",
 + 			  plot_title = "Colombia, Liver",
-+ 			  smoothing = NULL)
-Warning in `[.data.table`(dt_data, , `:=`(smoothing, NULL)) :
-  Adding new column 'smoothing' then assigning NULL (deleting it).
++ 			  smoothing = 0.3)
 > 			  
 > 	# plot ASR over year, by sex, with high smoothing.
 > 	csu_trend(df_asr, group_by="sex",
 + 			  plot_title = "Colombia, Liver",
 + 			  smoothing = 0.5)
+> 			  
+> 	# Plot embedded in a graphic device
+> 	pdf("example_test.pdf")
+> 	csu_trend(df_asr, group_by="sex",
++ 			  plot_title = "Colombia, Liver",
++ 			  smoothing = 0.3,
++ 			  graph_dev=TRUE)
+> 			  
+> 	csu_trend(df_asr, group_by="sex",
++ 			  plot_title = "Colombia, Liver",
++ 			  smoothing = 0.5)
+> 				
+> 	dev.off()
+pdf 
+  2 
 > 				
 > 
 > 
@@ -1110,6 +1175,28 @@ Warning in `[.data.table`(dt_data, , `:=`(smoothing, NULL)) :
 + 						  plot_title = "USA, Liver, males",
 + 						  type="Cohort",
 + 						  year_group = 2)
+> 						  
+> 	# Plot embedded in a graphic device
+> 	pdf("example_test.pdf")
+> 	csu_trendCohortPeriod(df_data=test,
++                         missing_age =99,
++                         plot_title = "USA, Liver, males",
++ 						type="Both",
++ 						first_age=7,
++ 						last_age=15,
++ 						graph_dev=TRUE)
+> 			  
+> 	csu_trendCohortPeriod(df_data=test,
++                         missing_age =99,
++                         plot_title = "USA, Liver, males",
++ 						type="Both",
++ 						first_age=7,
++ 						last_age=15,
++ 						logscale=FALSE)
+> 				
+> 	dev.off()
+pdf 
+  2 
 > 				
 > 
 > 
@@ -1167,7 +1254,8 @@ _U_s_a_g_e:
                      CI5_comparison = NULL,
                      var_rate = "rate",
                      plot_title = "csu_title",
-                     format_export = NULL)
+                     format_export = NULL,
+                     graph_dev =FALSE) 
      
 _A_r_g_u_m_e_n_t_s:
 
@@ -1213,6 +1301,10 @@ format_export: export the graph in different format:
             '"svg"'   Export in SVG format. Can be edit with <URL: https://inkscape.org/fr/>. 
            
           The filename is the 'plot_title' option.
+
+graph_dev: If the plot is embedded in a graphics Device function (such
+          as pdf()), the graph_dev option should be set to TRUE for the
+          first graph to avoid a blank page.
 
 _D_e_t_a_i_l_s:
 
@@ -1273,7 +1365,24 @@ _E_x_a_m_p_l_e_s:
              csu_ageSpecific(csu_registry_data_1,
                                              group_by="registry_label",
                                              legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-                                             plot_title = "Liver, male")                                       
+                                             plot_title = "Liver, male")     
+     
+         # Plot embedded in a graphic device
+             pdf("test.pdf")
+             csu_ageSpecific(csu_registry_data_1,
+                                             group_by="registry_label",
+                                             legend=csu_trend_legend(position="right", right_space_margin = 6.5),
+                                             plot_title = "Liver, male",
+                                             graph_dev=TRUE) 
+                                             
+             csu_ageSpecific(csu_registry_data_1,
+                                     group_by="registry_label",
+                                     legend=csu_trend_legend(position="bottom", nrow = 2),
+                                     plot_title = "Liver, male",
+                                     CI5_comparison = 7, 
+                                     graph_dev=FALSE)
+                                     
+             dev.off()
      
 > 	  		  
 > 
@@ -1283,7 +1392,7 @@ _E_x_a_m_p_l_e_s:
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  34.33 1.74 38.12 NA NA 
+Time elapsed:  37.28 1.88 40.25 NA NA 
 > grDevices::dev.off()
 null device 
           1 

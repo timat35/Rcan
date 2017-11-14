@@ -12,7 +12,8 @@ csu_ageSpecific <-
   CI5_comparison=NULL,
   var_rate="rate",
   plot_title="csu_title",
-  format_export=NULL) {
+  format_export=NULL,
+  graph_dev =FALSE) {
   
   linesize <- 0.75
 
@@ -239,13 +240,16 @@ csu_ageSpecific <-
     
   }
   
-
+  
+  
   #format
   if (!is.null(format_export)) {
     filename <- gsub("[[:punct:][:space:]\n]", "_", plot_title)
     .csu_format_export(format_export, plot_title = filename, landscape = FALSE)
   }
   
+
+
 
   #plot
   base_plot <- ggplot(dt_data, aes(CSU_age_factor, rate))
@@ -323,8 +327,13 @@ csu_ageSpecific <-
   gb_plot <- ggplot_build(plot)
   gt_plot <- ggplot_gtable(gb_plot)
   gt_plot$layout$clip[gt_plot$layout$name=="panel"] <- "off"
+  
+
   if(is.null(format_export)) {
+    if (!graph_dev ) {
+      
     plot.new()
+    }
   }
   grid.draw(gt_plot)
   

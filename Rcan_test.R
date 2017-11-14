@@ -1,5 +1,5 @@
 
-#CI5 compaaison add checking variable
+#CI5 comparaison add checking variable
 
 rcan_folder <- "c:/Projects/Rcan"
 
@@ -42,10 +42,9 @@ test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali"
 # plot age specific rate for 1 population.
   source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
   
-  pdf("Liver_male.pdf",height=10,width=8, onefile = FALSE)
+  pdf("Liver_male.pdf",height=10,width=8)
   
-  ggsave("Liver_male.pdf")
-  
+
   csu_ageSpecific(test,
                   plot_title = "Colombia\nLiver, Males", format_export = NULL, CI5_comparison = "Liver",graph_dev = TRUE)
   
@@ -80,7 +79,7 @@ csu_trend(df_asr,
 
 # test csu trend --------
 
-
+csu_trend
 mydata <-  read.csv(paste0(rcan_folder,"/data_test/data_cervix.csv"), sep=",")
 
 
@@ -102,10 +101,10 @@ df_country <- df_asr[df_asr$country_label =="Colombia",]
 test <- csu_trend(df_Incidence, group_by="country_label",
           var_trend="asr",
           plot_title = "Cervix",
-          smoothing = 0.5,)
+          smoothing = 0)
 
 
-csu_trend(df_mortality, group_by="country_label",
+test <- csu_trend(df_mortality, group_by="country_label",
           plot_title = "Cervix",
           logscale = FALSE)
 

@@ -108,7 +108,34 @@ flush(stderr()); flush(stdout())
 	csu_ageSpecific(csu_registry_data_1,
 					group_by="registry_label",
 					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-					plot_title = "Liver, male")			  		  
+					plot_title = "Liver, male")	
+
+    # Plot embedded in a graphic device
+	pdf("test.pdf")
+	csu_ageSpecific(csu_registry_data_1,
+					group_by="registry_label",
+					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
+					plot_title = "Liver, male",
+					graph_dev=TRUE)	
+					
+	csu_ageSpecific(csu_registry_data_1,
+				group_by="registry_label",
+				legend=csu_trend_legend(position="bottom", nrow = 2),
+				plot_title = "Liver, male",
+				CI5_comparison = 7, 
+				graph_dev=FALSE)
+				
+	dev.off()
+	
+
+	
+	
+	
+
+
+
+
+	
 
 
 
@@ -345,15 +372,28 @@ flush(stderr()); flush(stdout())
 	csu_trend(df_asr, group_by="sex",
                 plot_title = "Colombia, Liver")
 				
-	# plot ASR over year, by sex, with no smoothing.
+	# plot ASR over year, by sex, with small smoothing.
 	csu_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
-			  smoothing = NULL)
+			  smoothing = 0.3)
 			  
 	# plot ASR over year, by sex, with high smoothing.
 	csu_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
 			  smoothing = 0.5)
+			  
+	# Plot embedded in a graphic device
+	pdf("example_test.pdf")
+	csu_trend(df_asr, group_by="sex",
+			  plot_title = "Colombia, Liver",
+			  smoothing = 0.3,
+			  graph_dev=TRUE)
+			  
+	csu_trend(df_asr, group_by="sex",
+			  plot_title = "Colombia, Liver",
+			  smoothing = 0.5)
+				
+	dev.off()
 				
 
 
@@ -417,6 +457,26 @@ flush(stderr()); flush(stdout())
 						  plot_title = "USA, Liver, males",
 						  type="Cohort",
 						  year_group = 2)
+						  
+	# Plot embedded in a graphic device
+	pdf("example_test.pdf")
+	csu_trendCohortPeriod(df_data=test,
+                        missing_age =99,
+                        plot_title = "USA, Liver, males",
+						type="Both",
+						first_age=7,
+						last_age=15,
+						graph_dev=TRUE)
+			  
+	csu_trendCohortPeriod(df_data=test,
+                        missing_age =99,
+                        plot_title = "USA, Liver, males",
+						type="Both",
+						first_age=7,
+						last_age=15,
+						logscale=FALSE)
+				
+	dev.off()
 				
 
 

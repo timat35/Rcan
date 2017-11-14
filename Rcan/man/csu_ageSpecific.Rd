@@ -73,7 +73,7 @@ csu_ageSpecific(df_data,
 	The filename is the \code{plot_title} option.
 	}
 	\item{graph_dev}{
-		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank pages.
+		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank page.
 	}
 
 
@@ -135,7 +135,34 @@ csu_ageSpecific(df_data,
 	csu_ageSpecific(csu_registry_data_1,
 					group_by="registry_label",
 					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-					plot_title = "Liver, male")			  		  
+					plot_title = "Liver, male")	
+
+    # Plot embedded in a graphic device
+	pdf("test.pdf")
+	csu_ageSpecific(csu_registry_data_1,
+					group_by="registry_label",
+					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
+					plot_title = "Liver, male",
+					graph_dev=TRUE)	
+					
+	csu_ageSpecific(csu_registry_data_1,
+				group_by="registry_label",
+				legend=csu_trend_legend(position="bottom", nrow = 2),
+				plot_title = "Liver, male",
+				CI5_comparison = 7, 
+				graph_dev=FALSE)
+				
+	dev.off()
+	
+
+	
+	
+	
+
+
+
+
+	
 }
 
 

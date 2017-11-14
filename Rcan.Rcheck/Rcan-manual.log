@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.7.14)  16 MAY 2017 09:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.7.14)  22 MAY 2017 17:40
 entering extended mode
-**C:/Users/laversannem/AppData/Local/Temp/Rtmp6futEC/Rd2pdf15c81562712a/Rd2.tex
+**C:/Users/laversannem/AppData/Local/Temp/RtmpIhgN9R/Rd2pdf1b2451587abf/Rd2.tex
 
-(C:/Users/laversannem/AppData/Local/Temp/Rtmp6futEC/Rd2pdf15c81562712a/Rd2.tex
+(C:/Users/laversannem/AppData/Local/Temp/RtmpIhgN9R/Rd2pdf1b2451587abf/Rd2.tex
 LaTeX2e <2016/03/31> patch level 2
 Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
 
@@ -818,12 +818,18 @@ m and comparison with CI5X data.[]
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 ) [3]
-Underfull \hbox (badness 10000) in paragraph at lines 174--175
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
 
  []
 
+
+Overfull \hbox (8.46819pt too wide) in paragraph at lines 187--188
+[]\T1/ptm/m/n/10 If the plot is em-bed-ded in a graph-ics De-vice func-tion (su
+ch as pdf()), the graph_dev
+ []
+
 [4]
-Overfull \hbox (13.38098pt too wide) in paragraph at lines 239--239
+Overfull \hbox (13.38098pt too wide) in paragraph at lines 244--244
  []\T1/zi4/m/n/9 # plot age specific rate for 4 population, legend at the botto
 m and comparison with CI5X data.[] 
  []
@@ -831,34 +837,37 @@ m and comparison with CI5X data.[]
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 ) [5]
-Underfull \hbox (badness 10000) in paragraph at lines 312--313
+Underfull \hbox (badness 10000) in paragraph at lines 344--345
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 319--320
+Underfull \hbox (badness 10000) in paragraph at lines 351--352
 
  []
 
-
-Overfull \hbox (28.71739pt too wide) in paragraph at lines 345--347
+[6]
+Overfull \hbox (28.71739pt too wide) in paragraph at lines 377--379
 []\T1/ptm/m/n/10 This func-tion take au-to-mat-i-cally ac-count the num-ber of 
 age group (last age group can be 70+,75+,80+,85+): 
  []
 
 
-Overfull \hbox (2.83737pt too wide) in paragraph at lines 345--347
+Overfull \hbox (2.83737pt too wide) in paragraph at lines 377--379
 \T1/ptm/m/n/10 pop-u-la-tion data is un-known so, the pro-gram can de-tect au-t
 o-mat-i-cally the last age group (70+,75+,80+
  []
 
-[6] [7] ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+[7] ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 ) [8]
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+Overfull \vbox (11.29628pt too high) has occurred while \output is active []
+
+
+[9] ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
-) [9]
-Underfull \hbox (badness 10000) in paragraph at lines 555--556
+)
+Underfull \hbox (badness 10000) in paragraph at lines 587--588
 
  []
 
@@ -871,58 +880,73 @@ File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 ) [13]
-Underfull \hbox (badness 10000) in paragraph at lines 796--797
+Underfull \hbox (badness 10000) in paragraph at lines 829--830
 
  []
 
-[14] ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14]
+Overfull \hbox (8.46819pt too wide) in paragraph at lines 841--842
+[]\T1/ptm/m/n/10 If the plot is em-bed-ded in a graph-ics De-vice func-tion (su
+ch as pdf()), the graph_dev
+ []
+
+[15] ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
-) [15]
-Underfull \hbox (badness 10000) in paragraph at lines 916--917
+)
+Underfull \hbox (badness 10000) in paragraph at lines 966--967
 
  []
 
-
-Overfull \hbox (55.4192pt too wide) in paragraph at lines 939--942
+[16] [17]
+Overfull \hbox (55.4192pt too wide) in paragraph at lines 989--992
 \T1/ptm/m/n/10 To plot the age group from 15-19 years un-til 65-69 years, use: 
 \T1/zi4/m/n/10 first_age(4), last_age(14) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 957--958
+Underfull \hbox (badness 10000) in paragraph at lines 1007--1008
 
  []
 
-[16]
-Overfull \hbox (4.38098pt too wide) in paragraph at lines 1038--1038
+
+Overfull \hbox (8.46819pt too wide) in paragraph at lines 1019--1020
+[]\T1/ptm/m/n/10 If the plot is em-bed-ded in a graph-ics De-vice func-tion (su
+ch as pdf()), the graph_dev
+ []
+
+[18]
+Overfull \hbox (4.38098pt too wide) in paragraph at lines 1092--1092
  []\T1/zi4/m/n/9 # plot Cohort graph from 25-29 years until 75-79 years, with d
 ata grouped in 2 years period.[] 
  []
 
-[17] ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+[19] ("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 )
-Underfull \hbox (badness 10000) in paragraph at lines 1066--1067
+Underfull \hbox (badness 10000) in paragraph at lines 1140--1141
 
  []
 
-[18] (Rd2.ind [19]
+[20] (Rd2.ind [21]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
 
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 51.
+(Font)              using `T1/zi4/m/n' instead on input line 53.
 
-[20
+[22
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1127.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1127.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1201.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1201.
  (Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1127.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1127.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1201.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1201.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: F200F93645CF3E08BF102B83ED93F9C0;760.
@@ -930,12 +954,12 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1127.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1201.
  ) 
 Here is how much of TeX's memory you used:
- 6580 strings out of 493334
- 93160 string characters out of 3139234
- 179456 words of memory out of 3000000
+ 6582 strings out of 493334
+ 93174 string characters out of 3139234
+ 176456 words of memory out of 3000000
  9868 multiletter control sequences out of 15000+200000
  40674 words of font info for 49 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -951,9 +975,9 @@ MiKTeX 2.9/fonts/enc/dvips/inconsolata/i4-t1-0.enc}<C:/Program Files/MiKTeX 2.9
 es/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:
 /Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/Mi
 KTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (20 pages, 166108 bytes).
+Output written on Rd2.pdf (22 pages, 167945 bytes).
 PDF statistics:
- 398 PDF objects out of 1000 (max. 8388607)
- 129 named destinations out of 1000 (max. 500000)
+ 406 PDF objects out of 1000 (max. 8388607)
+ 131 named destinations out of 1000 (max. 500000)
  89 words of extra memory for PDF output out of 10000 (max. 10000000)
 

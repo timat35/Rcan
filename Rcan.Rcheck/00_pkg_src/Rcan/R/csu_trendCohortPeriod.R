@@ -13,7 +13,8 @@ csu_trendCohortPeriod <- function (
   year_group = 5,
   age_dropped=FALSE,
   plot_title = "csu_title",
-  format_export = NULL) {
+  format_export = NULL,
+  graph_dev =FALSE) {
   
   linesize <- 0.75
   landscape <- FALSE
@@ -278,9 +279,12 @@ csu_trendCohortPeriod <- function (
   gb_plot <- ggplot_build(csu_plot)
   gt_plot <- ggplot_gtable(gb_plot)
   gt_plot$layout$clip[gt_plot$layout$name=="panel"] <- "off"
-  
+
   if(is.null(format_export)) {
-    plot.new()
+    if (!graph_dev ) {
+      
+      plot.new()
+    }
   }
   grid.draw(gt_plot)
   
@@ -289,6 +293,8 @@ csu_trendCohortPeriod <- function (
     dev.off()
   }
   
+
+
   
   dt_data[, CSU_age_factor:=NULL]
   dt_data[, nb_age_group:=NULL]
