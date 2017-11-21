@@ -2,4 +2,4 @@ library(testthat)
 library(Rcan)
 
 
-test_package("Rcan")
+test_check("Rcan")

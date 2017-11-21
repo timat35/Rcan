@@ -8,17 +8,17 @@
 \usage{
 csu_ageSpecific(df_data,
 		var_age="age",
-		var_cases="cases",
-		var_py="py",
-		group_by = NULL,
-		missing_age = NULL,
-		db_rate = 100000,
-		legend = csu_trend_legend(),
-		CI5_comparison = NULL,
-		var_rate = "rate",
-		plot_title = "csu_title",
-		format_export = NULL,
-		graph_dev =FALSE) 
+        var_cases="cases",
+        var_py="py",
+        group_by = NULL, 
+        missing_age = NULL,
+        db_rate = 100000,
+		log_scale=FALSE,
+        plot_title=NULL,
+        legend=csu_trend_legend(),
+        color_trend = NULL,
+        CI5_comparison=NULL,
+        var_rate="rate") 
 }
   
 \arguments{
@@ -41,13 +41,23 @@ csu_ageSpecific(df_data,
 	}
   \item{missing_age}{
 		Age value representing the missing age cases.
-}
+	}
   \item{db_rate}{
 	The denominator population. Default is 100000.
+	}
+  \item{log_scale}{
+	Y axis use logscale instead of normal scale . Default is FALSE.
+	}
+  \item{plot_title}{
+	Title of the plot.
 	}
   \item{legend}{
 	Legend option: see \code{\link{csu_trend_legend}}.\cr
 	Use only if \code{group_by} is not \code{NULL}.
+	}
+  \item{color_trend}{
+	Vector of color for the trend.
+	The color code are hexadecimal (see example).
 	}
   \item{CI5_comparison}{
 	Add a dotted line represnting the CI5X for a specific cancer.\cr
@@ -57,23 +67,6 @@ csu_ageSpecific(df_data,
 
   \item{var_rate}{
 	Name of the age specific variable if a dataframe is return.
-	}
-  \item{plot_title}{
-	Title of the plot.
-	}
-  \item{format_export}{
-   export the graph in different format:\cr
-  	\tabular{ll}{
-		\code{NULL} \tab Plot in R studio windows.\cr
-		\code{"pdf"} \tab Export in PDF format.\cr
-		\code{"tiff"} \tab Export in TIFF 300dpi format.\cr
-		\code{"png"} \tab Export in PNG 200dpi format.\cr
-		\code{"svg"} \tab Export in SVG format. Can be edit with \url{https://inkscape.org/fr/}.\cr
-		}
-	The filename is the \code{plot_title} option.
-	}
-	\item{graph_dev}{
-		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank page.
 	}
 
 
@@ -111,14 +104,14 @@ csu_ageSpecific(df_data,
 
 	# you can import your data from csv file using read.csv:
 	# mydata <-  read.csv("mydata.csv", sep=",")
-	
+
 	# to select only 1 population.
 	test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
 
 	# plot age specific rate for 1 population.
 	csu_ageSpecific(test,
-                plot_title = "Colombia, Liver, male")
-				
+					plot_title = "Colombia, Liver, male")
+
 	# plot age specific rate for 1 population, and comparison with CI5X data.
 	csu_ageSpecific(test,
 					plot_title = "Colombia, Liver, male",
@@ -127,36 +120,38 @@ csu_ageSpecific(df_data,
 	# plot age specific rate for 4 population, legend at the bottom and comparison with CI5X data.
 	csu_ageSpecific(csu_registry_data_1,
 					group_by="registry_label",
-					legend=csu_trend_legend(position="bottom", nrow = 2),
+					legend=csu_trend_legend(position="bottom", nrow = 1),
 					plot_title = "Liver, male",
 					CI5_comparison = 7)
-	
+
 	# plot age specific rate for 4 population, legend at the right.
 	csu_ageSpecific(csu_registry_data_1,
 					group_by="registry_label",
 					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
 					plot_title = "Liver, male")	
 
-    # Plot embedded in a graphic device
-	pdf("test.pdf")
+
+	
+	# Plot embedded in a graphic device
+	pdf("test.pdf",width = 11.692 , height =  8.267) 
+
+
+	csu_ageSpecific(csu_registry_data_1,
+					group_by="registry_label",
+					legend=csu_trend_legend(position="bottom", nrow = 2),
+					plot_title = "Liver, male",
+					CI5_comparison = 7)
+
+	plot.new()
+
 	csu_ageSpecific(csu_registry_data_1,
 					group_by="registry_label",
 					legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-					plot_title = "Liver, male",
-					graph_dev=TRUE)	
-					
-	csu_ageSpecific(csu_registry_data_1,
-				group_by="registry_label",
-				legend=csu_trend_legend(position="bottom", nrow = 2),
-				plot_title = "Liver, male",
-				CI5_comparison = 7, 
-				graph_dev=FALSE)
-				
-	dev.off()
-	
+					plot_title = "Liver, male")	
 
-	
-	
+
+
+	dev.off()
 	
 
 

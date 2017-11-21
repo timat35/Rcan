@@ -23,6 +23,7 @@ test_that("Test csu_asr: 1",{
 test_that("Test age specific: 1",{
 
   #input data
+  
   data(csu_registry_data_1)
   data(csu_registry_data_2)
   data_test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
@@ -34,7 +35,6 @@ test_that("Test age specific: 1",{
 
   #expect result
   expect_test <- readRDS(paste0(test_folder, "/csu_graph_ageSpecific_test1.rds"))
-
   #test
   expect_identical(output_test, expect_test)
 
