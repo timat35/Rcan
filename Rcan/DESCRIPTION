@@ -18,6 +18,4 @@ Imports:
 	grDevices,
 	graphics,
 	utils
-
-
-
+Suggests: testthat
