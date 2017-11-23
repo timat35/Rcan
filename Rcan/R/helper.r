@@ -4,7 +4,7 @@ core.error_variable <- function(df_data, varname, funcname,type="numeric") {
   
   if (!(varname%in% colnames(df_data))) {
     
-    stop(paste0(varname, " is not a column of ",   deparse(substitute(data_test)), " ,see documentation: Help(", deparse(substitute(funcname)), ")"))
+    stop(paste0(varname, " is not a column of ",   deparse(substitute(df_data)), " ,see documentation: Help(", deparse(substitute(funcname)), ")"))
     
   }
   
@@ -35,11 +35,11 @@ core.error_variable <- function(df_data, varname, funcname,type="numeric") {
 
 
 
-core.csu_tick_generator <- function(max,min = 0,log_scale=FALSE) {
+core.csu_tick_generator <- function(max,min = 0,logscale=FALSE) {
   
   
   
-  if (!log_scale) {
+  if (!logscale) {
     
     if (min > 0) {
       min = 0
@@ -497,7 +497,7 @@ core.csu_ageSpecific <-
            group_by = NULL,
            missing_age = NULL,
            db_rate = 100000,
-           log_scale=FALSE, 
+           logscale=FALSE, 
            plot_title=NULL,
            legend=csu_trend_legend(),
            color_trend = NULL,
@@ -608,7 +608,7 @@ core.csu_ageSpecific <-
     
     ## to calcul breaks
     
-    if (log_scale) {
+    if (logscale) {
       min_tick_value <- min(dt_data[rate != 0,]$rate)
       
     } else {
@@ -616,7 +616,7 @@ core.csu_ageSpecific <-
     }
     
     
-    tick <- core.csu_tick_generator(max = max(dt_data$rate), min=min_tick_value, log_scale = log_scale )
+    tick <- core.csu_tick_generator(max = max(dt_data$rate), min=min_tick_value, logscale = logscale )
     tick_space <- tick$tick_list[length(tick$tick_list)] - tick$tick_list[length(tick$tick_list)-1]
     
     temp_top <- ceiling(max(dt_data$rate)/tick_space)*tick_space
@@ -652,7 +652,7 @@ core.csu_ageSpecific <-
       
       dt_CI5$rate <- dt_CI5$CSU_C/dt_CI5$CSU_P *db_rate
       
-      if (log_scale) {
+      if (logscale) {
         dt_CI5[rate == 0 , rate:= NA]
       }
       
@@ -661,7 +661,7 @@ core.csu_ageSpecific <-
     
     
     ##csu_plot
-    if (log_scale) {
+    if (logscale) {
       base_plot <- ggplot(dt_data[, rate := ifelse(rate==0,NA, rate )], aes(CSU_age_factor, rate))
     } else {
       base_plot <- ggplot(dt_data, aes(CSU_age_factor, rate))
@@ -703,7 +703,7 @@ core.csu_ageSpecific <-
                          expand = c(0.015,0.015)
       )
     
-    if (log_scale){
+    if (logscale){
       if (log_point) {
         csu_plot <- csu_plot +
           geom_point(aes(fill=CSU_BY), size = 3,na.rm=TRUE,shape=21,stroke=0.5,colour="black", show.legend=FALSE)
@@ -761,7 +761,7 @@ core.csu_ageSpecific <-
                             values= color_trend,
                             drop = FALSE)
       
-      if (log_scale) {
+      if (logscale) {
         csu_plot <- csu_plot +
           scale_fill_manual(values= color_trend,
                             drop = FALSE)
@@ -792,7 +792,7 @@ core.csu_ageSpecific <-
     dt_data$nb_age_group <- NULL
     dt_data$CSU_age_factor <- NULL
     
-    if (log_scale){
+    if (logscale){
       dt_data[, rate := ifelse(is.na(rate),0, rate )]
     }
     
@@ -800,6 +800,203 @@ core.csu_ageSpecific <-
     return(list(csu_plot = csu_plot, dt_data = dt_data, CI5_cancer_label = CI5_cancer_label,legend_position=legend$position,bool_dum_by = bool_dum_by))
     
   }
+
+
+core.csu_time_trend <- function (
+  df_data,
+  var_trend = "asr",
+  var_year = "year",
+  group_by = NULL,
+  logscale = TRUE,
+  smoothing = NULL,
+  legend = csu_trend_legend(),
+  color_trend = NULL,
+  ytitle = "Age standardized rate per 100000",
+  plot_title = "test",
+  linesize = 0.5,
+  plot_subtitle = NULL,
+  plot_caption = NULL) {
+  
+  
+  if (!is.null(smoothing)) {
+    if (smoothing == 0) {
+      smoothing <- NULL
+    }
+  }
+  
+  
+  
+  dt_data <- data.table(df_data, key = group_by)
+  setnames(dt_data, var_year, "CSU_Y")
+  setnames(dt_data, var_trend, "CSU_T")
+  setnames(dt_data, group_by, "CSU_BY")
+  
+  bool_dum_by <- FALSE
+  if (is.null(group_by)) {
+    
+    dt_data$CSU_dum_by <- "dummy_by"
+    group_by <- "CSU_dum_by"
+    bool_dum_by <- TRUE
+  }
+  
+  #change by to factor
+  dt_data$CSU_BY <- factor(dt_data$CSU_BY)
+  
+  #smooth with loess  fonction
+  if (!is.null(smoothing))
+  {
+    dt_data[,CSU_smooth:= loess( CSU_T ~ CSU_Y, span=smoothing)$fitted, by=CSU_BY]
+  } else {
+    dt_data[,CSU_smooth:= CSU_T]
+  }
+  
+  dt_data[, max_year:=max(CSU_Y), by=CSU_BY]
+  
+  # to calcul y axes breaks
+  
+  if (logscale) {
+    min_tick_value <- min(dt_data[CSU_smooth != 0,]$CSU_smooth)
+  } else {
+    min_tick_value <- 0
+  }
+  
+  
+  tick <- core.csu_tick_generator(max = max(dt_data$CSU_smooth), min=min_tick_value, logscale = logscale )
+  tick_space <- tick$tick_list[length(tick$tick_list)] - tick$tick_list[length(tick$tick_list)-1]
+  
+  
+  #to calcul year axes break
+  
+  year_tick <-  core.csu_year_tick_generator(min(dt_data$CSU_Y),max(dt_data$CSU_Y))
+  
+  
+  
+  
+  temp_top <- ceiling(max(dt_data$CSU_smooth)/tick_space)*tick_space
+  temp_expand_y <- max(dt_data$CSU_smooth)/35
+  temp_expand_y_up <- max(dt_data$CSU_smooth)+temp_expand_y
+  if (temp_expand_y_up > temp_top-(tick_space/2)) {
+    temp_expand_y_up <- temp_top+temp_expand_y
+  }
+  
+  th_legend <- list(theme(legend.position="none"))
+  
+  if (!bool_dum_by & legend$position == "bottom") {
+    
+    th_legend <- list(theme(
+      legend.key = element_rect(fill="transparent"),
+      legend.position = "bottom",
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 12),
+      legend.key.size=unit(1,"cm"),
+      legend.margin = margin(0, 0, 0, 0)
+    ))
+  }
+  
+  
+  xlim_inf <- min(c(year_tick$tick_list, year_tick$tick_minor_list))
+  xlim_sup <- max(c(year_tick$tick_list, year_tick$tick_minor_list))
+  
+  
+  
+  #csu_plot
+  if (logscale) {
+    base_plot <- ggplot(dt_data[, CSU_smooth := ifelse(CSU_smooth==0,NA, CSU_smooth )], aes(CSU_Y, CSU_smooth))
+  } else {
+    base_plot <- ggplot(dt_data, aes(CSU_Y, CSU_smooth))
+  }
+  
+  csu_plot <- base_plot+
+    geom_line(aes(color=CSU_BY), size = 0.75,na.rm=TRUE)+
+    guides(color = guide_legend(override.aes = list(size=0.75)))+
+    labs(title = plot_title, 
+         subtitle = plot_subtitle,
+         caption = plot_caption)+
+    scale_x_continuous(name = "Year",
+                       breaks=year_tick$tick_list,
+                       limits=c(xlim_inf,xlim_sup),
+                       minor_breaks = year_tick$tick_minor_list,
+                       expand = c(0.015,0.015)
+    )
+  
+  
+  
+  if (logscale){
+    
+    
+    csu_plot <- csu_plot +
+      scale_y_continuous(name = ytitle,
+                         breaks=tick$tick_list,
+                         minor_breaks = tick$tick_minor_list,
+                         limits=c(tick$tick_list[1],tick$tick_list[length(tick$tick_list)]),
+                         labels=core.csu_axes_label,
+                         trans = "log10"
+      )
+  } else {
+    
+    csu_plot <- csu_plot +
+      coord_cartesian( ylim=c(-temp_expand_y, temp_expand_y_up),  expand = TRUE)+
+      scale_y_continuous(name = ytitle,
+                         breaks=tick$tick_list,
+                         labels=core.csu_axes_label,
+                         expand = c(0,0)
+      )
+  } 
+  
+  if (is.null(color_trend)) {
+    csu_plot <- csu_plot +scale_colour_discrete(name=legend$title)
+  } 
+  else {
+    csu_plot <- csu_plot +scale_colour_manual(name=NULL, values=color_trend)
+  }
+  
+  
+  csu_plot <- csu_plot +
+    theme(
+      plot.background= element_blank(),
+      panel.background = element_blank(),
+      panel.grid.major= element_line(colour = "grey70"),
+      panel.grid.minor= element_line(colour = "grey70"),
+      plot.title = element_text(size=16, margin=margin(0,0,15,0),hjust = 0.5),
+      plot.subtitle = element_text(size=15, margin=margin(0,0,15,0),hjust = 0.5),
+      plot.caption = element_text(size=10, margin=margin(15,0,0,0)),
+      axis.title = element_text(size=12),
+      axis.title.y = element_text(margin=margin(0,15,0,0)),
+      axis.title.x = element_text(margin=margin(15,0,0,0)),
+      plot.margin=margin(20,20,20,20),
+      axis.text = element_text(size=12, colour = "black"),
+      axis.text.x = element_text(size=12,  hjust = 0.5),
+      axis.ticks= element_line(colour = "black", size = linesize),
+      axis.ticks.length = unit(0.2, "cm"),
+      axis.line.x = element_line(colour = "black", 
+                                 size = linesize, linetype = "solid"),
+      axis.line.y = element_line(colour = "black", 
+                                 size = linesize, linetype = "solid")
+    )+
+    th_legend
+  
+  
+  
+  if (!bool_dum_by & legend$position=="right") {
+    
+    csu_plot <- csu_plot + 
+      geom_text(data = dt_data[CSU_Y == max_year, ],
+                aes(label = CSU_BY),
+                hjust=0,
+                nudge_x=0.5)+
+      theme(plot.margin = unit(c(0.5, legend$right_space_margin, 0.5, 0.5), "lines"))
+    
+  } else {
+    
+    csu_plot <- csu_plot +
+      guides(color = guide_legend(nrow=legend$nrow))
+  }
+  
+  return(list(dt_data=dt_data, csu_plot = csu_plot, legend_position=legend$position,bool_dum_by = bool_dum_by))
+  
+  
+}
+
 
 
 

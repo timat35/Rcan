@@ -7,7 +7,7 @@ csu_ageSpecific <-
            group_by = NULL, 
            missing_age = NULL,
            db_rate = 100000,
-           log_scale=FALSE,
+           logscale=FALSE,
            plot_title=NULL,
            legend=csu_trend_legend(),
            color_trend = NULL,
@@ -33,7 +33,7 @@ csu_ageSpecific <-
     
     csu_list <- core.csu_ageSpecific(df_data,var_age, var_cases, var_py, group_by ,
                                      missing_age,db_rate,
-                                     log_scale, 
+                                     logscale, 
                                      plot_title,
                                      legend,
                                      color_trend,

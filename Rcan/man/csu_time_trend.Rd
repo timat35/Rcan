@@ -1,24 +1,23 @@
-\name{csu_trend}
-\alias{csu_trend}
-\title{csu_trend}
+\name{csu_time_trend}
+\alias{csu_time_trend}
+\title{csu_time_trend}
 
 \description{
-\code{csu_trend}  plot stats over year.
+\code{csu_time_trend}  plot stats over year.
 }
 
 
 \usage{
-csu_trend(df_data,
+csu_time_trend(df_data,
 		var_trend = "asr",
 		var_year = "year",
 		group_by = NULL,
-		logscale = TRUE,
+		logscale = FALSE,
 		smoothing = NULL,
 		legend = csu_trend_legend(),
-		yaxes_title = "Age standardized rate per 100000",
-		plot_title = "csu_title",
-		format_export = NULL,
-		graph_dev =FALSE) 
+		color_trend = NULL,
+		ytitle = "Age standardized rate per 100,000",
+		plot_title = "csu_title") 
 }
   
 \arguments{
@@ -27,7 +26,7 @@ csu_trend(df_data,
 	}
   \item{var_trend}{
 	Statistics variable to be plot on Y axis.\cr
-	Usually for the ASR, but it could be the cumulative risk, or even the number of cases.
+	Usually for the ASR, but it could be the cumulative risk, or the number of cases.
 	}
   \item{var_year}{
 	Time variable.
@@ -48,27 +47,16 @@ csu_trend(df_data,
 		legend option: see \code{\link{csu_trend_legend}}.\cr
 		Use only if \code{group_by} is not \code{NULL}.
 	}
-  \item{yaxes_title}{
+  \item{color_trend}{
+	Vector of color for the trend.
+	The color code are hexadecimal (see example).
+	}
+  \item{ytitle}{
 		Y-axis title. To choose in fonction for the \code{var_trend} option.
 	}
   \item{plot_title}{
 		Title of the plot.
 	}
-  \item{format_export}{
-   export the graph in different format:\cr
-  	\tabular{ll}{
-		\code{NULL} \tab Plot in R studio windows.\cr
-		\code{"pdf"} \tab Export in PDF format.\cr
-		\code{"tiff"} \tab Export in TIFF 300dpi format.\cr
-		\code{"png"} \tab Export in PNG 200dpi format.\cr
-		\code{"svg"} \tab Export in SVG format. Can be edit with \url{https://inkscape.org/fr/}.\cr
-		}
-	The filename is the \code{plot_title} option.
-	}
-	\item{graph_dev}{
-		If the plot is embedded in a graphics Device function (such as pdf()), the graph_dev option should be set to TRUE for the first graph to avoid a blank page.
-	}
-
 }
 
 \details{
@@ -98,44 +86,43 @@ csu_trend(df_data,
 
 	# you can import your data from csv file using read.csv:
 	# mydata <-  read.csv("mydata.csv", sep=",")
-	
+
 	# to select only 1 population 
 	test <- csu_registry_data_2[csu_registry_data_2$registry_label=="Colombia, Cali",]
-	
+
 	# to change sex variable to factor with label
 	test$sex <- factor(test$sex, levels=c(1,2), labels=c("Male", "Female"))
-	
+
 	# to calculate the asr
 	df_asr <- csu_asr(test,missing_age = 99,
-                  group_by  = c("registry", "registry_label", "year", "sex"),
-                  var_age_group =  c("registry", "registry_label"))
-	
-	
+					  group_by  = c("registry", "registry_label", "year", "sex"),
+					  var_age_group =  c("registry", "registry_label"))
+
+
 	# plot ASR ove year, by sex.
-	csu_trend(df_asr, group_by="sex",
-                plot_title = "Colombia, Liver")
-				
+	csu_time_trend(df_asr, group_by="sex",
+			  plot_title = "Colombia, Liver")
+
 	# plot ASR over year, by sex, with small smoothing.
-	csu_trend(df_asr, group_by="sex",
+	csu_time_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
 			  smoothing = 0.3)
-			  
+
 	# plot ASR over year, by sex, with high smoothing.
-	csu_trend(df_asr, group_by="sex",
+	csu_time_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
 			  smoothing = 0.5)
-			  
+
 	# Plot embedded in a graphic device
-	pdf("example_test.pdf")
-	csu_trend(df_asr, group_by="sex",
+	pdf("test.pdf",width = 11.692 , height =  8.267) 
+	csu_time_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
-			  smoothing = 0.3,
-			  graph_dev=TRUE)
-			  
-	csu_trend(df_asr, group_by="sex",
+			  smoothing = 0.3)
+
+	csu_time_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
 			  smoothing = 0.5)
-				
+
 	dev.off()
-				
+					
 }

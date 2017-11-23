@@ -104,7 +104,7 @@ csu_asr(df_data,
 \seealso{
 	\code{\link{csu_ageSpecific}}
 	\code{\link{csu_eapc}}
-	\code{\link{csu_trend}}
+	\code{\link{csu_time_trend}}
 	\code{\link{csu_trendCohortPeriod}}
 }
 

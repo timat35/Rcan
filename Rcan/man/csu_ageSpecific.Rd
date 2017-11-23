@@ -13,7 +13,7 @@ csu_ageSpecific(df_data,
         group_by = NULL, 
         missing_age = NULL,
         db_rate = 100000,
-		log_scale=FALSE,
+		logscale=FALSE,
         plot_title=NULL,
         legend=csu_trend_legend(),
         color_trend = NULL,
@@ -45,8 +45,8 @@ csu_ageSpecific(df_data,
   \item{db_rate}{
 	The denominator population. Default is 100000.
 	}
-  \item{log_scale}{
-	Y axis use logscale instead of normal scale . Default is FALSE.
+  \item{logscale}{
+		Logical value: if \code{TRUE} Y-axis use logscale.
 	}
   \item{plot_title}{
 	Title of the plot.
@@ -93,7 +93,7 @@ csu_ageSpecific(df_data,
 \seealso{
 	\code{\link{csu_asr}}
 	\code{\link{csu_eapc}}
-	\code{\link{csu_trend}}
+	\code{\link{csu_time_trend}}
 	\code{\link{csu_trendCohortPeriod}}
 }
 

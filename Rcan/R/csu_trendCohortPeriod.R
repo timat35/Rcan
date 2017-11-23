@@ -95,7 +95,7 @@ csu_trendCohortPeriod <- function (
   dt_data$CSU_rate <- dt_data$CSU_C/dt_data$CSU_P *db_rate
   
   # to calcul y axes breaks
-  tick <- core.csu_tick_generator(max = max(dt_data$CSU_rate), min=min(dt_data[CSU_rate != 0,]$CSU_rate), log_scale = logscale )
+  tick <- core.csu_tick_generator(max = max(dt_data$CSU_rate), min=min(dt_data[CSU_rate != 0,]$CSU_rate), logscale = logscale )
   tick_space <- tick$tick_list[length(tick$tick_list)] - tick$tick_list[length(tick$tick_list)-1]
   
   
