@@ -14,6 +14,8 @@ csu_time_trend <- function (
   
   core.error_variable(df_data, var_trend, csu_time_trend)
   core.error_variable(df_data, var_year, csu_time_trend)
+  core.error_time_variable(df_data, var_year, group_by, csu_time_trend)
+  
 
   #check by variable adapted (ie: 1 year per variable)
   dt_data <- data.table(df_data, key = group_by)
@@ -75,12 +77,6 @@ csu_time_trend <- function (
   
   
 }
-
-
-
-  
-
-
 
 
 

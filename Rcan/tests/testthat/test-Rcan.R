@@ -69,3 +69,27 @@ test_that("Test trend: 1",{
 })
 
 
+test_that("Test eapc: 1",{
+  
+  #input data
+  data(csu_registry_data_2)
+  
+  #output result
+  data_test <- csu_asr(csu_registry_data_2, 
+                    "age", "cases", "py",
+                    group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
+                    var_age_group = c("registry_label"), 
+                    missing_age = 99)
+  
+  output_test <- csu_eapc(data_test,
+                   "asr", "year",
+                   group_by=c("registry", "registry_label", "sex", "ethnic" ))
+  
+  
+  #expect result
+  expect_test <- readRDS(paste0(test_folder, "/csu_eapc_test1.rds"))
+  #test
+  expect_identical(output_test, expect_test)
+  
+  
+})

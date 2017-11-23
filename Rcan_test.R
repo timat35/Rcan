@@ -31,8 +31,8 @@ install.packages("C:/Projects/Rcan/Rcan_1.3.1.tar.gz", repos=NULL)
 
 library(Rcan)
 test_package("Rcan")
-
-
+help(Rcan)
+csu_eapc
 remove.packages("ggplot2")
 
 tempdir()
