@@ -187,18 +187,26 @@ core.csu_axes_label <- function(l) {
 
 core.csu_year_tick_generator <- function(min, max) {
   
-  temp1 <- min - (min %% 5)
-  temp2 <- max - (max %% 5) +5
+  mod <- 5
+  if (max - min < 10 ) {
+    mod <- 1 
+  } else if (max - min < 20){
+    mod <- 2
+  } 
   
-  if (temp2- temp1 <= 30) {
-    year_space <- 5 
+  
+  temp1 <- min - (min %% mod)
+  temp2 <- max - (max %% mod) +ifelse(mod>=5,mod,0)
+  
+  if (temp2 - temp1 <= mod*6) {
+    year_space <- mod 
     year_list <- seq(temp1,temp2,year_space)
     year_minor_list <- year_list
     
   } else  {
-    year_space <- 10 
-    if (temp1 %% 10 > 0) {
-      year_list <- seq(temp1+5,temp2,year_space)
+    year_space <- mod*2 
+    if (temp1 %% mod*2 > 0) {
+      year_list <- seq(temp1+mod,temp2,year_space)
       year_minor_list <-  seq(temp1,temp2,year_space/2)
     } else {
       year_list <- seq(temp1,temp2,year_space)
@@ -207,6 +215,7 @@ core.csu_year_tick_generator <- function(min, max) {
   }
   
   return(list(tick_list=year_list, tick_minor_list=year_minor_list))
+  
   
 }
 
