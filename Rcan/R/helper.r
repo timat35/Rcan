@@ -53,6 +53,49 @@ core.error_time_variable <- function(df_data, var_year, group_by, funcname) {
   }
 }
 
+core.csu_dt_rank <- function(dt,
+                        var_value = "CASES",
+                        var_rank = "cancer_label",
+                        group_by = NULL,
+                        number = NULL, 
+                        ties.method="min") {
+  
+  bool_dum_by <- FALSE
+  if (is.null(group_by)) {
+    
+    dt$CSU_dum_by <- "dummy_by"
+    group_by <- "CSU_dum_by"
+    bool_dum_by <- TRUE
+  }
+  
+  dt <- as.data.table(dt)
+  dt_rank <- dt[, list(rank_value=sum(get(var_value))), by=c(var_rank, group_by)]
+  dt_rank[, CSU_RANK:= frank(-rank_value, ties.method=ties.method), by=group_by]
+  
+  if (!is.null(number)){
+    dt_rank <- dt_rank[CSU_RANK <= number,c(group_by, var_rank, "CSU_RANK"), with=FALSE]
+  }
+  
+  dt <- merge(dt_rank, dt,by=c(group_by, var_rank), all.x=TRUE)
+  
+  if (bool_dum_by) {
+    
+    dt[,CSU_dum_by:=NULL]
+    
+  }
+  
+  return(dt)
+  
+}
+
+
+core.csu_legend_wrapper <- function(label, width) {
+  
+  label <- sapply(strwrap(label, width = width, simplify = FALSE), paste, collapse="\n")
+  return(label)
+  
+}
+
 
 
 core.csu_tick_generator <- function(max,min = 0,logscale=FALSE) {
@@ -896,6 +939,97 @@ core.csu_ageSpecific <-
     return(list(csu_plot = csu_plot, dt_data = dt_data, CI5_cancer_label = CI5_cancer_label,legend_position=legend$position,bool_dum_by = bool_dum_by))
     
   }
+
+
+
+core.csu_ageSpecific_top <- function(dt, 
+                                     var_age="AGE_GROUP", 
+                                     var_cases= "CASES", 
+                                     var_py= "COUNT",
+                                     group_by="SEX",
+                                     var_top="cancer_label",
+                                     missing_age=NULL,
+                                     logscale = FALSE,
+                                     nb_top = 5,
+                                     plot_title="",
+                                     var_age_label_list = "AGE_GROUP_LABEL",
+                                     var_color=NULL) {
+  
+  
+  dt <- core.csu_dt_rank(dt, var_value = var_cases, var_rank = var_top,group_by = group_by, number = nb_top) 
+  dt[[var_top]] <-core.csu_legend_wrapper(dt[[var_top]], 14)
+  
+  
+  plotlist <- list()
+  j <- 1 
+  
+  #dummmy variable to factorize variable
+  dt$dummy_factor <- as.factor(dt[[group_by]])
+  for (i in levels( dt$dummy_factor)) {
+    
+
+    
+    if (j == 1) {
+      plot_caption <- ""
+    } else {
+      plot_title <- ""
+      plot_caption <- plot_title
+    }
+    
+    
+    
+    
+    
+    
+    dt_plot <- dt[get("dummy_factor") == i]
+    
+    if (!is.null(var_color)) {
+      dt_label_order <- setkey(unique(dt_plot[, c(var_top,var_color, "CSU_RANK"), with=FALSE]), CSU_RANK)
+      dt_plot[[var_top]] <- factor(dt_plot[[var_top]],levels = dt_label_order[[var_top]]) 
+      color_trend <- as.character(dt_label_order[[var_color]])
+    } else {
+      dt_label_order <- setkey(unique(dt_plot[, c(var_top, "CSU_RANK"), with=FALSE]), CSU_RANK)
+      dt_plot[[var_top]] <- factor(dt_plot[[var_top]],levels = dt_label_order[[var_top]]) 
+      color_trend <- NULL
+      
+    }
+    
+    
+    if (!is.null(var_age_label_list)) {
+      age_label_list <- unique(dt_plot[[var_age_label_list]])
+    } else {
+      age_label_list <- NULL
+    }
+    
+    
+    plotlist[[j]] <- Rcan:::core.csu_ageSpecific(dt_plot,
+                                                 var_age=var_age,
+                                                 var_cases= var_cases,
+                                                 var_py=var_py,
+                                                 group_by = var_top,
+                                                 missing_age = missing_age,
+                                                 plot_title = plot_title,
+                                                 plot_subtitle = paste0("Top ",nb_top, " cancer sites\n",i),
+                                                 plot_caption = plot_caption,
+                                                 color_trend = color_trend,
+                                                 logscale = logscale,
+                                                 log_point=FALSE,
+                                                 age_label_list = age_label_list
+    )$csu_plot
+    
+    j <- j+1
+  }
+  
+  
+  
+  
+  #return(plotlist[[1]])
+  print(plotlist[[1]]+guides(color = guide_legend(override.aes = list(size=1), nrow=1,byrow=TRUE)))
+  print(plotlist[[2]]+guides(color = guide_legend(override.aes = list(size=1), nrow=1,byrow=TRUE)))
+  
+  
+}
+
 
 
 core.csu_time_trend <- function (
