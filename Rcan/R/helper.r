@@ -1,31 +1,33 @@
 
 core.error_variable <- function(df_data, varname, funcname,type="numeric") {
   
+  if (!is.null(varname)) {
   
-  if (!(varname%in% colnames(df_data))) {
-    
-    stop(paste0(varname, " is not a column of ",   deparse(substitute(df_data)), " ,see documentation: Help(", deparse(substitute(funcname)), ")"))
-    
-  }
-  
-  if (type == "numeric") {
-    if (!is.numeric(df_data[[varname]])) {
+    if (!(varname%in% colnames(df_data))) {
       
-      
-      stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+      stop(paste0(varname, " is not a column of ",   deparse(substitute(df_data)), " ,see documentation: Help(", deparse(substitute(funcname)), ")"))
       
     }
     
-  } else if (type == "character"){
-    if (!is.character(df_data[[varname]])) {
-      stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+    if (type == "numeric") {
+      if (!is.numeric(df_data[[varname]])) {
+        
+        
+       stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+        
+      }
       
-    }
-    
-  } else if (type == "factor"){
-    if (!is.factor(df_data[[varname]])) {
-      stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+    } else if (type == "character"){
+      if (!is.character(df_data[[varname]])) {
+        stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+        
+      }
       
+    } else if (type == "factor"){
+      if (!is.factor(df_data[[varname]])) {
+        stop(paste0(varname, " type must be ",type," see documentation: Help(", deparse(substitute(funcname)), ")"))
+        
+      }
     }
   }
 }
@@ -53,7 +55,7 @@ core.error_time_variable <- function(df_data, var_year, group_by, funcname) {
   }
 }
 
-core.csu_dt_rank <- function(dt,
+core.csu_dt_rank <- function(df_data,
                         var_value = "CASES",
                         var_rank = "cancer_label",
                         group_by = NULL,
@@ -63,28 +65,28 @@ core.csu_dt_rank <- function(dt,
   bool_dum_by <- FALSE
   if (is.null(group_by)) {
     
-    dt$CSU_dum_by <- "dummy_by"
+    df_data$CSU_dum_by <- "dummy_by"
     group_by <- "CSU_dum_by"
     bool_dum_by <- TRUE
   }
   
-  dt <- as.data.table(dt)
-  dt_rank <- dt[, list(rank_value=sum(get(var_value))), by=c(var_rank, group_by)]
+  df_data <- as.data.table(df_data)
+  dt_rank <- df_data[, list(rank_value=sum(get(var_value))), by=c(var_rank, group_by)]
   dt_rank[, CSU_RANK:= frank(-rank_value, ties.method=ties.method), by=group_by]
   
   if (!is.null(number)){
     dt_rank <- dt_rank[CSU_RANK <= number,c(group_by, var_rank, "CSU_RANK"), with=FALSE]
   }
   
-  dt <- merge(dt_rank, dt,by=c(group_by, var_rank), all.x=TRUE)
+  df_data <- merge(dt_rank, df_data,by=c(group_by, var_rank), all.x=TRUE)
   
   if (bool_dum_by) {
     
-    dt[,CSU_dum_by:=NULL]
+    df_data[,CSU_dum_by:=NULL]
     
   }
   
-  return(dt)
+  return(df_data)
   
 }
 
@@ -942,29 +944,40 @@ core.csu_ageSpecific <-
 
 
 
-core.csu_ageSpecific_top <- function(dt, 
+core.csu_ageSpecific_top <- function(df_data, 
                                      var_age, 
                                      var_cases, 
                                      var_py,
+                                     var_top,
                                      group_by=NULL,
-                                     var_top="cancer_label",
                                      missing_age=NULL,
                                      db_rate = 100000,
                                      logscale = FALSE,
                                      nb_top = 5,
                                      plot_title=NULL,
                                      plot_subtitle=NULL,
-                                     plot_caption=NULL,
-                                     var_age_label_list = "AGE_GROUP_LABEL",
                                      var_color=NULL,
+                                     plot_caption=NULL,
+                                     var_age_label_list = NULL,
                                      caption_bypass=FALSE) {
   
   
   
   
+  bool_dum_by <- FALSE
   
-  dt <- core.csu_dt_rank(dt, var_value = var_cases, var_rank = var_top,group_by = group_by, number = nb_top) 
-  dt[["dummy_top"]] <-core.csu_legend_wrapper(dt[[var_top]], 14)
+  if (is.null(group_by)) {
+    
+    df_data$CSU_dum_by <- "dummy_by"
+    group_by <- "CSU_dum_by"
+    df_data$CSU_dum_by <- factor(df_data[[group_by]],levels=c("dummy_by"), labels=c(""))
+    bool_dum_by <- TRUE
+  } else {
+    df_data$CSU_dum_by <- as.factor(df_data[[group_by]])
+  }
+  
+  df_data <- core.csu_dt_rank(df_data, var_value = var_cases, var_rank = var_top,group_by = group_by, number = nb_top) 
+  df_data[["dummy_top"]] <-core.csu_legend_wrapper(df_data[[var_top]], 14)
   
   
   plotlist <- list()
@@ -972,8 +985,8 @@ core.csu_ageSpecific_top <- function(dt,
   j <- 1 
   
   #dummmy variable to factorize variable
-  dt$dummy_factor <- as.factor(dt[[group_by]])
-  for (i in levels( dt$dummy_factor)) {
+  df_data$CSU_dum_by <- as.factor(df_data[[group_by]])
+  for (i in levels( df_data$CSU_dum_by)) {
     
 
     if (caption_bypass) {
@@ -986,7 +999,7 @@ core.csu_ageSpecific_top <- function(dt,
       }
     }
     
-    dt_plot <- dt[get("dummy_factor") == i]
+    dt_plot <- df_data[get("CSU_dum_by") == i]
     
     if (!is.null(var_color)) {
       dt_label_order <- setkey(unique(dt_plot[, c(var_top,var_color, "CSU_RANK"), with=FALSE]), CSU_RANK)
@@ -1012,29 +1025,31 @@ core.csu_ageSpecific_top <- function(dt,
       subtitle_temp <- paste0(plot_subtitle,"\n",i)
     }
     
-    temp <- Rcan:::core.csu_ageSpecific(dt_plot,
-                                        var_age=var_age,
-                                        var_cases= var_cases,
-                                        var_py=var_py,
-                                        group_by = "dummy_top",
-                                        missing_age = missing_age,
-                                        db_rate= db_rate,
-                                        plot_title = plot_title,
-                                        plot_subtitle = subtitle_temp,
-                                        plot_caption = plot_caption,
-                                        color_trend = color_trend,
-                                        logscale = logscale,
-                                        log_point=FALSE,
-                                        age_label_list = age_label_list
-                                        )
+    temp <- core.csu_ageSpecific(
+      dt_plot,
+      var_age=var_age,
+      var_cases= var_cases,
+      var_py=var_py,
+      group_by = "dummy_top",
+      missing_age = missing_age,
+      db_rate= db_rate,
+      plot_title = plot_title,
+      plot_subtitle = subtitle_temp,
+      plot_caption = plot_caption,
+      color_trend = color_trend,
+      logscale = logscale,
+      log_point=FALSE,
+      age_label_list = age_label_list
+      )
     
     dt_temp <- temp$dt_data
     dt_temp[[group_by]] <- i
+
+    
     setnames(dt_temp, "CSU_BY", "dummy_top")
     
     
-    #dt_temp <- merge(dt_temp, dt, by=c("dummy_top",group_by), all.x=TRUE, all.y=FALSE)
-    
+
     
     plotlist[[j]] <- temp$csu_plot
     datalist[[j]] <- dt_temp
@@ -1042,20 +1057,24 @@ core.csu_ageSpecific_top <- function(dt,
     j <- j+1
   }
   
-  dt <- unique(dt[,c("dummy_top",group_by, var_top, "CSU_RANK"), with=FALSE])
+  df_data <- unique(df_data[,c("dummy_top",group_by, var_top, "CSU_RANK"), with=FALSE])
   
   dt_final <- NULL
   for (i in 1:(j-1)) {
     dt_final <- rbind(dt_final, datalist[[i]])
   }
   
-  dt_final <-  merge(dt_final,dt,by=c("dummy_top","sex"),all.x=TRUE, all.y=FALSE)
+  dt_final <-  merge(dt_final,df_data,by=c("dummy_top",group_by),all.x=TRUE, all.y=FALSE)
   dt_final[, dummy_top :=NULL]
   setnames(dt_final, "CSU_A", var_age)
   setnames(dt_final, "CSU_C", var_cases)
   setnames(dt_final, "CSU_P", var_py)
   
   setkeyv(dt_final, c(group_by,"CSU_RANK",var_age))
+  
+  if (bool_dum_by) {
+    dt_final[, CSU_dum_by:=NULL]
+  }
   
   return(list(plotlist=plotlist, dt_data=dt_final))
   

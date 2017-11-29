@@ -14,24 +14,26 @@ saveRDS(df_CI5, "c:/data/CI5X/CI5X.rds")
 
 rcan_folder <- "c:/Projects/Rcan"
 source(paste0(rcan_folder, "/Rcan/R/helper.r"))
+source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific_top.r"))
 
 data("csu_registry_data_2")
 df_test <- csu_registry_data_2
 
 df_test$sex <- factor(df_test$sex , levels=c(1,2), labels = c("Male", "Female"))
 
-plotfinal <- core.csu_ageSpecific_top(dt=df_test,
-                             var_age="age", 
-                             var_cases= "cases", 
-                             var_py= "py",
-                             group_by="sex",
-                             missing_age=99, 
-                             var_top="registry_label",
-                             logscale = TRUE,
-                             nb_top = 5,
-                             plot_title="This is not a test 2",
-                             var_age_label_list = NULL,
-                             var_color=NULL) 
+
+test <-csu_ageSpecific_top(
+  df_data=df_test,
+  var_age="age", 
+  var_cases= "cases", 
+  var_py= "py",
+  var_top="registry_label",
+  group_by="sex",
+  missing_age=99, 
+  logscale = TRUE,
+  nb_top = 5,
+  plot_title="Rcan test",
+  plot_subtitle="Top 5") 
 
 
 temp <- plotfinal$dt_data

@@ -1,4 +1,14 @@
 
+#create dataset 
+
+data("csu_CI5X_data")
+setnames(csu_CI5X_data, "cancer_lab", "cancer_label")
+setnames(csu_CI5X_data, "registry_lab", "registry_label")
+setnames(csu_CI5X_data, "cancer", "cancer_code")
+setnames(csu_CI5X_data, "registry", "registry_code")
+csu_CI5X_data$sex <- factor(csu_CI5X_data$sex, levels=c(1,2), labels =c("Male", "Female"))
+save(csu_CI5X_data, file="csu_CI5X_data.rda")
+
 #CI5 comparaison add checking variable
 
 rcan_folder <- "c:/Projects/Rcan"
@@ -103,6 +113,24 @@ csu_ageSpecific(csu_registry_data_1,
 dev.off()
 
 
+# example age specific top
+
+library(Rcan)
+data("csu_CI5X_data")
+
+#get the cancer code asssociate
+unique(csu_CI5X_data[,c("cancer_label", "cancer_code")])
+
+#select Lung cancer
+df_data <- csu_CI5X_data[csu_CI5X_data$cancer_code==21,]
+
+csu_ageSpecific_top(df_data,
+                    var_cases="cases", 
+                    var_age="age", 
+                    var_py="py",
+                    var_top="registry_label", 
+                    group_by="sex", 
+                    missing_age == 19)
 
 
 
