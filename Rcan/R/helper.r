@@ -943,24 +943,32 @@ core.csu_ageSpecific <-
 
 
 core.csu_ageSpecific_top <- function(dt, 
-                                     var_age="AGE_GROUP", 
-                                     var_cases= "CASES", 
-                                     var_py= "COUNT",
-                                     group_by="SEX",
+                                     var_age, 
+                                     var_cases, 
+                                     var_py,
+                                     group_by=NULL,
                                      var_top="cancer_label",
                                      missing_age=NULL,
+                                     db_rate = 100000,
                                      logscale = FALSE,
                                      nb_top = 5,
-                                     plot_title="",
+                                     plot_title=NULL,
+                                     plot_subtitle=NULL,
+                                     plot_caption=NULL,
                                      var_age_label_list = "AGE_GROUP_LABEL",
-                                     var_color=NULL) {
+                                     var_color=NULL,
+                                     caption_bypass=FALSE) {
+  
+  
+  
   
   
   dt <- core.csu_dt_rank(dt, var_value = var_cases, var_rank = var_top,group_by = group_by, number = nb_top) 
-  dt[[var_top]] <-core.csu_legend_wrapper(dt[[var_top]], 14)
+  dt[["dummy_top"]] <-core.csu_legend_wrapper(dt[[var_top]], 14)
   
   
   plotlist <- list()
+  datalist <- list()
   j <- 1 
   
   #dummmy variable to factorize variable
@@ -968,18 +976,15 @@ core.csu_ageSpecific_top <- function(dt,
   for (i in levels( dt$dummy_factor)) {
     
 
-    
-    if (j == 1) {
-      plot_caption <- ""
-    } else {
-      plot_title <- ""
-      plot_caption <- plot_title
+    if (caption_bypass) {
+      if (j == 1) {
+        plot_caption <- ""
+      } else {
+        plot_caption <- plot_title
+        plot_title <- ""
+  
+      }
     }
-    
-    
-    
-    
-    
     
     dt_plot <- dt[get("dummy_factor") == i]
     
@@ -1001,32 +1006,58 @@ core.csu_ageSpecific_top <- function(dt,
       age_label_list <- NULL
     }
     
+    if (is.null(plot_subtitle)) {
+      subtitle_temp <- i
+    } else {
+      subtitle_temp <- paste0(plot_subtitle,"\n",i)
+    }
     
-    plotlist[[j]] <- Rcan:::core.csu_ageSpecific(dt_plot,
-                                                 var_age=var_age,
-                                                 var_cases= var_cases,
-                                                 var_py=var_py,
-                                                 group_by = var_top,
-                                                 missing_age = missing_age,
-                                                 plot_title = plot_title,
-                                                 plot_subtitle = paste0("Top ",nb_top, " cancer sites\n",i),
-                                                 plot_caption = plot_caption,
-                                                 color_trend = color_trend,
-                                                 logscale = logscale,
-                                                 log_point=FALSE,
-                                                 age_label_list = age_label_list
-    )$csu_plot
+    temp <- Rcan:::core.csu_ageSpecific(dt_plot,
+                                        var_age=var_age,
+                                        var_cases= var_cases,
+                                        var_py=var_py,
+                                        group_by = "dummy_top",
+                                        missing_age = missing_age,
+                                        db_rate= db_rate,
+                                        plot_title = plot_title,
+                                        plot_subtitle = subtitle_temp,
+                                        plot_caption = plot_caption,
+                                        color_trend = color_trend,
+                                        logscale = logscale,
+                                        log_point=FALSE,
+                                        age_label_list = age_label_list
+                                        )
+    
+    dt_temp <- temp$dt_data
+    dt_temp[[group_by]] <- i
+    setnames(dt_temp, "CSU_BY", "dummy_top")
+    
+    
+    #dt_temp <- merge(dt_temp, dt, by=c("dummy_top",group_by), all.x=TRUE, all.y=FALSE)
+    
+    
+    plotlist[[j]] <- temp$csu_plot
+    datalist[[j]] <- dt_temp
     
     j <- j+1
   }
   
+  dt <- unique(dt[,c("dummy_top",group_by, var_top, "CSU_RANK"), with=FALSE])
   
+  dt_final <- NULL
+  for (i in 1:(j-1)) {
+    dt_final <- rbind(dt_final, datalist[[i]])
+  }
   
+  dt_final <-  merge(dt_final,dt,by=c("dummy_top","sex"),all.x=TRUE, all.y=FALSE)
+  dt_final[, dummy_top :=NULL]
+  setnames(dt_final, "CSU_A", var_age)
+  setnames(dt_final, "CSU_C", var_cases)
+  setnames(dt_final, "CSU_P", var_py)
   
-  #return(plotlist[[1]])
-  print(plotlist[[1]]+guides(color = guide_legend(override.aes = list(size=1), nrow=1,byrow=TRUE)))
-  print(plotlist[[2]]+guides(color = guide_legend(override.aes = list(size=1), nrow=1,byrow=TRUE)))
+  setkeyv(dt_final, c(group_by,"CSU_RANK",var_age))
   
+  return(list(plotlist=plotlist, dt_data=dt_final))
   
 }
 
