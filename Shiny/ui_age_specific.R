@@ -3,8 +3,8 @@ shinyUI(pageWithSidebar(
   headerPanel(""),
   
   sidebarPanel(
-    uiOutput("choose_continent"),
-    uiOutput("choose_sex"),
+    uiOutput("choose_registry"),
+    uiOutput("choose_cancer"),
     textInput("filename", "filename", "slide"),
     downloadButton('downloadData', 'Download')
    
@@ -12,7 +12,7 @@ shinyUI(pageWithSidebar(
   
   
   mainPanel(
-    
+    plotOutput("plot", height = "800px")
 
   )
 ))
