@@ -1,3 +1,5 @@
+shiny_folder <- "C:/Projects/Rcan/Shiny"
+.libPaths(paste0(shiny_folder,"/pkg")
 
 library(shiny)
 
