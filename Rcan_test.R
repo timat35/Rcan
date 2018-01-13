@@ -161,6 +161,27 @@ dt_result_2 <- csu_ageSpecific_top(df_data_2,
                                    plot_subtitle = "Top 5 cancer",
                                    missing_age = 19)
 
+# plot for USA NPCR with color
+
+
+#associate cancer with color
+
+
+dt_cancer_color <- data.table(read.csv(paste0(rcan_folder, "/data_test/color_cancer.csv")))
+setnames(dt_cancer_color, "cancer", "cancer_code")
+setnames(dt_cancer_color, "cancer_lab", "cancer_label")
+df_data_2 <- merge(df_data_2, dt_cancer_color, by=c("cancer_label", "cancer_code"))
+dt_result_2 <- csu_ageSpecific_top(df_data_2,
+                                   var_age="age", 
+                                   var_cases="cases", 
+                                   var_py="py",
+                                   var_top="cancer_label", 
+                                   group_by="sex", 
+                                   var_color="cancer_color",
+                                   plot_title= "USA, NPCR",
+                                   plot_subtitle = "Top 5 cancer",
+                                   missing_age = 19)
+
 
 
 

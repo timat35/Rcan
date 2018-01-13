@@ -1002,8 +1002,8 @@ core.csu_ageSpecific_top <- function(df_data,
     dt_plot <- df_data[get("CSU_dum_by") == i]
     
     if (!is.null(var_color)) {
-      dt_label_order <- setkey(unique(dt_plot[, c(var_top,var_color, "CSU_RANK"), with=FALSE]), CSU_RANK)
-      dt_plot[[var_top]] <- factor(dt_plot[[var_top]],levels = dt_label_order[[var_top]]) 
+      dt_label_order <- setkey(unique(dt_plot[, c("dummy_top",var_color, "CSU_RANK"), with=FALSE]), CSU_RANK)
+      dt_plot$dummy_top <- factor(dt_plot$dummy_top,levels = dt_label_order$dummy_top) 
       color_trend <- as.character(dt_label_order[[var_color]])
     } else {
       dt_label_order <- setkey(unique(dt_plot[, c(var_top, "CSU_RANK"), with=FALSE]), CSU_RANK)
@@ -1024,6 +1024,8 @@ core.csu_ageSpecific_top <- function(df_data,
     } else {
       subtitle_temp <- paste0(plot_subtitle,"\n",i)
     }
+    
+   
     
     temp <- core.csu_ageSpecific(
       dt_plot,
