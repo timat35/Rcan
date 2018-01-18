@@ -1,0 +1,114 @@
+
+R version 3.4.2 (2017-09-28) -- "Short Summer"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R est un logiciel libre livré sans AUCUNE GARANTIE.
+Vous pouvez le redistribuer sous certaines conditions.
+Tapez 'license()' ou 'licence()' pour plus de détails.
+
+R est un projet collaboratif avec de nombreux contributeurs.
+Tapez 'contributors()' pour plus d'information et
+'citation()' pour la façon de le citer dans les publications.
+
+Tapez 'demo()' pour des démonstrations, 'help()' pour l'aide
+en ligne ou 'help.start()' pour obtenir l'aide au format HTML.
+Tapez 'q()' pour quitter R.
+
+> 
+> library(shiny)
+> 
+> shiny_folder <- "C:/Projects/Rcan/Shiny"
+> shiny::runApp(shiny_folder, launch.browser = TRUE)
+
+Listening on http://127.0.0.1:3177
+Rcan 1.3.1, for help type ?Rcan. type example(Rcan) to see demo of the function.
+Loading required package: ReporteRsjars
+
+Population with less than 18 age group:
+
+  CSU_dum_age nb_age_group
+ dummy_age_gr           16
+
+ASR have been computed for the age group 0-99+
+Warning: Error in grDevices::col2rgb: nom de couleur '' incorrecte
+Stack trace (innermost first):
+    82: grDevices::col2rgb
+    81: alpha
+    80: numnotnull
+    79: validGP
+    78: gpar
+    77: grob
+    76: rectGrob
+    75: grobName
+    74: ggname
+    73: f
+    72: ggproto_parent(GeomRect, self)$draw_panel
+    71: f
+    70: <Anonymous>
+    69: do.call
+    68: .fun
+    67: <Anonymous>
+    66: loop_apply
+    65: llply
+    64: plyr::dlply
+    63: f
+    62: self$geom$draw_layer
+    61: f
+    60: l$draw_geom
+    59: <Anonymous>
+    58: mapply
+    57: Map
+    56: ggplot_gtable
+    55: print.ggplot
+    54: print
+    53: eval [C:\Projects\Rcan\Shiny/server.R#118]
+    52: eval
+    51: withProgress
+    50: download$func [C:\Projects\Rcan\Shiny/server.R#93]
+     1: shiny::runApp
+Error : nom de couleur '' incorrecte
+
+Population with less than 18 age group:
+
+  CSU_dum_age nb_age_group
+ dummy_age_gr           16
+
+ASR have been computed for the age group 0-99+
+Warning: Error in grDevices::col2rgb: nom de couleur '' incorrecte
+Stack trace (innermost first):
+    82: grDevices::col2rgb
+    81: alpha
+    80: numnotnull
+    79: validGP
+    78: gpar
+    77: grob
+    76: rectGrob
+    75: grobName
+    74: ggname
+    73: f
+    72: ggproto_parent(GeomRect, self)$draw_panel
+    71: f
+    70: <Anonymous>
+    69: do.call
+    68: .fun
+    67: <Anonymous>
+    66: loop_apply
+    65: llply
+    64: plyr::dlply
+    63: f
+    62: self$geom$draw_layer
+    61: f
+    60: l$draw_geom
+    59: <Anonymous>
+    58: mapply
+    57: Map
+    56: ggplot_gtable
+    55: print.ggplot
+    54: print
+    53: eval [C:\Projects\Rcan\Shiny/server.R#118]
+    52: eval
+    51: withProgress
+    50: download$func [C:\Projects\Rcan\Shiny/server.R#93]
+     1: shiny::runApp
+Error : nom de couleur '' incorrecte

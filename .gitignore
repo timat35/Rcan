@@ -1,3 +1,7 @@
+# R CMD check folder
+Rcan.Rcheck/
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
