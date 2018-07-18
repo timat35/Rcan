@@ -364,7 +364,7 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   dt_data$index_order <- index_order
   
   # missing age 
-  dt_data[dt_data$CSU_A==missing_age,CSU_A:=NA ] 
+  dt_data[dt_data$CSU_A %in% missing_age,CSU_A:=NA ] 
   dt_data[is.na(dt_data$CSU_A),CSU_P:=0 ] 
   
   #create age dummy: 1 2 3 4 --- 19
@@ -711,7 +711,7 @@ core.csu_ageSpecific <-
     
     ##to calcul age group
     
-    dt_data[CSU_A==missing_age,CSU_A:=NA ] 
+    dt_data[CSU_A %in% missing_age,CSU_A:=NA ] 
     dt_data[is.na(CSU_A),CSU_P:=0 ] 
     dt_data <- dt_data[CSU_P!=0] 
     
