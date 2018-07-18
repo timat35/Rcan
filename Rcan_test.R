@@ -41,6 +41,11 @@ detach(package:Rcan)
 remove.packages("Rcan")
 install.packages("C:/Projects/Rcan/Rcan_1.3.1.tar.gz", repos=NULL)
 
+devtools::install_github("timat35/Rcan", subdir="Rcan", dependencies = FALSE)
+
+install.packages("ggplot2", dependencies = TRUE)
+install.packages("data.table", dependencies = TRUE)
+
 library(Rcan)
 test_package("Rcan")
 help(Rcan)
