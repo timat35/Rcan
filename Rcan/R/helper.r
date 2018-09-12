@@ -1346,7 +1346,7 @@ core.jv_trend <- function (
   dt_data[, max_year:=max(CSU_Y), by=CSU_BY]
   
   # to calcul y axes breaks
-  tick <- core.csu_tick_generator(max = max(dt_data$smooth_value), min=min(dt_data[smooth_value != 0,]$smooth_value), log_scale = logscale )
+  tick <- core.csu_tick_generator(max = max(dt_data$smooth_value), min=min(dt_data[smooth_value != 0,]$smooth_value), logscale = logscale )
   tick_space <- tick$tick_list[length(tick$tick_list)] - tick$tick_list[length(tick$tick_list)-1]
   
   

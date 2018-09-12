@@ -39,8 +39,10 @@ getOption("repos")
 #test package
 detach(package:Rcan)
 remove.packages("Rcan")
-remove.packages("scales")
-install.packages("C:/Projects/Rcan/Rcan_1.3.3.tar.gz", repos=NULL)
+devtools::install_github("timat35/Rcan", subdir="Rcan")
+
+
+install.packages("C:/Projects/Rcan/Rcan_1.3.4.tar.gz", repos=NULL)
 
 install.packages("devtools")
 devtools::install_github("timat35/Rcan", subdir="Rcan")
