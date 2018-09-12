@@ -39,6 +39,7 @@ getOption("repos")
 #test package
 detach(package:Rcan)
 remove.packages("Rcan")
+remove.packages("scales")
 install.packages("C:/Projects/Rcan/Rcan_1.3.3.tar.gz", repos=NULL)
 
 install.packages("devtools")
@@ -233,6 +234,7 @@ csu_time_trend(df_asr, group_by="sex",
 
 csu_time_trend(df_asr, group_by="sex",
           plot_title = "Colombia, Liver",
+          legend=csu_trend_legend(position="right", right_space_margin = 6.5),
           smoothing = 0.5)
 
 dev.off()
