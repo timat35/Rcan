@@ -46,7 +46,7 @@ csu_time_trend <- function (
   
   if (csu_list$legend_position=="right") {
 
-	  gb_plot <- ggplot_build(csu_plot)
+	  gb_plot <- ggplot_build(csu_list$csu_plot)
 	  gt_plot <- ggplot_gtable(gb_plot)
 	  gt_plot$layout$clip[gt_plot$layout$name=="panel"] <- "off"
 	  grid.draw(gt_plot) 
