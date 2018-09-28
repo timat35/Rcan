@@ -42,10 +42,9 @@ remove.packages("Rcan")
 devtools::install_github("timat35/Rcan", subdir="Rcan")
 
 
-install.packages("C:/Projects/Rcan/Rcan_1.3.4.tar.gz", repos=NULL)
+install.packages("C:/Projects/Rcan/Rcan_1.3.5.tar.gz", repos=NULL)
 
-install.packages("devtools")
-devtools::install_github("timat35/Rcan", subdir="Rcan")
+install.packages("rlang")
 
 
 
