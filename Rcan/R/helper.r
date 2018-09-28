@@ -800,6 +800,9 @@ core.csu_ageSpecific <-
     }
     
     
+    ylim_inf <- min(c(tick$tick_list, tick$tick_minor_list))
+    ylim_sup <- max(c(tick$tick_list, tick$tick_minor_list))
+
     
     ##csu_plot
     if (logscale) {
@@ -853,7 +856,7 @@ core.csu_ageSpecific <-
         scale_y_continuous(name = paste("Age-specific incidence rate per", formatC(db_rate, format="d", big.mark=",")),
                            breaks=tick$tick_list,
                            minor_breaks = tick$tick_minor_list,
-                           limits=c(tick$tick_list[1],tick$tick_list[length(tick$tick_list)]),
+                           limits=c(ylim_inf,ylim_sup),
                            labels=core.csu_axes_label,
                            trans = "log10"
         )
@@ -1179,7 +1182,9 @@ core.csu_time_trend <- function (
   xlim_inf <- min(c(year_tick$tick_list, year_tick$tick_minor_list))
   xlim_sup <- max(c(year_tick$tick_list, year_tick$tick_minor_list))
   
-  
+  ylim_inf <- min(c(tick$tick_list, tick$tick_minor_list))
+  ylim_sup <- max(c(tick$tick_list, tick$tick_minor_list))
+
   
   #csu_plot
   if (logscale) {
@@ -1210,7 +1215,7 @@ core.csu_time_trend <- function (
       scale_y_continuous(name = ytitle,
                          breaks=tick$tick_list,
                          minor_breaks = tick$tick_minor_list,
-                         limits=c(tick$tick_list[1],tick$tick_list[length(tick$tick_list)]),
+                         limits=c(ylim_inf,ylim_sup),
                          labels=core.csu_axes_label,
                          trans = "log10"
       )
@@ -1385,6 +1390,10 @@ core.jv_trend <- function (
   xlim_inf <- min(c(year_tick$tick_list, year_tick$tick_minor_list))
   xlim_sup <- max(c(year_tick$tick_list, year_tick$tick_minor_list))
   
+  ylim_inf <- min(c(tick$tick_list, tick$tick_minor_list))
+  ylim_sup <- max(c(tick$tick_list, tick$tick_minor_list))
+
+  
   #csu_plot
   if (logscale) {
     base_plot <- ggplot(dt_data[, smooth_value := ifelse(smooth_value==0,NA, smooth_value )], aes(CSU_Y, smooth_value))
@@ -1412,7 +1421,7 @@ core.jv_trend <- function (
       scale_y_continuous(name = yaxes_title,
                          breaks=tick$tick_list,
                          minor_breaks = tick$tick_minor_list,
-                         limits=c(tick$tick_list[1],tick$tick_list[length(tick$tick_list)]),
+                         limits=c(ylim_inf,ylim_sup),
                          labels=core.csu_axes_label,
                          trans = "log10"
       )
