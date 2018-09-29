@@ -24,7 +24,7 @@ Cancer registry data for liver cancer
 }
 
 \source{
-\url{http://ci5.iarc.fr/CI5plus/Default.aspx}
+\url{http://ci5.iarc.fr/Default.aspx}
 }
 
 \seealso{

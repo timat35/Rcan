@@ -165,7 +165,8 @@ csu_trendCohortPeriod(
 						first_age=7,
 						last_age=15,
 						logscale=FALSE)
-						
+
+\donttest{					
 	# plot Cohort graph from 25-29 years until 75-79 years, with data grouped in 2 years period.
 	csu_trendCohortPeriod(df_data=test,
 						  missing_age =99,
@@ -192,5 +193,5 @@ csu_trendCohortPeriod(
 						logscale=FALSE)
 				
 	dev.off()
-				
+}		
 }

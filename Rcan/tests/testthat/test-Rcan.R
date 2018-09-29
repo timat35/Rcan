@@ -1,12 +1,12 @@
 
 
-test_folder <- "C:/Projects/Rcan/Rcan/tests/testthat"
+
 
 
 test_that("Test csu_asr: 1",{
   
   #input data
-  data_test <-  read.csv(paste0(test_folder,"/data_cervix.csv"), sep=",")
+  data_test <-  read.csv(system.file("testdata","data_cervix.csv",package="Rcan"), sep=",")
   
   #output result
   output_test <- csu_asr(data_test,missing_age = 19,
@@ -14,7 +14,8 @@ test_that("Test csu_asr: 1",{
                     var_age_group =  c("country", "country_label","type"))
   
   #expect result
-  expect_test <- readRDS(paste0(test_folder, "/csu_asr_test1.rds"))
+  
+  expect_test <- readRDS(system.file("testdata","csu_asr_test1.rds",package="Rcan"))
   
   #test
   expect_identical(output_test, expect_test)
@@ -35,7 +36,8 @@ test_that("Test age specific: 1",{
   output_test <- csu_ageSpecific(data_test,plot_title = "Colombia, Liver, male")
 
   #expect result
-  expect_test <- readRDS(paste0(test_folder, "/csu_graph_ageSpecific_test1.rds"))
+ 
+  expect_test <- readRDS( system.file("testdata","csu_graph_ageSpecific_test1.rds",package="Rcan"))
   #test
   expect_identical(output_test, expect_test)
 
@@ -62,7 +64,8 @@ test_that("Test trend: 1",{
                            smoothing = 0.3)
   
   #expect result
-  expect_test <- readRDS(paste0(test_folder, "/csu_trend_test1.rds"))
+ 
+  expect_test <- readRDS( system.file("testdata","csu_trend_test1.rds",package="Rcan"))
   #test
   expect_identical(output_test, expect_test)
   
@@ -88,7 +91,7 @@ test_that("Test eapc: 1",{
   
   
   #expect result
-  expect_test <- readRDS(paste0(test_folder, "/csu_eapc_test1.rds"))
+  expect_test <- readRDS(system.file("testdata","csu_eapc_test1.rds",package="Rcan"))
   #test
   expect_identical(output_test, expect_test)
   

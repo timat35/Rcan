@@ -15,7 +15,7 @@
 Maintainer: \packageMaintainer{Rcan}
 }
 \references{
-\url{https://www.iarc.fr/en/publications/pdfs-online/epi/sp95/sp95-chap11.pdf}
+\url{https://publications.iarc.fr/_publications/media/download/3753/609d0d7711047dd76d7f3dbaa25d7f041fcd013e.pdf}
 }
 
 \seealso{
@@ -39,8 +39,11 @@ df_asr <- csu_asr(csu_registry_data_2,
 
 df_asr[1:4,]	
 
+
+\donttest{
 # ASR with standard error with missing age.		  
 readline(prompt="Press [enter] to continue to EAPC")
+
 
 # EAPC with standard error		
 	  
@@ -65,14 +68,15 @@ csu_ageSpecific(df_colombia,
 csu_ageSpecific(df_colombia,
 				plot_title = "Colombia, Liver, male",
 				CI5_comparison = "Liver")
-				
+			
 # plot age specific rate for 4 population, legend at the bottom and comparison with CI5X data.
 csu_ageSpecific(csu_registry_data_1,
 				group_by="registry_label",
 				legend=csu_trend_legend(position="bottom", nrow = 2),
 				plot_title = "Liver, male",
 				CI5_comparison = 7)
-				
+	
+}	
 }
 
 \keyword{ package }

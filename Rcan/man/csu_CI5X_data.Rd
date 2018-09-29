@@ -25,10 +25,10 @@ Cancer in five continent volume X.
   }
 }
 \details{
-All information are available here: \url{ http://ci5.iarc.fr/CI5-X/Default.aspx}
+All information are available here: \url{http://ci5.iarc.fr/Default.aspx}
 }
 \source{
-\url{ http://ci5.iarc.fr/CI5-X/Pages/download.aspx}
+\url{http://ci5.iarc.fr/Default.aspx}
 }
 
 \seealso{
@@ -55,8 +55,7 @@ df_data <- csu_CI5X_data[csu_CI5X_data$cancer_code < 62,]
 df_data_1 <- df_data[df_data$registry_code==76401,]
 
 
-#select USAm NPCR
-df_data_2 <- df_data[df_data$registry_code== 84080,]
+
 
 
 
@@ -71,6 +70,11 @@ dt_result_1 <- csu_ageSpecific_top(df_data_1,
                     missing_age = 19)
 
 
+
+\donttest{					
+#select USAm NPCR
+df_data_2 <- df_data[df_data$registry_code== 84080,]
+
 dt_result_2 <- csu_ageSpecific_top(df_data_2,
                                    var_age="age", 
                                    var_cases="cases", 
@@ -83,6 +87,6 @@ dt_result_2 <- csu_ageSpecific_top(df_data_2,
 
 
 				  
-				  
+}			  
 }
 \keyword{datasets}

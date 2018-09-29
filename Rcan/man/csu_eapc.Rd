@@ -65,18 +65,22 @@ data(csu_registry_data_2)
 
 # Estimated Annual Percentage Change (EAPC) base on ASR.
 
-
-df_asr <- csu_asr(csu_registry_data_2, 
-                  "age", "cases", "py",
-                  group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
-                  var_age_group = c("registry_label"), 
-				  missing_age = 99)
+\donttest{
+df_asr <- 
+	csu_asr(csu_registry_data_2, 
+	  "age", "cases", "py",
+	  group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
+	  var_age_group = c("registry_label"), 
+	  missing_age = 99
+	  )
 				  
-result <- csu_eapc(df_asr,
-					"asr", "year",
-					group_by=c("registry", "registry_label", "sex", "ethnic" ))
+result <- 
+	csu_eapc(df_asr,
+		"asr", "year",
+		group_by=c("registry", "registry_label", "sex", "ethnic" )
+		)
 
-				  
+}					
 # you can export your result as csv file using write.csv:
 # write.csv(result, file="result.csv")
 				  		  

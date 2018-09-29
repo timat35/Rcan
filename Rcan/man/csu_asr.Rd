@@ -94,7 +94,7 @@ csu_asr(df_data,
 	
 }
 \references{
-	\url{https://www.iarc.fr/en/publications/pdfs-online/epi/sp95/sp95-chap11.pdf}
+	\url{https://publications.iarc.fr/_publications/media/download/3753/609d0d7711047dd76d7f3dbaa25d7f041fcd013e.pdf}
 
 }
 \author{
