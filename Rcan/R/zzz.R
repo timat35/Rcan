@@ -1,5 +1,5 @@
 .onAttach <- function(libname = find.package("Rcan"), pkgname = "Rcan") {
-  packageStartupMessage("for help type ?Rcan. type example(Rcan) to see demo of the function.")
+  packageStartupMessage("Type example(Rcan) to see demo of the function.")
   
 }
 
