@@ -1,8 +1,5 @@
 
 
-
-
-
 test_that("Test csu_asr: 1",{
   
   #input data
@@ -67,7 +64,8 @@ test_that("Test trend: 1",{
  
   expect_test <- readRDS( system.file("testdata","csu_trend_test1.rds",package="Rcan"))
   #test
-  expect_identical(output_test, expect_test)
+  expect_equal(output_test, expect_test)
+
   
   
 })
@@ -93,7 +91,6 @@ test_that("Test eapc: 1",{
   #expect result
   expect_test <- readRDS(system.file("testdata","csu_eapc_test1.rds",package="Rcan"))
   #test
-  expect_identical(output_test, expect_test)
-  
-  
+  expect_equal(output_test, expect_test)
+
 })
