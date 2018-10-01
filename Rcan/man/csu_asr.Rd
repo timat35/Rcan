@@ -64,7 +64,7 @@ csu_asr(df_data,
    Select the standard population:\cr
   	\tabular{ll}{
 		"SEGI" \tab SEGI world standard population.\cr
-		"EURO" \tab EURO is the european standard population.\cr
+		"EURO" \tab EURO is the European standard population.\cr
 		}
 	}
 
