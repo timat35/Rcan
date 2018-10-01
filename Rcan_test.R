@@ -8,6 +8,24 @@ install.packages("scales")
 install.packages("testthat")
 
 
+#update package (last version)
+detach(package:Rcan)
+remove.packages("Rcan")
+devtools::install_github("timat35/Rcan", subdir="Rcan")
+
+#run test unit
+library("Rcan")
+library("testthat")
+test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
+
+#check packages: (check need Roxygene)
+
+library(devtools)
+
+check("C:/Projects/Rcan/Rcan") 
+
+build_win("C:/Projects/Rcan/Rcan")
+
 
 #create dataset 
 
@@ -25,8 +43,7 @@ save(csu_CI5X_data, file="csu_CI5X_data.rda")
 
 rcan_folder <- "c:/Projects/Rcan"
 
-#install.packages(c("ggplot2", "data.table"))
-install.packages("http://timat.org/matR/Rcan.tar.gz", repos=NULL)
+
 
 library(Rcan)
 library(data.table)
@@ -34,8 +51,6 @@ library(ggplot2)
 library(grid)
 
 
-
-rcan_folder <- "c:/Projects/Rcan"
 source(paste0(rcan_folder, "/Rcan/R/helper.r"))
 source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
 #source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
@@ -46,36 +61,10 @@ source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
 
 getOption("repos")
 
-#test package
-detach(package:Rcan)
-remove.packages("Rcan")
-devtools::install_github("timat35/Rcan", subdir="Rcan")
-
-detach(package:testthat)
-remove.packages("testthat")
-
-install.packages("C:/Projects/Rcan/Rcan_1.3.51.tar.gz", repos=NULL)
-install.packages("testthat")
 
 
 
-library(Rcan)
 
-library("testthat")
-test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
-
-library(devtools)
-
-build_win("C:/Projects/Rcan/Rcan")
-
-
-help(Rcan)
-csu_eapc
-remove.packages("ggplot2")
-
-tempdir()
-
-help(tools)
 # example age specific ---------
 
 data(csu_registry_data_1)
@@ -141,7 +130,7 @@ csu_ageSpecific(csu_registry_data_1,
 dev.off()
 
 
-# example age specific top
+#----- example age specific top ------
 
 library(Rcan)
 data("csu_CI5X_data")
@@ -211,7 +200,7 @@ dt_result_2 <- csu_ageSpecific_top(df_data_2,
 
 
 
-# example time trend 
+# example time trend -----
 
 
 data(csu_registry_data_2)
