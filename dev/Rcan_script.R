@@ -35,7 +35,7 @@ release_checks("C:/Projects/Rcan/Rcan")
 release("C:/Projects/Rcan/Rcan", check=FALSE)
 
 
-#create dataset 
+#create dataset fro shiny app
 
 library(data.table)
 app_folder <- "C:/Projects/Rcan/Shiny"
