@@ -78,7 +78,7 @@ csu_trendCohortPeriod(
 
   \item{age_dropped}{
 		Only if some age grouped are missing in the data.
-		Logical value: if \code{TRUE}, considere the age group not used are already dropped from the data.\cr
+		Logical value: if \code{TRUE}, assume the age group not used are already dropped from the data.\cr
 		First_age and last_age option \bold{must} still be filled.
 }
   \item{plot_title}{
