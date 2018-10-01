@@ -4,7 +4,7 @@ Title: R Package to Help Managing and Analysing Cancer Data
 Date: 2018-09-12
 Author: Mathieu Laversanne
 Maintainer: Mathieu Laversanne <laversannem@iarc.fr>
-Depends: R (>= 2.10)
+Depends: R (>= 3.2)
 Description: Theses functions are design by the Cancer Surveillance Unit at International Agency  for Research on Cancer. The goal is to provide tools for the unit, but also scientist and other fellows using cancer epidemiological data.
 License: GPL (>=2)
 URL: http://timat.org/matR

@@ -1,4 +1,14 @@
 
+#install dependant packages...
+
+install.packages("data.table")
+install.packages("ggplot2")
+install.packages("grid")
+install.packages("scales")
+install.packages("testthat")
+
+
+
 #create dataset 
 
 library(data.table)
@@ -41,16 +51,24 @@ detach(package:Rcan)
 remove.packages("Rcan")
 devtools::install_github("timat35/Rcan", subdir="Rcan")
 
+detach(package:testthat)
+remove.packages("testthat")
 
-install.packages("C:/Projects/Rcan/Rcan_1.3.5.tar.gz", repos=NULL)
-
-install.packages("rlang")
+install.packages("C:/Projects/Rcan/Rcan_1.3.51.tar.gz", repos=NULL)
+install.packages("testthat")
 
 
 
 library(Rcan)
 
-test_package("Rcan")
+library("testthat")
+test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
+
+library(devtools)
+
+build_win("C:/Projects/Rcan/Rcan")
+
+
 help(Rcan)
 csu_eapc
 remove.packages("ggplot2")
