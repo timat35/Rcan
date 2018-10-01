@@ -3,12 +3,12 @@
 
 Rcan functions are design at [the Cancer Surveillance Unit at International Agency for Research on Cancer](https://www.iarc.fr/en/research-groups/sec1/index.php). The goal is to provide tools for scientist and other fellows using cancer epidemiological data. 
 
-* calculate Age-Standardized Rate (ASR) and Truncated Age-Stadardized Rate (TASR) across different population (Registry, year, sex...).
-* calculate and plot Age-Specific Rate
-* calculate and plot Age-Specific Rate for the top X cancer or top X population
-* plot cancer statistics over year.
-* calculate the Estimated Annual Percentage Change (EAPC) of rates during a time period with the Confidence Intervalle (CI) across different population (Registry, year, sex...).
-* plot cohort period age specific graph.
+* Calculate Age-Standardized Rate (ASR) and Truncated Age-Stadardized Rate (TASR) across different population (Registry, year, sex...).
+* Calculate and plot Age-Specific Rate
+* Calculate and plot Age-Specific Rate for the top X cancer or top X population
+* Plot cancer statistics over year.
+* Calculate the Estimated Annual Percentage Change (EAPC) of rates during a time period with the Confidence Intervalle (CI) across different population (Registry, year, sex...).
+* Plot cohort period age specific graph.
 
 
 

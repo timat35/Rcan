@@ -1,6 +1,8 @@
 # R CMD check folder
 Rcan.Rcheck/
 
+# R release
+*.tar.gz
 
 # Windows image file caches
 Thumbs.db

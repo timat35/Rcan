@@ -18,13 +18,21 @@ library("Rcan")
 library("testthat")
 test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
 
-#check packages: (check need Roxygene)
+#check packages: (check need Roxygene) and built
 
 library(devtools)
 
-check("C:/Projects/Rcan/Rcan") 
+check("C:/Projects/Rcan/Rcan") #local check
+build("C:/Projects/Rcan/Rcan", manual = TRUE) # build package
 
-build_win("C:/Projects/Rcan/Rcan")
+# post package on CRAN
+
+
+use_readme_rmd("C:/Projects/Rcan/Rcan")
+
+build_win("C:/Projects/Rcan/Rcan") #build win check
+release_checks("C:/Projects/Rcan/Rcan")
+release("C:/Projects/Rcan/Rcan", check=FALSE)
 
 
 #create dataset 
