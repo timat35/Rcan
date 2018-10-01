@@ -3,7 +3,7 @@
 \title{csu_asr}
 
 \description{
-\code{csu_asr} calculate Age-Standardized Rate (ASR) and Truncated Age-Stadardized Rate (TASR) across different population (Registry, year, sex...)
+\code{csu_asr} calculate Age-Standardized Rate (ASR) and Truncated Age-Standardized Rate (TASR) across different population (Registry, year, sex...)
 }
 \usage{
 csu_asr(df_data,
@@ -54,10 +54,10 @@ csu_asr(df_data,
 }
 
   \item{first_age}{
-		First age group included (for Truncated ASR), \bold{must} be between 1 and 17. 1 represents 0-4, 2 represents 5-9, ... 5 represente 20-24 etc.\cr
+		First age group included (for Truncated ASR), \bold{must} be between 1 and 17. 1 represents 0-4, 2 represents 5-9, ... 5 represents 20-24 etc.\cr
 }
   \item{last_age}{
-		Last age group included (for Truncated ASR), \bold{must} be between 2 and 18. 2 represents 5-9, ... 5 represente 20-24, ... 18 represents 85+ etc.\cr
+		Last age group included (for Truncated ASR), \bold{must} be between 2 and 18. 2 represents 5-9, ... 5 represents 20-24, ... 18 represents 85+ etc.\cr
 		To calculate ASR for 15-69 years, use: \code{first_age(4), last_age(14)}.
 }
   \item{pop_base}{
@@ -79,7 +79,7 @@ csu_asr(df_data,
 }
   \item{age_dropped}{
 		Only for truncated ASR.\cr
-		Logical value: if \code{TRUE}, considere the age group not used are already dropped from the data.\cr
+		Logical value: if \code{TRUE}, Assume the age group not used are already dropped from the data.\cr
 		First_age and last_age option \bold{must} still be filled.
 }
 }

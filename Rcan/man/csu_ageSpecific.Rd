@@ -60,7 +60,7 @@ csu_ageSpecific(df_data,
 	The color code are hexadecimal (see example).
 	}
   \item{CI5_comparison}{
-	Add a dotted line represnting the CI5X for a specific cancer.\cr
+	Add a dotted line representing the CI5X for a specific cancer.\cr
 	Value can be a cancer_label (example: "Liver"), or a cancer_code (example = 7).\cr
 	See \code{\link{csu_ci5x_mean}} to get the list of possible values.
 	}

@@ -11,7 +11,7 @@ Cancer registry data for liver cancer, males, 2007, 4 registries.
 \format{
   A data frame with 76 observations on the following 5 variables.
   \describe{
-    \item{\code{age}}{age variable from 1 to 19. 1 is 0-4 years, 2 is 5-9, etc..., 17 is 80-84, 18 is 85+, 19 represente missing age.} 
+    \item{\code{age}}{age variable from 1 to 19. 1 is 0-4 years, 2 is 5-9, etc..., 17 is 80-84, 18 is 85+, 19 represents missing age.} 
     \item{\code{cases}}{Number of cases (incidence)}
     \item{\code{py}}{Population-year: Reference population of the registry }
     \item{\code{registry_label}}{Name of the registry}

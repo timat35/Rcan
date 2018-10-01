@@ -3,7 +3,7 @@
 \title{csu_eapc}
 
 \description{
-\code{csu_eapc} calculate the Estimated Annual Percentage Change (EAPC) of rates during a time period with the Confidence Intervalle (CI) across different population (Registry, year, sex...)
+\code{csu_eapc} calculate the Estimated Annual Percentage Change (EAPC) of rates during a time period with the Confidence Interval (CI) across different population (Registry, year, sex...)
 }
 \usage{
 csu_eapc(df_data,

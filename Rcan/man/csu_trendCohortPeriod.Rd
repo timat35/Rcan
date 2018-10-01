@@ -63,11 +63,11 @@ csu_trendCohortPeriod(
 		The denominator population. Default is 100000.
 }
   \item{first_age}{
-		First age group included, \bold{must} be between 1 and 17. 1 represents 0-4, 2 represents 5-9, ... 5 represente 20-24 etc.\cr
+		First age group included, \bold{must} be between 1 and 17. 1 represents 0-4, 2 represents 5-9, ... 5 represents 20-24 etc.\cr
 		Default is 6 (25-29 years).
   }	
   \item{last_age}{
-		Last age group included, \bold{must} be between 2 and 18. 2 represents 5-9, ... 5 represente 20-24, ... 18 represents 85+ etc.\cr
+		Last age group included, \bold{must} be between 2 and 18. 2 represents 5-9, ... 5 represents 20-24, ... 18 represents 85+ etc.\cr
 		Default is 16 (75-79 years).\cr
 		To plot the age group from 15-19 years until 65-69 years, use: \code{first_age(4), last_age(14)}
   }

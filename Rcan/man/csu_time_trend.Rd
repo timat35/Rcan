@@ -52,7 +52,7 @@ csu_time_trend(df_data,
 	The color code are hexadecimal (see example).
 	}
   \item{ytitle}{
-		Y-axis title. To choose in fonction for the \code{var_trend} option.
+		Y-axis title. Default is "Age standardized rate per 100,000".
 	}
   \item{plot_title}{
 		Title of the plot.

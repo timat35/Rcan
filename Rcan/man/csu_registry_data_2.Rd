@@ -14,7 +14,7 @@ Cancer registry data for liver cancer
 	\item{\code{sex}}{sex variable: 1 male, 2 female}
 	\item{\code{year}}{year variable, from 1953 to 2007}
     \item{\code{age}}{age variable from 0 to 85 with missing age.\cr
-	0 is 0-4 years, 5 is 5-9, ..., 80 is 80-84, 85 is 85+, 99 represente missing age.} 
+	0 is 0-4 years, 5 is 5-9, ..., 80 is 80-84, 85 is 85+, 99 represents missing age.} 
     \item{\code{cases}}{Number of cases (incidence)}
     \item{\code{py}}{Population-year: Reference population of the registry }
     \item{\code{registry_label}}{Name of the registry (118 populations)}

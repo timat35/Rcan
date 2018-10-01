@@ -17,7 +17,7 @@ csu_trend_legend(title=NULL, position="bottom",nrow=1, right_space_margin=1)
    Position of the legend:\cr
 	\tabular{ll}{
 		"bottom" \tab The legend is place at the bottom of the graph. use with option \code{nrow}.\cr
-		"right" \tab  The legend is place at the right of each trend. use with option \code{right_space_margin}. If there is already a plot in the device, use \code{plot.new()} to avoid surimpression\cr
+		"right" \tab  The legend is place at the right of each trend. use with option \code{right_space_margin}. If there is already a plot in the device, use \code{plot.new()} to avoid overprint\cr
 		}
 	}
 	\item{nrow}{

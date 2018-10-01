@@ -19,7 +19,7 @@ Cancer in five continent volume X.
 	\item{\code{cancer_label}}{cancer label (factor)}
 	\item{\code{mv}}{Microscopic Verification (\%) (integer)}
 	\item{\code{dco}}{Death Certificate Only (\%) (integer)}
-    \item{\code{age}}{age variable from 1 to 19. 1 is 0-4 years, 2 is 5-9, etc..., 17 is 80-84, 18 is 85+, 19 represente missing age. (integer)} 
+    \item{\code{age}}{age variable from 1 to 19. 1 is 0-4 years, 2 is 5-9, etc..., 17 is 80-84, 18 is 85+, 19 represents missing age. (integer)} 
     \item{\code{cases}}{Number of cases (incidence) (integer)}
     \item{\code{py}}{Population-year: Reference population of the registry (integer)}
   }
