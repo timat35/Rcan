@@ -1,11 +1,15 @@
 Package: Rcan
-Version: 1.3.6
-Title: R Package to Help Managing and Analysing Cancer Registry Data
-Date: 2018-09-12
-Author: Mathieu Laversanne
-Maintainer: Mathieu Laversanne <laversannem@iarc.fr>
+Version: 1.3.61
+Title: Manage and Analyse Cancer Registry Data
+Date: 2018-10-09
+Authors@R: c(
+    person("Laversanne", "Mathieu", , "laversannem@iarc.fr", c("aut", "cre")),
+    person("Cancer Surveillance Unit", role = "cph")
+    )
+Author: Laversanne Mathieu [aut, cre], Cancer Surveillance Unit [cph]
+Maintainer: Laversanne Mathieu <laversannem@iarc.fr>
 Depends: R (>= 3.4)
-Description: Theses functions are design by the Cancer Surveillance Unit at International Agency  for Research on Cancer. The goal is to provide tools for the unit, but also scientist and other fellows using cancer epidemiological data.
+Description: Tools for basic and advance cancer registry statistics and graphics: age-specific rate, age-standardized rate, estimated annual percentage rate, period-cohort trends. 
 License: GPL (>=2)
 URL: https://github.com/timat35/Rcan
 LazyLoad: yes
@@ -20,3 +24,4 @@ Imports:
 	utils
 Suggests: testthat
 RoxygenNote: 6.1.0
+
