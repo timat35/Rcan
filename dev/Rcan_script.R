@@ -28,7 +28,7 @@ build("C:/Projects/Rcan/Rcan", manual = TRUE) # build package
 # post package on CRAN
 
 
-use_readme_rmd("C:/Projects/Rcan/Rcan")
+# use_readme_rmd("C:/Projects/Rcan/Rcan")
 
 build_win("C:/Projects/Rcan/Rcan") #build win check
 release_checks("C:/Projects/Rcan/Rcan")
