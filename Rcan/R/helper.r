@@ -649,7 +649,10 @@ core.csu_ageSpecific <-
            plot_subtitle=NULL,
            plot_caption=NULL,
 					 xtitle = "Age at diagnosis",
-					 ytitle = "Age-specific incidence rate per") {
+					 ytitle = "Age-specific incidence rate per",
+					 label_group_by = waiver())
+
+					 {
     
     
     
@@ -898,18 +901,21 @@ core.csu_ageSpecific <-
                                    size = linesize, linetype = "solid")
       )+
       th_legend
-    
+		
+			
     
     if (!is.null(color_trend)) {
       
       csu_plot <- csu_plot +
         scale_colour_manual(name=legend$title,
+														labels = label_group_by,
                             values= color_trend,
                             drop = FALSE)
       
       if (logscale) {
         csu_plot <- csu_plot +
-          scale_fill_manual(values= color_trend,
+          scale_fill_manual(labels = label_group_by,
+														values= color_trend,
                             drop = FALSE)
       }
       
