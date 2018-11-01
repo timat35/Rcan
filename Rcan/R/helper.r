@@ -647,7 +647,9 @@ core.csu_ageSpecific <-
            age_label_list = NULL,
            log_point=TRUE,
            plot_subtitle=NULL,
-           plot_caption=NULL) {
+           plot_caption=NULL,
+					 xtitle = "Age at diagnosis",
+					 ytitle = "Age-specific incidence rate per") {
     
     
     
@@ -840,7 +842,7 @@ core.csu_ageSpecific <-
       labs(title = plot_title,
            subtitle = plot_subtitle,
            caption = plot_caption)+
-      scale_x_continuous(name = "Age at diagnosis",
+      scale_x_continuous(name = xtitle,
                          breaks=seq(1, max_age, 1),
                          labels = age_label,
                          minor_breaks = NULL,
@@ -853,7 +855,7 @@ core.csu_ageSpecific <-
           geom_point(aes(fill=CSU_BY), size = 3,na.rm=TRUE,shape=21,stroke=0.5,colour="black", show.legend=FALSE)
       }
       csu_plot <- csu_plot +
-        scale_y_continuous(name = paste("Age-specific incidence rate per", formatC(db_rate, format="d", big.mark=",")),
+        scale_y_continuous(name = paste(ytitle, formatC(db_rate, format="d", big.mark=",")),
                            breaks=tick$tick_list,
                            minor_breaks = tick$tick_minor_list,
                            limits=c(ylim_inf,ylim_sup),
@@ -864,7 +866,7 @@ core.csu_ageSpecific <-
       
       csu_plot <- csu_plot +
         coord_cartesian( ylim=c(-temp_expand_y, temp_expand_y_up),  expand = TRUE)+
-        scale_y_continuous(name = paste("Age-specific incidence rate per", formatC(db_rate, format="d", big.mark=",")),
+        scale_y_continuous(name = paste(ytitle, formatC(db_rate, format="d", big.mark=",")),
                            breaks=tick$tick_list,
                            labels=core.csu_axes_label,
                            expand = c(0,0)
@@ -959,6 +961,9 @@ core.csu_ageSpecific_top <- function(df_data,
                                      nb_top = 5,
                                      plot_title=NULL,
                                      plot_subtitle=NULL,
+																		 label_group_by=NULL,
+																		 xtitle = "Age at diagnosis",
+																		 ytitle = "Age-specific incidence rate per",
                                      var_color=NULL,
                                      plot_caption=NULL,
                                      var_age_label_list = NULL,
@@ -991,7 +996,14 @@ core.csu_ageSpecific_top <- function(df_data,
   df_data$CSU_dum_by <- as.factor(df_data[[group_by]])
   for (i in levels( df_data$CSU_dum_by)) {
     
-
+		if (!is.null(label_group_by)) {
+		
+				label_group <- label_group_by[j]
+		}
+		else {
+			label_group <- i
+		}
+		
     if (caption_bypass) {
       if (j == 1) {
         plot_caption <- ""
@@ -1023,9 +1035,9 @@ core.csu_ageSpecific_top <- function(df_data,
     }
     
     if (is.null(plot_subtitle)) {
-      subtitle_temp <- i
+      subtitle_temp <- label_group
     } else {
-      subtitle_temp <- paste0(plot_subtitle,"\n",i)
+      subtitle_temp <- paste0(plot_subtitle,"\n",label_group)
     }
     
    
@@ -1044,7 +1056,9 @@ core.csu_ageSpecific_top <- function(df_data,
       color_trend = color_trend,
       logscale = logscale,
       log_point=FALSE,
-      age_label_list = age_label_list
+      age_label_list = age_label_list,
+			xtitle = xtitle,
+			ytitle = ytitle
       )
     
     dt_temp <- temp$dt_data
@@ -1097,6 +1111,7 @@ core.csu_time_trend <- function (
   legend = csu_trend_legend(),
   color_trend = NULL,
   ytitle = "Age standardized rate per 100000",
+	xtitle = "Year",
   plot_title = "test",
   linesize = 0.5,
   plot_subtitle = NULL,
@@ -1199,7 +1214,7 @@ core.csu_time_trend <- function (
     labs(title = plot_title, 
          subtitle = plot_subtitle,
          caption = plot_caption)+
-    scale_x_continuous(name = "Year",
+    scale_x_continuous(name = xtitle,
                        breaks=year_tick$tick_list,
                        limits=c(xlim_inf,xlim_sup),
                        minor_breaks = year_tick$tick_minor_list,
