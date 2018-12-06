@@ -2,7 +2,7 @@
 
 ## 1.3.62
 
-* Add option to customize axis label.
+* Add option to customize axis label in hidden function.
 
 ## 1.3.61
 
