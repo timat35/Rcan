@@ -30,6 +30,7 @@ build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages
 
 # use_readme_rmd("C:/Projects/Rcan/Rcan")
 
+check_rhub("C:/Projects/Rcan/Rcan")
 build_win("C:/Projects/Rcan/Rcan") #build win check
 release_checks("C:/Projects/Rcan/Rcan")
 release("C:/Projects/Rcan/Rcan", check=FALSE)

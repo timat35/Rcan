@@ -6,6 +6,4 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-4rd attempt for  new submissions:
-Update Title, authors and description.
-delete unused hidden function
+Add option to customize axis label in hidden function.
