@@ -15,7 +15,7 @@ test_that("Test csu_asr: 1",{
   expect_test <- readRDS(system.file("testdata","csu_asr_test1.rds",package="Rcan"))
   
   #test
-  expect_identical(output_test, expect_test)
+  expect_equal(output_test, expect_test)
 })
 
 
@@ -36,7 +36,7 @@ test_that("Test age specific: 1",{
  
   expect_test <- readRDS( system.file("testdata","csu_graph_ageSpecific_test1.rds",package="Rcan"))
   #test
-  expect_identical(output_test, expect_test)
+  expect_equal(output_test, expect_test)
 
 
 })

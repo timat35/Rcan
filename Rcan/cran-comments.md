@@ -6,4 +6,5 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
+update test unit for R-devel version
 Add option to customize axis label in hidden function.

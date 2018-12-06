@@ -23,17 +23,20 @@ test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
 library(devtools)
 
 check("C:/Projects/Rcan/Rcan") #local check
-build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package
+#build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package
+build("C:/Projects/Rcan/Rcan", manual = TRUE) # build package
+
 
 # post package on CRAN
 
 
 # use_readme_rmd("C:/Projects/Rcan/Rcan")
 
+spell_check("C:/Projects/Rcan/Rcan")
 check_rhub("C:/Projects/Rcan/Rcan")
 build_win("C:/Projects/Rcan/Rcan") #build win check
 release_checks("C:/Projects/Rcan/Rcan")
-release("C:/Projects/Rcan/Rcan", check=FALSE)
+release("C:/Projects/Rcan/release/Rcan_1.3.62.tar.gz", check=FALSE)
 
 
 #create dataset fro shiny app
