@@ -6,5 +6,5 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-update test unit for R-devel version
+update test unit for noLD checks
 Add option to customize axis label in hidden function.

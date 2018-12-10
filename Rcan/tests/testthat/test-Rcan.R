@@ -2,6 +2,8 @@
 
 test_that("Test csu_asr: 1",{
   
+  op <- options(digits = 6)
+  
   #input data
   data_test <-  read.csv(system.file("testdata","data_cervix.csv",package="Rcan"), sep=",")
   
@@ -10,8 +12,7 @@ test_that("Test csu_asr: 1",{
                     group_by  = c("country", "country_label", "year", "sex","type"),
                     var_age_group =  c("country", "country_label","type"))
   
-  #expect result
-  
+
   expect_test <- readRDS(system.file("testdata","csu_asr_test1.rds",package="Rcan"))
   
   #test

@@ -7,6 +7,8 @@ install.packages("grid")
 install.packages("scales")
 install.packages("testthat")
 
+install.packages("devtools")
+
 
 #update package (last version)
 detach(package:Rcan)
@@ -22,9 +24,9 @@ test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
 
 library(devtools)
 
-check("C:/Projects/Rcan/Rcan") #local check
+check("C:/Projects/Rcan/Rcan", args = "--without-long-double") #local check
 #build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package
-build("C:/Projects/Rcan/Rcan", manual = TRUE) # build package
+build("C:/Projects/Rcan/Rcan", path="C:/Projects/Rcan/release", manual = TRUE) # build package
 
 
 # post package on CRAN
