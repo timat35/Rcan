@@ -14,7 +14,7 @@ csu_eapc <-
     #call core function 
 	df_data <- core.csu_eapc(df_data, var_rate, var_year, group_by, var_eapc, CI_level)
     
-	cat(paste0("EAPC with "),CI_level*100,(" standard errors have been computed\n"))
+	cat(paste0("EAPC with "),CI_level*100,("% CI level have been computed\n"))
     
     return(df_data)
     

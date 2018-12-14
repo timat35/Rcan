@@ -6,5 +6,5 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-update test unit for noLD checks
-Add option to customize axis label in hidden function.
+Add option to select CI level for EAPC.
+Change default CI level from 90% to 95%.

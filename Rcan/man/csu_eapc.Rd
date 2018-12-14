@@ -10,7 +10,8 @@ csu_eapc(df_data,
 	var_rate="asr",
 	var_year="year",
 	group_by=NULL,
-	var_eapc = "eapc")
+	var_eapc = "eapc",
+	CI_level = 0.95)
 }
 
 \arguments{

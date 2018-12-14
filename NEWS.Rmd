@@ -1,5 +1,10 @@
 # Rcan news
 
+## 1.3.63
+
+* Add option to select CI level for EAPC.
+* Change default CI level from 90% to 95%.
+
 ## 1.3.62
 
 * Add option to customize axis label in hidden function.
