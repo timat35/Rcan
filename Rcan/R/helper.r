@@ -568,7 +568,8 @@ core.csu_eapc <-
            var_rate="asr",
            var_year="year",
            group_by= NULL,
-           var_eapc="eapc") {
+           var_eapc="eapc", 
+					 CI_level = 0.95) {
     
     #create fake group to have group_by optional 
     bool_dum_by <- FALSE
@@ -601,8 +602,8 @@ core.csu_eapc <-
       
     }
     
-    dt_data$CSU_UP <- 100*(exp(dt_data$CSU_EAPC+(1.65*dt_data$CSU_ST))-1)
-    dt_data$CSU_LOW <- 100*(exp(dt_data$CSU_EAPC-(1.65*dt_data$CSU_ST))-1)
+    dt_data$CSU_UP <- 100*(exp(dt_data$CSU_EAPC-(qt((1-CI_level)/2, df = Inf)*dt_data$CSU_ST))-1)
+    dt_data$CSU_LOW <- 100*(exp(dt_data$CSU_EAPC+(qt((1-CI_level)/2, df = Inf)*dt_data$CSU_ST))-1)
     dt_data$CSU_EAPC <- 100*(exp(dt_data$CSU_EAPC)-1)
     
     

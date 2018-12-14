@@ -30,6 +30,9 @@ csu_eapc(df_data,
 		Name of the new variable for the EAPC.\cr
 		The variable for the CI will be name based on \code{var_eapc} + "_" +  up/Low.
 }
+  \item{CI_level}{
+		Confidence interval level. Default is 0.95.
+}
 
 }
 \details{
