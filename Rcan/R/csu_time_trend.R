@@ -39,8 +39,17 @@ csu_time_trend <- function (
 
   
  #call to core function
- csu_list <- core.csu_time_trend(df_data, var_trend, var_year, group_by, logscale, smoothing,
-	legend, color_trend, ytitle, plot_title, linesize) 
+ csu_list <- core.csu_time_trend(df_data,
+                                 var_trend,
+                                 var_year,
+                                 group_by, 
+                                 logscale,
+                                 smoothing,
+                                 legend,
+                                 color_trend,
+                                 ytitle,
+                                 plot_title = plot_title,
+                                 linesize = linesize) 
   
   dt_data <- csu_list$dt_data
   

@@ -29,7 +29,7 @@ csu_ageSpecific_top <-
     #call core function 
 	temp <- core.csu_ageSpecific_top(df_data,var_age, var_cases, var_py,var_top, group_by,
 	                                       missing_age, db_rate, logscale, nb_top, 
-	                                       plot_title, plot_subtitle, var_color)
+	                                       plot_title, plot_subtitle, var_color =var_color)
 
     
 	for (i in  1:length(temp$plotlist)) {
