@@ -6,5 +6,5 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-Add option to select CI level for EAPC.
-Change default CI level from 90% to 95%.
+fix bug in graphics title
+
