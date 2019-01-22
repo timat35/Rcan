@@ -1165,7 +1165,7 @@ core.csu_time_trend <- function (
   # to calcul y axes breaks
   
   if (logscale) {
-    min_tick_value <- min(dt_data[CSU_smooth != 0,]$CSU_smooth)
+    min_tick_value <- min(dt_data[CSU_smooth > 0,]$CSU_smooth)
   } else {
     min_tick_value <- 0
   }
