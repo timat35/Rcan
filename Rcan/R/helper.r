@@ -1300,7 +1300,7 @@ core.csu_time_trend <- function (
     csu_plot <- csu_plot +
       guides(color = guide_legend(nrow=legend$nrow))
   }
-  
+  coucouo
   return(list(dt_data=dt_data, csu_plot = csu_plot, legend_position=legend$position,bool_dum_by = bool_dum_by))
   
   
