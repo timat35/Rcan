@@ -3,8 +3,6 @@
 core.error_variable <- function(df_data, varname, funcname,type="numeric") {
   
   if (!is.null(varname)) {
-	  
-	  #this is a test
   
     if (!(varname%in% colnames(df_data))) {
       
