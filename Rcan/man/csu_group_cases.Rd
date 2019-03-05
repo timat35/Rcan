@@ -24,9 +24,17 @@ csu_group_cases(df_data,
 		Age variable. (Numeric). Value > 150 will be consider as missing age.
 }
   \item{cross_by}{
-		(Optional) A vector of variables to create the all possible category for each age group (ICD and Year in option).\cr
-		For instance sex (1, 2) and cancer (C15, C16, C17) would create six category (C15 1, C15 2, ..., C17 1, C17 2) for each age group.\cr
-
+		(Optional) A vector of variables to create the all possible category for each age group (and ICD and Year in option).\cr
+		For instance sex (1, 2) and country code (250, 356, 840) would create six category:
+		\tabular{ll}{
+			sex \tab country_code\cr
+			1 \tab 250\cr
+			1 \tab 356\cr
+			1 \tab 840\cr
+			2 \tab 250\cr
+			2 \tab 356\cr
+			2 \tab 840\cr
+		}
 }
   \item{group_by}{
 		(Optional) A vector of other relative variables to keep.\cr
@@ -38,10 +46,23 @@ csu_group_cases(df_data,
   \item{df_ICD}{
 	(Optional) ICD file for ICD grouping information. Must have 2 field: "ICD", "LABEL"\cr.
 	This will regroup the ICD by LABEL, and update ICD code.\cr
-	"C18" Colorectum, "C19" Colorectum, "C20" Colorectum, "C21" Colorectum will be group as "C18-21" Colorectum.
+	For instance this group
+	\tabular{ll}{
+		ICD \tab LABEL\cr
+		C18 \tab COLORECTUM\cr
+		C19 \tab COLORECTUM\cr
+		C20 \tab COLORECTUM\cr
+		C21 \tab COLORECTUM\cr
+	}
+
+	Will become:
+	\tabular{ll}{
+		ICD_group \tab LABEL\cr
+		C18-C21 \tab COLORECTUM\cr
+	}
 }
   \item{var_ICD}{
-	(Optional) ICD variable: ICd variable in the individual data 
+	(Optional) ICD variable: ICD variable in the individual data 
 }
   \item{var_year}{
 	(Optional) Year variable: Extract year from custom format ("yyyymmdd","ddmmyyy", "yyyy/mm","dd-mm-yyyy", etc..) and group data by year.
