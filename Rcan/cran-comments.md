@@ -6,5 +6,5 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-fix bug in graphics title
+add "csu_group_cases" to group individual data
 

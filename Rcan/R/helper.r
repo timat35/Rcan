@@ -563,9 +563,7 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
 }
 
 
-
-core.csu_eapc <-
-  function(df_data,
+core.csu_eapc <- function(df_data,
            var_rate="asr",
            var_year="year",
            group_by= NULL,
@@ -631,9 +629,7 @@ core.csu_eapc <-
 
 
 
-
-core.csu_ageSpecific <-
-  function(df_data,
+core.csu_ageSpecific <-function(df_data,
            var_age="age",
            var_cases="cases",
            var_py="py",
@@ -1308,4 +1304,59 @@ core.csu_time_trend <- function (
 }
 
 
+core.csu_year_extract <- function(year_list) {
 
+  temp <- gsub("[^\\d]", "", year_list, perl=TRUE)
+  if (unique(nchar(temp)) == 4 ) {
+    return(as.numeric(year_list))
+  }
+  else if (unique(nchar(temp)) == 6 ) {
+    
+      test <- all(grepl("(18|19|20)\\d{2}\\d{2}",temp))
+      if (test) {
+        return(as.numeric(gsub("(^\\d{4}).+", "\\1", temp, perl=TRUE))) 
+      }
+      else {
+        return(as.numeric(gsub(".+(\\d{4}$)", "\\1", temp, perl=TRUE))) 
+      }
+
+  }
+  else if (unique(nchar(temp)) == 8 ) {
+     
+     test <- all(grepl("(18|19|20)\\d{2}\\d{4}",temp))
+     if (test) {
+        return(as.numeric(gsub("(^\\d{4}).+", "\\1", temp, perl=TRUE))) 
+     }
+     else {
+        return(as.numeric(gsub(".+(\\d{4}$)", "\\1", temp, perl=TRUE))) 
+     }
+  }
+}
+
+
+core.csu_icd_group <- function(icd_list) {
+
+  bool_follow <- FALSE 
+  icd_first <- icd_list[1]
+  icd_long <- icd_first
+
+  code_active = as.numeric(sub(".+?(\\d+)", "\\1", icd_first))
+
+  for (code in icd_list[-1]) {
+
+    code_new = as.numeric(sub(".+?(\\d+)", "\\1", code))
+    bool_follow <- code_new == code_active + 1
+
+    if (bool_follow) {
+      icd_long <- paste0(icd_first, '-', as.character(code_new))
+
+    }
+    else {
+      icd_long <- paste0(icd_long, ',', as.character(code))
+      icd_first <- icd_long
+    }
+    code_active <- code_new
+
+  }
+  return(icd_long)
+}

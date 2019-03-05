@@ -1,5 +1,13 @@
 # Rcan news
 
+## 1.3.65
+
+* add "csu_group_cases" to group individual data
+
+## 1.3.64
+
+* fix bug in graphics title
+
 ## 1.3.63
 
 * Add option to select CI level for EAPC.
