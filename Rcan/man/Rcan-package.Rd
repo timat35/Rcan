@@ -24,6 +24,7 @@ Maintainer: \packageMaintainer{Rcan}
 	\code{\link{csu_eapc}}
 	\code{\link{csu_time_trend}}
 	\code{\link{csu_trendCohortPeriod}}
+	\code{\link{csu_group_cases}}
 
 }
 
