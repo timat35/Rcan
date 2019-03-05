@@ -26,7 +26,7 @@ csu_group_case <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_cas
   # merge with ICD 
     dt_ICD <- data.table(df_ICD)
     setkeyv(dt_ICD,c("LABEL", "ICD")) 
-    dt_ICD[, ICD_group:= sapply(LABEL, function(x) {icd_group(as.vector(dt_ICD[LABEL == x, ]$ICD))})]
+    dt_ICD[, ICD_group:= sapply(LABEL, function(x) {core.csu_icd_group(as.vector(dt_ICD[LABEL == x, ]$ICD))})]
     list_ICD <- dt_ICD$ICD
 
     dt_data$temp <- as.character(dt_data[[var_ICD]])

@@ -6,7 +6,6 @@ install.packages("ggplot2")
 install.packages("grid")
 install.packages("scales")
 install.packages("testthat")
-
 install.packages("devtools")
 
 

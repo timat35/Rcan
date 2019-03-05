@@ -1,4 +1,4 @@
-
+library(Rcan)
 # group ICD
 library(data.table)
 setwd("c:/projects/Rcan/temp")
@@ -13,6 +13,9 @@ var_year <- "INCID"
 var_cases <- NULL
 group_by <- NULL
 
+test <- as.vector(dt_ICD[LABEL == "COLORECTUM", ]$ICD)
+icd_group(test)
+
 dt_result <- data_group(
 	df_data,
 	var_age ,
@@ -22,7 +25,7 @@ dt_result <- data_group(
 	var_year = var_year) 
 
 
-
+write.csv(dt_result,"test.csv")
 
 
 

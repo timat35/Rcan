@@ -13,6 +13,7 @@
 		"CSU_dum_by","CSU_rate","CSU_smooth","age_factor","asr","correction","dummy_top",
 		"id_group","max_year","nb_age_group","pop15","pop16","pop17","rank_value","rate",
 		"smooth_value","st_err","temp","temp_age","temp_label","temp_label2","total",
-		"total_known"
+		"total_known","cases","ICD_group", "LABEL", "ICD", "age_group", "age_group_label", 
+		"temp1", "temp2"
 		)
 	)
