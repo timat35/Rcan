@@ -1,78 +1,110 @@
-csu_merge_inc_pop <- function(inc_file,
-                              pop_file,
-                              var_cases = "CASES",
-                              var_age = "AGE_GROUP",
-                              var_age_label = "AGE_GROUP_LABEL",
-                              var_pop = "COUNT",
-                              var_ref_count = "REFERENCE_COUNT",
-                              group_by = NULL,
-                              column_group_list = NULL){
-  
-  df_inc <- read.table(inc_file, header=TRUE, sep="\t")
-  df_pop <- read.table(pop_file, header=TRUE, sep="\t")
-  
-  dt_inc <- data.table(df_inc)
-  dt_pop <- data.table(df_pop)
-  
-  setnames(dt_inc, var_cases, "CSU_C")
-  
-  column_group_list[[1]]  <- intersect(column_group_list[[1]],colnames(dt_inc))
-  group_by <- intersect(group_by,colnames(dt_inc))
-  
-  dt_inc <- dt_inc[, c(var_age, group_by, "CSU_C"), with = FALSE]
-  dt_inc <-  dt_inc[,list(CSU_C = sum(CSU_C)), by=eval(colnames(dt_inc)[!colnames(dt_inc) %in% c("CSU_C")])]
-  
-  if (!is.null(column_group_list)){
-    cj_var <- colnames(dt_inc)[!colnames(dt_inc) %in% unlist(c("CSU_C",lapply(column_group_list, `[`, -1)))]
-  } else {
-    cj_var <-colnames(dt_inc)[!colnames(dt_inc) %in% c("CSU_C")]
-  }
-  
-  dt_temp = dt_inc[, do.call(CJ, c(.SD, unique=TRUE)), .SDcols=cj_var]
-  
-  ##keep ICD group label
-  if (!is.null(column_group_list)){
-    nb_group <- length(column_group_list)
-    for( i in 1:nb_group) {
-      dt_col_group <- unique(dt_inc[, column_group_list[[i]], with=FALSE])
-      dt_temp <- merge(dt_temp, dt_col_group,by= column_group_list[[i]][[1]], all.x=TRUE)
+
+icd_group <- function(icd_list) {
+
+  bool_follow <- FALSE 
+  icd_first <- icd_list[1]
+  icd_long <- icd_first
+
+  code_active = as.numeric(sub(".+?(\\d+)", "\\1", icd_first))
+
+  for (code in icd_list[-1]) {
+
+    code_new = as.numeric(sub(".+?(\\d+)", "\\1", code))
+    bool_follow <- code_new == code_active + 1
+
+    if (bool_follow) {
+      icd_long <- paste0(icd_first, '-', as.character(code_new))
+
     }
-  }
-  
-  dt_inc <- merge(dt_temp, dt_inc,by=colnames(dt_temp), all.x=TRUE)[, CSU_C := ifelse(is.na(CSU_C),0, CSU_C )]
-  
-  if (nrow(dt_inc[!SEX %in% c(1,2)]) > 0){
-    
-    var_group2 <- "ICD10GROUP"
-    if ("BASIS" %in% group_by) {
-      var_group2 <- c(var_group2,"BASIS" )
+    else {
+      icd_long <- paste0(icd_long, ',', as.character(code))
+      icd_first <- icd_long
     }
-    
-    dt_inc <- canreg_attr_missing_sex(dt_inc, var_age, var_group2)
+    code_active <- code_new
+
   }
-  
-  dt_pop <- dt_pop[get(var_pop) != 0,]
-  dt_pop[[var_ref_count]] <-  dt_pop[[var_ref_count]]*100
-  
-  dt_all <- merge(dt_inc, dt_pop,by=intersect(colnames(dt_inc),colnames(dt_pop)), all.x=TRUE)
-  
-  #create ICD10color if not existing (take care of NA when using the color) and add cancer_label
-  dt_all$cancer_label <- canreg_cancer_info(dt_all)$cancer_label
-  if (!"ICD10GROUPCOLOR" %in% colnames(dt_all)) {
-    
-    dt_color_map <- csu_cancer_color(unique(canreg_cancer_info(dt_all)$cancer_label))
-    dt_all <- merge(dt_all, dt_color_map, by = c("cancer_label"), all.x=TRUE, sort=F )
-  }
-  
-  setnames(dt_all,var_age,"CSU_A")
-  setnames(dt_all,var_pop,"CSU_P")
-  
-  
-  dt_all[is.na(get(var_age_label)), CSU_A := max(CSU_A)]
-  dt_all <-  dt_all[,list(CSU_C = sum(CSU_C), CSU_P = sum(CSU_P)), by=eval(colnames(dt_all)[!colnames(dt_all) %in% c("CSU_C", "CSU_P")])]
-  
-  setnames(dt_all,"CSU_P",var_pop)
-  setnames(dt_all,"CSU_A",var_age)
-  setnames(dt_all,"CSU_C",var_cases)
-  return(dt_all)
+  return(icd_long)
 }
+
+
+data_group <- function(inc_file, var_age ,cross_by=NULL,group_by=NULL,var_cases = NULL,ICD_file = NULL,var_ICD=NULL,var_year = NULL) {
+
+  group_by <- unique(c(cross_by,group_by,var_year))
+
+  df_inc <- read.table(inc_file, header = TRUE, sep = ",")
+  dt_inc <- data.table(df_inc)
+
+  if (is.null(var_cases)) {
+    var_cases <- "cases"
+    dt_inc[, cases:= 1]
+  } else {
+    setnames(dt_inc, var_cases, "cases")
+  }
+
+  dt_inc <- dt_inc[, unique(c(var_cases, var_age,group_by,var_ICD)), with = FALSE]
+
+
+  if (!is.null(ICD_file)) {
+  # merge with ICD 
+    df_ICD <- read.table(ICD_file, header=TRUE, sep=",")
+    dt_ICD <- data.table(df_ICD)
+    setkeyv(dt_ICD,c("LABEL", "ICD")) 
+    dt_ICD[, ICD_group:= sapply(LABEL, function(x) {icd_group(as.vector(dt_ICD[LABEL == x, ]$ICD))})]
+    list_ICD <- dt_ICD$ICD
+
+    dt_inc[, temp := as.character(get(var_ICD))]
+    dt_inc[, ICD := list_ICD[match(dt_inc$temp, list_ICD)]]
+    dt_inc[!is.na(ICD), temp := NA]
+    dt_inc[, temp:= substr(temp, 1, 3)] 
+    dt_inc[, ICD:=list_ICD[match(dt_inc$temp, list_ICD)]]
+    dt_inc <- dt_inc[!is.na(ICD), ]
+    dt_inc <- merge(dt_inc, dt_ICD, by=c("ICD"))
+    dt_inc[,c("temp", var_ICD,"ICD") := list(NULL, NULL,NULL)]
+    dt_ICD[,ICD := NULL]
+
+
+    group_by <- c(group_by, "LABEL")
+    cross_by <- c(cross_by, "ICD_group")
+
+    dt_ICD <- NULL
+
+  }
+
+  #  create age group 
+  dt_inc[, age_group:= cut(get(var_age), c(seq(0, 85, 5), 150), include.lowest = TRUE, right=FALSE)]
+  dt_inc[, age_group_label := as.character(age_group)]
+  dt_inc[, temp1 := sub("\\[(\\d{1,3}),(\\d{1,3}).+", "\\1",age_group_label)]
+  dt_inc[, temp2 := as.numeric(sub("\\[(\\d{1,3}),(\\d{1,3}).+", "\\2",age_group_label))]
+  dt_inc[, age_group :=  ifelse(temp2 == 150 ,18,temp2/5)]
+  dt_inc[, age_group_label := ifelse(temp2 == 150, paste0(temp1,"+"), paste0(temp1,"-", as.character(temp2-1)))] 
+  dt_inc[is.na(age_group), age_group :=  19]
+  dt_inc[,c("temp1","temp2", var_age) := list(NULL, NULL, NULL)]
+
+  dt_inc <-  dt_inc[,list(cases = sum(cases)),by=eval(colnames(dt_inc)[!colnames(dt_inc) %in% c("cases")])]
+
+  group_by <- c(group_by, c("age_group_label"))
+  cross_by <- c(cross_by, "age_group")
+
+  dt_CJ = dt_inc[, do.call(CJ, c(.SD, unique=TRUE)), .SDcols=cross_by]
+
+  group_by <- group_by[!group_by %in% cross_by]
+
+
+  ##keep ICD group label
+  if (!is.null(group_by)){
+    for (var in group_by) {
+      for(base in cross_by) {
+        dt_test <- unique(dt_inc[, c(var,base), with=FALSE])
+        dt_base <- unique(dt_test[, c(base), with=FALSE])
+        if (nrow(dt_test) == nrow(dt_base)) {
+          dt_CJ <- merge(dt_CJ, dt_test, by=base, all.x=TRUE)
+          print(dt_CJ)
+        }
+      }
+    }
+  }
+
+  dt_inc <- merge(dt_CJ, dt_inc,by=colnames(dt_temp), all.x=TRUE)[, cases := ifelse(is.na(cases),0, cases )]
+  return (dt_inc) 
+}
+
