@@ -1,12 +1,12 @@
-\name{csu_group_case}
-\alias{csu_group_case}
-\title{csu_group_case}
+\name{csu_group_cases}
+\alias{csu_group_cases}
+\title{csu_group_cases}
 
 \description{
 \code{csu_group_case} Group individual data into 5 years age-group data across different population (year, sex, cancer). Optionally: Group cancer based on a standard ICD group file; Extract year from custom year format.
 }
 \usage{
-csu_group_case(df_data, 
+csu_group_cases(df_data, 
 	var_age ,
 	cross_by=NULL,
 	group_by=NULL,

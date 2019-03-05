@@ -1,4 +1,4 @@
-csu_group_case <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_cases = NULL,df_ICD = NULL,var_ICD=NULL,var_year = NULL) {
+csu_group_cases <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_cases = NULL,df_ICD = NULL,var_ICD=NULL,var_year = NULL) {
 
 
   group_by <- unique(c(cross_by,group_by))
