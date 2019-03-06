@@ -1,4 +1,26 @@
 
+test_that("Test csu_group_cases: 1",{
+
+  #input data
+  
+  data(ICD_group_file)
+  data(data_individual_file)
+
+  #output result
+  output_test <- csu_group_cases(data_individual_file,
+    var_age="age",
+    cross_by=c("sex", "regcode"),
+    group_by=c("reglabel"),
+    df_ICD = ICD_group_file,
+    var_ICD  ="site") 
+
+  expect_test <- readRDS(system.file("testdata","csu_group_cases_test1.rds",package="Rcan"))
+
+  #test
+  expect_equal(output_test, expect_test)
+})
+
+
 
 test_that("Test csu_asr: 1",{
 
