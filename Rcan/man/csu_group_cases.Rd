@@ -3,7 +3,8 @@
 \title{csu_group_cases}
 
 \description{
-\code{csu_group_case} Group individual data into 5 years age-group data across different population (year, sex, cancer). Optionally: Group cancer based on a standard ICD group file; Extract year from custom year format.
+\code{csu_group_case} group individual data into 5 years age-group dataand other user defined variable (sex, registry, etc…). \cr 
+Optionally: Group cancer based on a standard ICD10 coding; Extract year from custom year format.
 }
 \usage{
 csu_group_cases(df_data, 
@@ -25,15 +26,15 @@ csu_group_cases(df_data,
 }
   \item{cross_by}{
 		(Optional) A vector of variables to create the all possible category for each age group (and ICD and Year in option).\cr
-		For instance sex (1, 2) and country code (250, 356, 840) would create six category:
+		For instance sex (1, 2) and registry code (regA, regB, regC) would create six category:
 		\tabular{ll}{
 			sex \tab country_code\cr
-			1 \tab 250\cr
-			1 \tab 356\cr
-			1 \tab 840\cr
-			2 \tab 250\cr
-			2 \tab 356\cr
-			2 \tab 840\cr
+			1 \tab regA\cr
+			1 \tab regB\cr
+			1 \tab regC\cr
+			2 \tab regA\cr
+			2 \tab regB\cr
+			2 \tab regC\cr
 		}
 }
   \item{group_by}{
@@ -60,6 +61,8 @@ csu_group_cases(df_data,
 		ICD_group \tab LABEL\cr
 		C82-85,C96 \tab NHL\cr
 	}
+
+	example:\code{\link{ICD_group_file}}
 }
   \item{var_ICD}{
 	(Optional) ICD variable: ICD variable in the individual data. 
@@ -70,7 +73,9 @@ csu_group_cases(df_data,
 }
 
 \details{
-	This function group individual data to allow further analysis\cr 
+	For most analysis, individual cases database need to be grouped by category.\cr 
+	This function group data by 5 years age-group and other user defined variable.\cr 
+	Next step will be to add 5 years population data.
 }
 \value{
 	Return a dataframe.
@@ -103,6 +108,7 @@ data(data_individual_file)
 
 #group individual data by 
 #	5 year age group 
+
 df_data_age <- csu_group_cases(data_individual_file,
 	var_age="age",
 	cross_by=c("sex", "regcode", "site"),
@@ -111,6 +117,7 @@ df_data_age <- csu_group_cases(data_individual_file,
 #group individual data by 
 #	5 year age group 
 #	ICd grouping from dataframe ICD_group_file
+
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
 	cross_by=c("sex", "regcode"),
@@ -122,6 +129,7 @@ df_data_icd <- csu_group_cases(data_individual_file,
 #	5 year age group 
 #	ICd grouping from dataframe ICD_group_file
 #	year (extract from date of incidence)
+
 df_data_year <- csu_group_cases(data_individual_file,
 	var_age="age",
 	cross_by=c("sex", "regcode"),
@@ -129,6 +137,7 @@ df_data_year <- csu_group_cases(data_individual_file,
 	df_ICD = ICD_group_file,
 	var_ICD  ="site",
 	var_year = "doi") 			
+
 # you can export your result as csv file using write.csv:
 # write.csv(result, file="result.csv")
 				  		  
