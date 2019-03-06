@@ -30,7 +30,9 @@ test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
 library(devtools)
 library(spelling)
 
+
 check("C:/Projects/Rcan/Rcan") #local check
+check_man("C:/Projects/Rcan/Rcan") #local check documentation
 build("C:/Projects/Rcan/Rcan", path="C:/Projects/Rcan/release", manual = TRUE) # build package
 build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 

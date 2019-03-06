@@ -3,7 +3,7 @@
 \title{csu_group_cases}
 
 \description{
-\code{csu_group_case} group individual data into 5 years age-group dataand other user defined variable (sex, registry, etc…). \cr 
+\code{csu_group_case} group individual data into 5 years age-group data and other user defined variable (sex, registry, etc...).\cr 
 Optionally: Group cancer based on a standard ICD10 coding; Extract year from custom year format.
 }
 \usage{
@@ -62,7 +62,7 @@ csu_group_cases(df_data,
 		C82-85,C96 \tab NHL\cr
 	}
 
-	example:\code{\link{ICD_group_file}}
+	example: \code{\link{ICD_group_file}}
 }
   \item{var_ICD}{
 	(Optional) ICD variable: ICD variable in the individual data. 
