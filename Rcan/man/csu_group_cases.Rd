@@ -97,22 +97,38 @@ data(csu_registry_data_2)
 
 # Estimated Annual Percentage Change (EAPC) base on ASR.
 
-\donttest{
-df_asr <- 
-	csu_asr(csu_registry_data_2, 
-	  "age", "cases", "py",
-	  group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
-	  var_age_group = c("registry_label"), 
-	  missing_age = 99
-	  )
-				  
-result <- 
-	csu_eapc(df_asr,
-		"asr", "year",
-		group_by=c("registry", "registry_label", "sex", "ethnic" )
-		)
 
-}					
+data(ICD_group_file)
+data(data_individual_file)
+
+#group individual data by 
+#	5 year age group 
+df_data_age <- csu_group_cases(data_individual_file,
+	var_age="age",
+	cross_by=c("sex", "regcode", "site"),
+	group_by=c("reglabel")) 
+
+#group individual data by 
+#	5 year age group 
+#	ICd grouping from dataframe ICD_group_file
+df_data_icd <- csu_group_cases(data_individual_file,
+	var_age="age",
+	cross_by=c("sex", "regcode"),
+	group_by=c("reglabel"),
+	df_ICD = ICD_group_file,
+	var_ICD  ="site") 
+
+#group individual data by 
+#	5 year age group 
+#	ICd grouping from dataframe ICD_group_file
+#	year (extract from date of incidence)
+df_data_year <- csu_group_cases(data_individual_file,
+	var_age="age",
+	cross_by=c("sex", "regcode"),
+	group_by=c("reglabel"),
+	df_ICD = ICD_group_file,
+	var_ICD  ="site",
+	var_year = "doi") 			
 # you can export your result as csv file using write.csv:
 # write.csv(result, file="result.csv")
 				  		  

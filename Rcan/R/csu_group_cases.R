@@ -90,10 +90,6 @@ csu_group_cases <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_ca
       for(base in cross_by) {
         dt_test <- unique(dt_data[, c(var,base), with=FALSE])
         dt_base <- unique(dt_test[, c(base), with=FALSE])
-        print(var)
-        print(base)
-        print(nrow(dt_test))
-        print(nrow(dt_base))
         if (nrow(dt_test) == nrow(dt_base)) {
 
           dt_CJ <- merge(dt_CJ, dt_test, by=base, all.x=TRUE)
@@ -103,7 +99,7 @@ csu_group_cases <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_ca
   }
 
   dt_data <- merge(dt_CJ, dt_data,by=colnames(dt_CJ), all.x=TRUE)[, cases := ifelse(is.na(cases),0, cases )]
-    return (dt_data) 
+  return (dt_data) 
 }
 
 

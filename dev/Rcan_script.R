@@ -9,7 +9,7 @@ install.packages("testthat")
 install.packages("devtools")
 
 
-#update package (last version)
+#update package (last stable version)
 detach(package:Rcan)
 remove.packages("Rcan")
 devtools::install_github("timat35/Rcan", subdir="Rcan")
