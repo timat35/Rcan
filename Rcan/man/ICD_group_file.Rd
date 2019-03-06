@@ -54,5 +54,5 @@ df_data_icd <- csu_group_cases(data_individual_file,
 	group_by=c("reglabel"),
 	df_ICD = ICD_group_file,
 	var_ICD  ="site") 
-
+}
 \keyword{datasets}
