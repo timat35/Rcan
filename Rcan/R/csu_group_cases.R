@@ -26,6 +26,25 @@ csu_group_cases <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_ca
   # merge with ICD 
     dt_ICD <- data.table(df_ICD)
     setkeyv(dt_ICD,c("LABEL", "ICD")) 
+    dt_ICD <- unique(dt_ICD)
+
+    #ungroup ICD code 
+    dt_table <- data.table()
+    for (row in 1:nrow(dt_ICD)) {
+
+      icd_group <- as.character(dt_ICD[row]$ICD)
+      temp <- core.csu_icd_ungroup(paste(icd_group, collapse=","))
+      temp <- data.table(ICD_ungroup = temp, ICD =icd_group )
+      
+      dt_table <- rbind(dt_table, temp)
+
+    }
+
+    dt_ICD <- merge(dt_ICD, dt_table, by="ICD")
+    dt_ICD <- unique(dt_ICD)
+    dt_ICD[, ICD:=NULL]
+    setnames(dt_ICD, "ICD_ungroup", "ICD")
+
     dt_ICD[, ICD_group:= sapply(LABEL, function(x) {core.csu_icd_group(as.vector(dt_ICD[LABEL == x, ]$ICD))})]
     list_ICD <- dt_ICD$ICD
 

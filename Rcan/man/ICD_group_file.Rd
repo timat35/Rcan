@@ -11,7 +11,6 @@
 \format{
   A data frame with 97 observations on the following 2 variables.
   \describe{
-    \item{\code{CSU_age_factor}}{age variable from 1 to 18. 1 is 0-4 years, 2 is 5-9, etc..., 17 is 80-84, 18 is 85+.} 
     \item{\code{ICD}}{ICD10 code}
     \item{\code{LABEL}}{label for cancer group}
   }

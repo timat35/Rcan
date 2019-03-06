@@ -1360,3 +1360,41 @@ core.csu_icd_group <- function(icd_list) {
   }
   return(icd_long)
 }
+
+
+core.csu_icd_ungroup <- function(icd_group) {
+
+  icd_group <- gsub("\\s", "", icd_group)
+  
+  icd_list <- NULL
+  ICD_reg <-"(C\\d+)([^C+]?)(.+)?"
+
+  while (nchar(icd_group)>=3) {
+
+    icd_start <- sub(ICD_reg, "\\1", icd_group)
+    icd_mark <- sub(ICD_reg, "\\2", icd_group)
+    icd_group <- sub(ICD_reg, "\\3", icd_group)
+
+
+    if (icd_mark == "-") {
+
+      code_start <- sub("C(\\d+)", "\\1", icd_start)
+      code_nchar <- nchar(code_start)
+      code_start <- as.numeric(code_start)
+      code_end <- as.numeric(sub("(\\d+)(.+)?", "\\1", icd_group))
+
+      for (code in code_start:code_end) {
+        icd_list <- c(icd_list, paste0("C", sprintf(paste0("%0",code_nchar,"d"), code)))
+      }
+
+      icd_group <- sub("(\\d+)([^C+]?)(.+)?", "\\3", icd_group) 
+    }
+    else  {
+      icd_list <- c(icd_list, sub("(C\\d+)", "\\1", icd_start))
+    }
+  }
+
+  return(icd_list)
+}
+   
+
