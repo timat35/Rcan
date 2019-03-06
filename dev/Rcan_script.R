@@ -7,6 +7,7 @@ install.packages("grid")
 install.packages("scales")
 install.packages("testthat")
 install.packages("devtools")
+install.packages("spelling")
 
 
 #update package (last stable version)
