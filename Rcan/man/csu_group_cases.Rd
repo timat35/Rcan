@@ -45,24 +45,24 @@ csu_group_cases(df_data,
 }
   \item{df_ICD}{
 	(Optional) ICD file for ICD grouping information. Must have 2 field: "ICD", "LABEL"\cr.
-	This will regroup the ICD by LABEL, and update ICD code.\cr
-	For instance this group
+	2 format are possible:\cr
+	Each ICD code separate by ICD group\cr
 	\tabular{ll}{
 		ICD \tab LABEL\cr
-		C18 \tab COLORECTUM\cr
-		C19 \tab COLORECTUM\cr
-		C20 \tab COLORECTUM\cr
-		C21 \tab COLORECTUM\cr
+		C82 \tab NHL\cr
+		C83 \tab NHL\cr
+		C84 \tab NHL\cr
+		C85 \tab NHL\cr
+		C96 \tab NHL\cr
 	}
-
-	Will become:
+	ICD code already grouped.\cr
 	\tabular{ll}{
 		ICD_group \tab LABEL\cr
-		C18-C21 \tab COLORECTUM\cr
+		C82-85,C96 \tab NHL\cr
 	}
 }
   \item{var_ICD}{
-	(Optional) ICD variable: ICD variable in the individual data 
+	(Optional) ICD variable: ICD variable in the individual data. 
 }
   \item{var_year}{
 	(Optional) Year variable: Extract year from custom format ("yyyymmdd","ddmmyyy", "yyyy/mm","dd-mm-yyyy", etc..) and group data by year.

@@ -14,6 +14,11 @@ detach(package:Rcan)
 remove.packages("Rcan")
 devtools::install_github("timat35/Rcan", subdir="Rcan")
 
+#update package (dev version)
+detach(package:Rcan)
+remove.packages("Rcan")
+devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
+
 #run test unit
 library("Rcan")
 library("testthat")
@@ -27,7 +32,6 @@ check("C:/Projects/Rcan/Rcan") #local check
 build("C:/Projects/Rcan/Rcan", path="C:/Projects/Rcan/release", manual = TRUE) # build package
 build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 
-
 # post package on CRAN
 
 spell_check("C:/Projects/Rcan/Rcan")
@@ -35,7 +39,6 @@ check_rhub("C:/Projects/Rcan/Rcan")
 check_win_devel("C:/Projects/Rcan/Rcan") #build win check
 release_checks("C:/Projects/Rcan/Rcan")
 release("C:/Projects/Rcan/Rcan", check=FALSE)
-
 
 #create dataset fro shiny app
 

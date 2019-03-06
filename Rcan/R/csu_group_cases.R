@@ -1,8 +1,6 @@
 csu_group_cases <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_cases = NULL,df_ICD = NULL,var_ICD=NULL,var_year = NULL) {
 
 
-  group_by <- unique(c(cross_by,group_by))
-
   dt_data <- data.table(df_data)
 
   if (is.null(var_cases)) {
@@ -12,7 +10,7 @@ csu_group_cases <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_ca
     setnames(dt_data, var_cases, "cases")
   }
 
-  dt_data <- dt_data[, unique(c(var_cases, var_age,group_by,var_ICD,var_year)), with = FALSE]
+  dt_data <- dt_data[, unique(c(var_cases, var_age,cross_by,group_by,var_ICD,var_year)), with = FALSE]
 
   if (!is.null(var_year)) {
     dt_data$year <-  core.csu_year_extract(dt_data[[var_year]])
@@ -92,7 +90,12 @@ csu_group_cases <- function(df_data, var_age ,cross_by=NULL,group_by=NULL,var_ca
       for(base in cross_by) {
         dt_test <- unique(dt_data[, c(var,base), with=FALSE])
         dt_base <- unique(dt_test[, c(base), with=FALSE])
+        print(var)
+        print(base)
+        print(nrow(dt_test))
+        print(nrow(dt_base))
         if (nrow(dt_test) == nrow(dt_base)) {
+
           dt_CJ <- merge(dt_CJ, dt_test, by=base, all.x=TRUE)
         }
       }

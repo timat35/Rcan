@@ -7,7 +7,7 @@
 \description{
 	ICD10 group example for the function \code{\link{csu_group_cases}}
 }
-\usage{data("csu_ci5x_mean")}
+\usage{data("ICD_group_file")}
 \format{
   A data frame with 97 observations on the following 2 variables.
   \describe{
