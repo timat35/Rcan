@@ -108,7 +108,7 @@ csu_group_cases2 <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df
 
 
 
-  return (dt_data) 
+  return (as.data.frame(dt_data)) 
 }
 
 

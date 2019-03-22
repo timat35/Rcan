@@ -9,13 +9,12 @@ Optionally: Group cancer based on a standard ICD10 coding; Extract year from cus
 \usage{
 csu_group_cases(df_data, 
 	var_age ,
-	cross_by=NULL,
 	group_by=NULL,
 	var_cases = NULL,
 	df_ICD = NULL,
 	var_ICD=NULL,
 	var_year = NULL) 
-}
+	}
 
 \arguments{
   \item{df_data}{
@@ -23,27 +22,13 @@ csu_group_cases(df_data,
 	}
   \item{var_age}{
 		Age variable. (Numeric). Value > 150 will be consider as missing age.
-}
-  \item{cross_by}{
-		(Optional) A vector of variables to create the all possible category for each age group (and ICD and Year in option).\cr
-		For instance sex (1, 2) and registry code (regA, regB, regC) would create six category:
-		\tabular{ll}{
-			sex \tab country_code\cr
-			1 \tab regA\cr
-			1 \tab regB\cr
-			1 \tab regC\cr
-			2 \tab regA\cr
-			2 \tab regB\cr
-			2 \tab regC\cr
-		}
-}
+	}
   \item{group_by}{
-		(Optional) A vector of other relative variables to keep.\cr
-		For instance, sex label, cancer label (to avoid create false category such as "1 male", "1 female", etc..)
-}
+		(Optional) A vector of variables to create the different population (sex, country, etc..).\cr
+	}
   \item{var_cases}{
 		(Optional) cases variable: If there is already a variable for the number for cases.
-}
+	}
   \item{df_ICD}{
 	(Optional) ICD file for ICD grouping information. Must have 2 field: "ICD", "LABEL"\cr.
 	2 format are possible:\cr
@@ -61,14 +46,17 @@ csu_group_cases(df_data,
 		ICD_group \tab LABEL\cr
 		C82-85,C96 \tab NHL\cr
 	}
-
+	2 ICD code separate by "-" includes all the ICD code between.\cr
+	2 ICD code separate by "," includes only these 2 ICD code.\cr
+	For instance, C82-85, C96 (or C82-C85, C96) includes: \cr
+	C82, C83, C84, C85 and C96 \cr
 	example: \code{\link{ICD_group_file}}
 }
   \item{var_ICD}{
 	(Optional) ICD variable: ICD variable in the individual data. 
 }
   \item{var_year}{
-	(Optional) Year variable: Extract year from custom format ("yyyymmdd","ddmmyyy", "yyyy/mm","dd-mm-yyyy", etc..) and group data by year.
+	(Optional) Year variable: Extract year from custom format ("yyyymmdd","ddmmyyyy", "yyyy/mm","dd-mm-yyyy", etc..) and group data by year.
 }
 }
 
@@ -95,13 +83,8 @@ csu_group_cases(df_data,
 
 \examples{
 
-data(csu_registry_data_2)
-
-# you import your data from csv file using read.csv:
+# you can import your data from csv file using read.csv:
 # mydata <-  read.csv("mydata.csv", sep=",")
-
-# Estimated Annual Percentage Change (EAPC) base on ASR.
-
 
 data(ICD_group_file)
 data(data_individual_file)
@@ -111,8 +94,7 @@ data(data_individual_file)
 
 df_data_age <- csu_group_cases(data_individual_file,
 	var_age="age",
-	cross_by=c("sex", "regcode", "site"),
-	group_by=c("reglabel")) 
+	group_by=c("sex", "regcode", "site","reglabel")) 
 
 #group individual data by 
 #	5 year age group 
@@ -120,8 +102,7 @@ df_data_age <- csu_group_cases(data_individual_file,
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
-	cross_by=c("sex", "regcode"),
-	group_by=c("reglabel"),
+	group_by=c("sex", "regcode","reglabel"),
 	df_ICD = ICD_group_file,
 	var_ICD  ="site") 
 
@@ -132,8 +113,7 @@ df_data_icd <- csu_group_cases(data_individual_file,
 
 df_data_year <- csu_group_cases(data_individual_file,
 	var_age="age",
-	cross_by=c("sex", "regcode"),
-	group_by=c("reglabel"),
+	group_by=c("sex", "regcode","reglabel"),
 	df_ICD = ICD_group_file,
 	var_ICD  ="site",
 	var_year = "doi") 			
