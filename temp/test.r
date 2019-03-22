@@ -5,7 +5,9 @@ devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 library(Rcan)
 library(data.table)
 
-#install.packages("stringi")
+#install.packages("rlang")
+
+
 
 
 
@@ -26,23 +28,20 @@ var_ICD <- NULL
 var_cases <- NULL
 
 
-dt_test <- csu_group_cases2(data_individual_file, var_age = "age",
+dt_test <- csu_group_cases(data_individual_file, var_age = "age",
                         group_by = c("sex", "regcode","reglabel"),
                        	df_ICD = ICD_group_file,
-	var_ICD  ="site",
+						var_ICD  ="site",
                         var_year = "doi")
 
 
 
-df_data_age <- csu_group_cases(data_individual_file,
-                     var_age="age",
-                     cross_by=c("sex", "regcode"),
-                     group_by=c("reglabel"))
+
 
 #group data by 
 #	5 year age group 
 
-df_data_test <- csu_group_cases2(data_individual_file,
+df_data_test <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode", "reglabel"))
 
@@ -52,14 +51,8 @@ df_data_test <- csu_group_cases2(data_individual_file,
 #	5 year age group 
 #	ICd grouping from dataframe ICD_group_file
 
-df_data_icd <- csu_group_cases(data_individual_file,
-	var_age="age",
-	cross_by=c("sex", "regcode"),
-	group_by=c("reglabel"),
-	df_ICD = ICD_group_file,
-	var_ICD  ="site") 
 
-dt_data <- csu_group_cases2(data_individual_file,
+dt_data <- csu_group_cases(data_individual_file,
          var_age="age",
          group_by=c("sex", "regcode","reglabel"),
          df_ICD = ICD_group_file,
@@ -70,15 +63,8 @@ dt_data <- csu_group_cases2(data_individual_file,
 #	5 year age group 
 #	ICd grouping from dataframe ICD_group_file
 #	year (extract from date of incidence)
-df_data_year <- csu_group_cases(data_individual_file,
-	var_age="age",
-	cross_by=c("sex", "regcode"),
-	group_by=c("reglabel"),
-	df_ICD = ICD_group_file,
-	var_ICD  ="site",
-	var_year = "doi") 
 
-df_data_year_test <- csu_group_cases2(data_individual_file,
+df_data_year_test <- csu_group_cases(data_individual_file,
                                 var_age="age",
                                 group_by=c("sex", "regcode","reglabel"),
                                 df_ICD = ICD_group_file,
