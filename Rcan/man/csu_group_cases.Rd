@@ -3,7 +3,7 @@
 \title{csu_group_cases}
 
 \description{
-\code{csu_group_case} group individual data into 5 years age-group data and other user defined variable (sex, registry, etc...).\cr 
+\code{csu_group_case} groups individual data into 5 years age-group data and other user defined variable (sex, registry, etc...).\cr 
 Optionally: Group cancer based on a standard ICD10 coding; Extract year from custom year format.
 }
 \usage{
@@ -24,13 +24,13 @@ csu_group_cases(df_data,
 		Age variable. (Numeric). Value > 150 will be consider as missing age.
 	}
   \item{group_by}{
-		(Optional) A vector of variables to create the different population (sex, country, etc..).\cr
+		(Optional) A vector of variables to create the different population (sex, country, etc...).\cr
 	}
   \item{var_cases}{
-		(Optional) cases variable: If there is already a variable for the number for cases.
+		(Optional) cases variable: If there is already a variable for the number of cases.
 	}
   \item{df_ICD}{
-	(Optional) ICD file for ICD grouping information. Must have 2 field: "ICD", "LABEL"\cr.
+	(Optional) ICD file for ICD grouping information. Must have 2 fields: "ICD", "LABEL"\cr.
 	2 format are possible:\cr
 	Each ICD code separate by ICD group\cr
 	\tabular{ll}{
@@ -50,10 +50,14 @@ csu_group_cases(df_data,
 	2 ICD code separate by "," includes only these 2 ICD code.\cr
 	For instance, C82-85, C96 (or C82-C85, C96) includes: \cr
 	C82, C83, C84, C85 and C96 \cr
+	Must be filled if \code{var_ICD} argument is defined
+	\cr
+
 	example: \code{\link{ICD_group_file}}
 }
   \item{var_ICD}{
-	(Optional) ICD variable: ICD variable in the individual data. 
+	(Optional) ICD variable: ICD variable in the individual data.\cr
+	Must be filled if \code{df_ICD} argument is defined
 }
   \item{var_year}{
 	(Optional) Year variable: Extract year from custom format ("yyyymmdd","ddmmyyyy", "yyyy/mm","dd-mm-yyyy", etc..) and group data by year.
@@ -62,7 +66,7 @@ csu_group_cases(df_data,
 
 \details{
 	For most analysis, individual cases database need to be grouped by category.\cr 
-	This function group data by 5 years age-group and other user defined variable.\cr 
+	This function groups data by 5 years age-group and other user defined variable.\cr 
 	Next step will be to add 5 years population data.
 }
 \value{
@@ -98,7 +102,7 @@ df_data_age <- csu_group_cases(data_individual_file,
 
 #group individual data by 
 #	5 year age group 
-#	ICd grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_file
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
@@ -108,7 +112,7 @@ df_data_icd <- csu_group_cases(data_individual_file,
 
 #group individual data by 
 #	5 year age group 
-#	ICd grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_file
 #	year (extract from date of incidence)
 
 df_data_year <- csu_group_cases(data_individual_file,
