@@ -2,7 +2,6 @@
 test_that("Test csu_group_cases: 1",{
 
   #input data
-  
   data(ICD_group_file)
   data(data_individual_file)
 
