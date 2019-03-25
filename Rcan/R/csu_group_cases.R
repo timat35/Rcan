@@ -51,8 +51,22 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
     }
 
     dt_ICD <- merge(dt_ICD, dt_table, by="ICD")
-    dt_ICD <- unique(dt_ICD)
     dt_ICD[, ICD:=NULL]
+    dt_ICD <- unique(dt_ICD)
+
+    dt_ICD_unique <- setDT(dt_ICD)[, .N, keyby=ICD_ungroup][N>1,]  
+
+    if (!is.null(dt_ICD_unique)) {
+
+      dt_ICD_unique <- merge(dt_ICD_unique,dt_ICD,by="ICD_ungroup", all.x=TRUE) 
+      dt_ICD_unique <- merge(dt_ICD_unique, df_ICD, by="LABEL")
+      dt_ICD_unique <- dt_ICD_unique[,c("LABEL", "ICD") , with=FALSE]
+      cat("-----\n")
+      print(as.data.frame(dt_ICD_unique))
+      stop(paste0("There is different label with the same ICD code in the ICD file defined")) 
+
+    }
+
     setnames(dt_ICD, "ICD_ungroup", "ICD")
 
     dt_ICD[, ICD_group:= sapply(LABEL, function(x) {Rcan:::core.csu_icd_group(as.vector(dt_ICD[LABEL == x, ]$ICD))})]

@@ -1348,7 +1348,7 @@ core.csu_icd_group <- function(icd_list) {
     bool_follow <- code_new == code_active + 1
 
     if (bool_follow) {
-      icd_long <- paste0(icd_first, '-', as.character(code_new))
+      icd_long <- paste0(icd_first, '-', sprintf("%02d", code_new))
 
     }
     else {
@@ -1381,7 +1381,7 @@ core.csu_icd_ungroup <- function(icd_group) {
       code_start <- sub("C(\\d+)", "\\1", icd_start)
       code_nchar <- nchar(code_start)
       code_start <- as.numeric(code_start)
-      code_end <- as.numeric(sub("(\\d+)(.+)?", "\\1", icd_group))
+      code_end <- as.numeric(sub("C?(\\d+)(.+)?", "\\1", icd_group))
 
       for (code in code_start:code_end) {
         icd_list <- c(icd_list, paste0("C", sprintf(paste0("%0",code_nchar,"d"), code)))
