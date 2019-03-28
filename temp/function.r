@@ -56,7 +56,9 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
 
     dt_ICD_unique <- setDT(dt_ICD)[, .N, keyby=ICD_ungroup][N>1,]  
 
-    if (!is.null(dt_ICD_unique)) {
+   
+
+    if ( nrow(dt_ICD_unique) > 0) {
 
       dt_ICD_unique <- merge(dt_ICD_unique,dt_ICD,by="ICD_ungroup", all.x=TRUE) 
       dt_ICD_unique <- merge(dt_ICD_unique, df_ICD, by="LABEL")

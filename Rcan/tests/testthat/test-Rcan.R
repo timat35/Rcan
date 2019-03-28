@@ -8,8 +8,7 @@ test_that("Test csu_group_cases: 1",{
   #output result
   output_test <- csu_group_cases(data_individual_file,
     var_age="age",
-    cross_by=c("sex", "regcode"),
-    group_by=c("reglabel"),
+    group_by=c("sex", "regcode","reglabel"),
     df_ICD = ICD_group_file,
     var_ICD  ="site") 
 

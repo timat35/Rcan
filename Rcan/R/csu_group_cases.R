@@ -25,7 +25,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   dt_data <- dt_data[, unique(c(var_cases, var_age,group_by,var_ICD,var_year)), with = FALSE]
 
   if (!is.null(var_year)) {
-    dt_data$year <-  Rcan:::core.csu_year_extract(dt_data[[var_year]])
+    dt_data$year <-  core.csu_year_extract(dt_data[[var_year]])
     dt_data[, (var_year) := NULL]  
     group_by <- c(group_by, "year")
 
@@ -43,7 +43,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
     for (row in 1:nrow(dt_ICD)) {
 
       icd_group <- as.character(dt_ICD[row]$ICD)
-      temp <- Rcan:::core.csu_icd_ungroup(paste(icd_group, collapse=","))
+      temp <- core.csu_icd_ungroup(paste(icd_group, collapse=","))
       temp <- data.table(ICD_ungroup = temp, ICD =icd_group )
       
       dt_table <- rbind(dt_table, temp)
@@ -56,7 +56,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
 
     dt_ICD_unique <- setDT(dt_ICD)[, .N, keyby=ICD_ungroup][N>1,]  
 
-    if (!is.null(dt_ICD_unique)) {
+    if (nrow(dt_ICD_unique) > 0) {
 
       dt_ICD_unique <- merge(dt_ICD_unique,dt_ICD,by="ICD_ungroup", all.x=TRUE) 
       dt_ICD_unique <- merge(dt_ICD_unique, df_ICD, by="LABEL")
@@ -69,7 +69,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
 
     setnames(dt_ICD, "ICD_ungroup", "ICD")
 
-    dt_ICD[, ICD_group:= sapply(LABEL, function(x) {Rcan:::core.csu_icd_group(as.vector(dt_ICD[LABEL == x, ]$ICD))})]
+    dt_ICD[, ICD_group:= sapply(LABEL, function(x) {core.csu_icd_group(as.vector(dt_ICD[LABEL == x, ]$ICD))})]
     list_ICD <- dt_ICD$ICD
 
     dt_data$temp <- as.character(dt_data[[var_ICD]])
