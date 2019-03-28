@@ -99,6 +99,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   dt_data[, temp1 := sprintf("%02d", temp1)]
   dt_data[, age_group_label := ifelse(temp2 == 150, paste0(temp1,"+"), paste0(temp1,"-",  sprintf("%02d", temp2-1)))] 
   dt_data[is.na(age_group), age_group :=  19]
+  dt_data[age_group == 19 , age_group_label :=  "Unknown"]
   dt_data[,c("temp1","temp2", var_age) := list(NULL, NULL, NULL)]
 
   dt_data <-  dt_data[,list(cases = sum(cases)),by=eval(colnames(dt_data)[!colnames(dt_data) %in% c("cases")])]
