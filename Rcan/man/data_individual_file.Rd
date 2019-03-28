@@ -19,7 +19,7 @@
     \item{\code{site}}{ICD10 code}
     \item{\code{doi}}{date of birth (yyyymmdd)}
     \item{\code{histo}}{histology}
-    \item{\code{beh}}{behaviour code}
+    \item{\code{beh}}{behavior code}
     \item{\code{basis}}{basis}
   }
 }
