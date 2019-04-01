@@ -5,7 +5,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
       see documentation: Help(", deparse(substitute(csu_group_cases)), ")"))
   }
 
-    if (!is.null(df_ICD) & is.null(var_ICD)) {
+    if (is.null(df_ICD) & !is.null(var_ICD)) {
     stop(paste0("There is no ICD list defined (df_ICD = NULL) to use with the ICD variable defined\n 
       see documentation: Help(", deparse(substitute(csu_group_cases)), ")"))
   }

@@ -1387,7 +1387,7 @@ core.csu_icd_ungroup <- function(icd_group) {
         icd_list <- c(icd_list, paste0("C", sprintf(paste0("%0",code_nchar,"d"), code)))
       }
 
-      icd_group <- sub("(\\d+)([^C+]?)(.+)?", "\\3", icd_group) 
+      icd_group <- sub("(C?\\d+)([^C+]?)(.+)?", "\\3", icd_group) 
     }
     else  {
       icd_list <- c(icd_list, sub("(C\\d+)", "\\1", icd_start))
