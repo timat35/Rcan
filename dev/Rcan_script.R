@@ -44,7 +44,7 @@ check_win_devel("C:/Projects/Rcan/Rcan") #build win check
 release_checks("C:/Projects/Rcan/Rcan")
 release("C:/Projects/Rcan/Rcan", check=FALSE)
 
-#create dataset fro shiny app
+#create dataset from shiny app
 
 library(data.table)
 app_folder <- "C:/Projects/Rcan/Shiny"

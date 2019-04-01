@@ -7,7 +7,7 @@
 }
 \usage{
 csu_merge_cases_pop(df_cases, 
-	df_pop ,
+	df_pop,
 	var_age,
 	var_cases="cases",
 	var_py=NULL,
@@ -22,7 +22,15 @@ csu_merge_cases_pop(df_cases,
   		Population data group by 5-years age group (need to be R \code{data.frame} format, see example to import csv file).
 	}
   \item{var_age}{
-		Age variable. Different format are accepted (1,2..18,19 / 0-4/5-10, 75-80, 85+).\cr
+		Age variable. Several format are accepted 
+		\tabular{lll}{
+			1 \tab 0-4 \tab 0 \cr
+			2 \tab 5-9 \tab 5 \cr
+			3 \tab 10-14 \tab 10 \cr
+			... \tab ... \tab ... \cr
+			17 \tab 80-84 \tab 80 \cr
+			18 \tab 85+ \tab 85 \cr
+		}
 		This variable must be a column name in both dataset (\code{df_cases} and \code{df_pop}).\cr
 		Age >= 85 in the \code{df_pop} dataset will be aggregate as 85+.
 	}
