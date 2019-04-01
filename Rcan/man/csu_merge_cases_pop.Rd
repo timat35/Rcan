@@ -3,7 +3,7 @@
 \title{csu_merge_cases_pop}
 
 \description{
-\code{csu_merge_cases_pop} merge registry data and population data, group by year and other user defined variable (sex, registry, etc...).\cr 
+\code{csu_merge_cases_pop} merges registry data and population data, group by year and other user defined variable (sex, registry, etc...).\cr 
 }
 \usage{
 csu_merge_cases_pop(df_cases, 
@@ -24,7 +24,7 @@ csu_merge_cases_pop(df_cases,
   \item{var_age}{
 		Age variable. Different format are accepted (1,2..18,19 / 0-4/5-10, 75-80, 85+).\cr
 		This variable must be a column name in both dataset (\code{df_cases} and \code{df_pop}).\cr
-		Age >= 85 in the \code{df_pop} dataset will be agreggate as 85+.
+		Age >= 85 in the \code{df_pop} dataset will be aggregate as 85+.
 	}
   \item{var_cases}{
 		Cases variable in the \code{df_cases} dataset.\cr
@@ -42,7 +42,7 @@ csu_merge_cases_pop(df_cases,
 \details{
 	This function merge registry data and population for further analysis.\cr 
 	both dataset must be group by 5-years age group.\cr
-	If present, the year information in format "yyyy" will be detect automaticcally.\cr 
+	If present, the year information in format "yyyy" will be detect automatically.\cr 
 	2 format are accepted for population data:.\cr
 	Long format: (year and population are a variable)\cr
 	\tabular{llll}{
