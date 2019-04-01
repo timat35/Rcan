@@ -3,7 +3,7 @@
 \title{csu_group_cases}
 
 \description{
-\code{csu_group_case} groups individual data into 5 years age-group data and other user defined variable (sex, registry, etc...).\cr 
+\code{csu_group_cases} groups individual data into 5 years age-group data and other user defined variable (sex, registry, etc...).\cr 
 Optionally: Group cancer based on a standard ICD10 coding; Extract year from custom year format.
 }
 \usage{

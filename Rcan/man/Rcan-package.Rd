@@ -25,6 +25,7 @@ Maintainer: \packageMaintainer{Rcan}
 	\code{\link{csu_time_trend}}
 	\code{\link{csu_trendCohortPeriod}}
 	\code{\link{csu_group_cases}}
+	\code{\link{csu_merge_cases_pop}}
 
 }
 

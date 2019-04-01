@@ -10,6 +10,9 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
       see documentation: Help(", deparse(substitute(csu_group_cases)), ")"))
   }
 
+  core.error_variable(df_data, var_cases, csu_group_cases)
+  core.error_variable(df_data, var_age, csu_group_cases)
+
 
   label_by <- NULL
   dt_data <- data.table(df_data)
