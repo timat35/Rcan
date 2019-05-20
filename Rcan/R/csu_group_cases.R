@@ -10,6 +10,13 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
       see documentation: Help(", deparse(substitute(csu_group_cases)), ")"))
   }
 
+  if (is.null(group_by)) {
+      
+    df_data$CSU_dum_by <- "dummy_by"
+    group_by <- "CSU_dum_by"
+    bool_dum_by <- TRUE
+  }
+
   core.error_variable(df_data, var_cases, csu_group_cases)
   core.error_variable(df_data, var_age, csu_group_cases)
 
@@ -19,13 +26,13 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   
 
   if (is.null(var_cases)) {
-    var_cases <- "cases"
-    dt_data[, cases:= 1]
+    var_cases <- "CSU_C"
+    dt_data[, CSU_C:= 1]
   } else {
-    setnames(dt_data, var_cases, "cases")
+    setnames(dt_data, var_cases, "CSU_C")
   }
 
-  dt_data <- dt_data[, unique(c(var_cases, var_age,group_by,var_ICD,var_year)), with = FALSE]
+  dt_data <- dt_data[, unique(c("CSU_C", var_age,group_by,var_ICD,var_year)), with = FALSE]
 
   if (!is.null(var_year)) {
     dt_data$year <-  core.csu_year_extract(dt_data[[var_year]])
@@ -105,7 +112,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   dt_data[age_group == 19 , age_group_label :=  "Unknown"]
   dt_data[,c("temp1","temp2", var_age) := list(NULL, NULL, NULL)]
 
-  dt_data <-  dt_data[,list(cases = sum(cases)),by=eval(colnames(dt_data)[!colnames(dt_data) %in% c("cases")])]
+  dt_data <-  dt_data[,list(CSU_C = sum(CSU_C)),by=eval(colnames(dt_data)[!colnames(dt_data) %in% c("CSU_C")])]
 
   label_by  <- c(label_by, c("age_group_label"))
   group_by  <- c(group_by, "age_group")
@@ -123,19 +130,28 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   dt_CJ <- merge(dt_CJ, dt_temp, by="age_group", all.x=TRUE)
 
 
-  dt_data <- merge(dt_CJ, dt_data,by=colnames(dt_CJ), all.x=TRUE)[, cases := ifelse(is.na(cases),0, cases )]
+  dt_data <- merge(dt_CJ, dt_data,by=colnames(dt_CJ), all.x=TRUE)[, CSU_C := ifelse(is.na(CSU_C),0, CSU_C )]
 
 
   keep_by <- group_by[!group_by %in% c("year", "age_group", "ICD_group")]
 
   setkeyv(dt_data, keep_by)
   dt_data[ , group_id := .GRP, by = key(dt_data)]
-  dt_data[,temp := sum(cases),by=group_id]
+  dt_data[,temp := sum(CSU_C),by=group_id]
   dt_data <- dt_data[temp>0,]
   dt_data[, c("temp","group_id") := NULL]
   setkeyv(dt_data, group_by)
 
+  if (is.null(var_cases)) {
+    setnames(dt_data, "CSU_C","cases")
+  }
+  else {
+    setnames(dt_data, "CSU_C",var_cases)
+  }
 
+  if (bool_dum_by) {
+    dt_data$CSU_dum_by <- NULL
+  }
 
   return (as.data.frame(dt_data)) 
 }
