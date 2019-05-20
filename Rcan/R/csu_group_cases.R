@@ -10,6 +10,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
       see documentation: Help(", deparse(substitute(csu_group_cases)), ")"))
   }
 
+  bool_dum_by <- FALSE
   if (is.null(group_by)) {
       
     df_data$CSU_dum_by <- "dummy_by"
