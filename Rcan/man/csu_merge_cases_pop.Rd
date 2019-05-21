@@ -43,8 +43,8 @@ csu_merge_cases_pop(df_cases,
 	}
   \item{group_by}{
 		(Optional) A vector of variables to create the different population (sex, country, etc...).\cr
-		\bold{Each columns must be a column name in both dataset} (\code{df_cases} and \code{df_pop})\cr.
-		Do not include the "year" variabel since it is automaticcaly detect (see details).
+		\bold{Each columns must be a column name in both dataset} (\code{df_cases} and \code{df_pop}).\cr
+		Do not include the "year" variabel since it is automatically detect (see details).
 	}
 }
 
