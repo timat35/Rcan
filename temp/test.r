@@ -9,24 +9,15 @@ devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 dcas <- read.csv("C:/Projects/Rcan/temp/Exercise2_qui.csv")
 dpop <- read.csv("C:/Projects/Rcan/temp/200612_population.csv")
 
-data("ICD_group_file")
-dcases <- csu_group_cases(dcas, var_age = "age", group_by = c("sex"),df_ICD = ICD_group_file, var_ICD = "site", var_year = "doi")
 
 names(dpop)[names(dpop) == 'agegrp'] <- 'age_group'
-names(dcases)
 
 
-
-
+data("ICD_group_file")
+dcases <- csu_group_cases(dcas, var_age = "age", group_by = c("sex"), df_ICD = ICD_group_file, var_ICD = "site", var_year = "doi", all_cancer=TRUE)
 dcaspop <- csu_merge_cases_pop(dcases, dpop, var_age = "age_group", var_cases = "cases", var_py = "pop", group_by = c("sex"))
 
 
-df_final <- csu_merge_cases_pop (
-	df_cases,
-	df_pop,
-	"age_group", 
-	"cases",
-	group_by="sex_code")
 
 #note population change to 85+
 #missing pop MUST BE ZERO
