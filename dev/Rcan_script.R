@@ -87,6 +87,17 @@ dat <- csu_group_cases(data_individual_file, var_age = "age",
                        group_by = c("sex", "regcode", "reglabel", "site"))
 
 
+datt <- data_individual_file
+n <-nrow(data_individual_file)
+
+datt$ncas <- round(runif(n)*100,0)
+
+sum(datt$ncas)
+
+dat2 <- csu_group_cases(datt, var_age = "age", var_cases = "ncas")
+
+
+
 
 
 

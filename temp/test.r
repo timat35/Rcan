@@ -10,7 +10,12 @@ devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 library(Rcan)
 library(data.table)
 data(data_individual_file)
+data(ICD_group_file)
 
+
+ICD_group_file
+getwd()
+write.csv(ICD_group_file, "temp.csv")
 setwd("C:/Projects/Rcan")
 source("temp/function.r")
 
