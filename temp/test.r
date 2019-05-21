@@ -15,10 +15,18 @@ dcases <- csu_group_cases(dcas, var_age = "age", group_by = c("sex"),df_ICD = IC
 names(dpop)[names(dpop) == 'agegrp'] <- 'age_group'
 names(dcases)
 
-df_cases <- dcases
 
 
-dcaspop <- csu_merge_cases_pop(df_cases, dpop, var_age = "age_group", var_cases = "cases", var_py = "pop", group_by = c("sex", "LABEL", "year"))
+
+dcaspop <- csu_merge_cases_pop(dcases, dpop, var_age = "age_group", var_cases = "cases", var_py = "pop", group_by = c("sex"))
+
+
+df_final <- csu_merge_cases_pop (
+	df_cases,
+	df_pop,
+	"age_group", 
+	"cases",
+	group_by="sex_code")
 
 #note population change to 85+
 #missing pop MUST BE ZERO
@@ -49,10 +57,10 @@ source("temp/function.r")
 
 ##YEAR can be detect ok
 
-df_pop <- read.csv("temp/BKKpop2013-2015.csv")
+df_pop <- read.csv("C:/Projects/Rcan/temp/BKKpop2013-2015.csv")
 names(df_pop)[names(df_pop) == 'age'] <- 'age_group'
 
-df_cases <- read.csv("temp/BKK2013-2015_cases.csv")
+df_cases <- read.csv("C:/Projects/Rcan/temp/BKK2013-2015_cases.csv")
 names(df_cases)[names(df_cases) == 'Sex'] <- 'sex_code'
 
 help(csu_merge_cases_pop)

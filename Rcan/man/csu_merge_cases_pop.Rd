@@ -43,14 +43,15 @@ csu_merge_cases_pop(df_cases,
 	}
   \item{group_by}{
 		(Optional) A vector of variables to create the different population (sex, country, etc...).\cr
-		Each columns must be a column name in both dataset (\code{df_cases} and \code{df_pop})
+		\bold{Each columns must be a column name in both dataset} (\code{df_cases} and \code{df_pop})\cr.
+		Do not include the "year" variabel since it is automaticcaly detect (see details).
 	}
 }
 
 \details{
 	This function merge registry data and population for further analysis.\cr 
 	both dataset must be group by 5-years age group.\cr
-	If present, the year information in format "yyyy" will be detect automatically.\cr 
+	\bold{If present, the year information in format "yyyy" will be detect automatically}.\cr 
 	2 format are accepted for population data:.\cr
 	Long format: (year and population are a variable)\cr
 	\tabular{llll}{
