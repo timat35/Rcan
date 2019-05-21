@@ -31,7 +31,7 @@ csu_merge_cases_pop(df_cases,
 			17 \tab 80-84 \tab 80 \cr
 			18 \tab 85+ \tab 85 \cr
 		}
-		This variable must be a column name in both dataset (\code{df_cases} and \code{df_pop}).\cr
+		\bold{This variable must be a column name in both dataset} (\code{df_cases} and \code{df_pop}).\cr
 		Age >= 85 in the \code{df_pop} dataset will be aggregate as 85+.
 	}
   \item{var_cases}{
