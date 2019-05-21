@@ -17,8 +17,8 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
 
 
 
-  Rcan:::core.error_variable(df_data, var_cases, csu_group_cases)
-  Rcan:::core.error_variable(df_data, var_age, csu_group_cases)
+  core.error_variable(df_data, var_cases, csu_group_cases)
+  core.error_variable(df_data, var_age, csu_group_cases)
 
   dt_result <- core.csu_group_cases(df_data, var_age ,group_by=group_by,var_cases = var_cases,df_ICD = df_ICD,var_ICD=var_ICD,var_year = var_year, all_cancer=all_cancer)
 
