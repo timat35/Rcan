@@ -64,8 +64,8 @@ csu_group_cases(df_data,
 	(Optional) Year variable: Extract year from custom format ("yyyymmdd","ddmmyyyy", "yyyy/mm","dd-mm-yyyy", etc..) and group data by year.
 }
   \item{all_cancer}{
-	(Optional) If \code{TRUE}, will calculate teh number of cases for all cancers (C00-97) and all cancers but non-melanoma of skin (C00-97 but C44)\cr
-	Work only if \code{var_ICD} and \code{df_ICD} argument are defined 
+	(Optional) If \code{TRUE}, will calculate the number of cases for all cancers (C00-97) and all cancers but non-melanoma of skin (C00-97 but C44)\cr
+	Need \code{var_ICD} and \code{df_ICD} argument to be defined 
 }
 }
 
