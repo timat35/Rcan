@@ -13,7 +13,8 @@ csu_group_cases(df_data,
 	var_cases = NULL,
 	df_ICD = NULL,
 	var_ICD=NULL,
-	var_year = NULL) 
+	var_year = NULL,
+	all_cancer=FALSE) 
 	}
 
 \arguments{
@@ -61,6 +62,9 @@ csu_group_cases(df_data,
 }
   \item{var_year}{
 	(Optional) Year variable: Extract year from custom format ("yyyymmdd","ddmmyyyy", "yyyy/mm","dd-mm-yyyy", etc..) and group data by year.
+}
+  \item{all_cancer}{
+	(Optional) If \code{TRUE), will calculate teh number of cases for all cancers (C00-97) and all cancers but non-melanoma of skin (C00-97 but C44) 
 }
 }
 
