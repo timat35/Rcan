@@ -2,7 +2,7 @@
 csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_py=NULL,group_by=NULL) {
 
 
-  core.error_variable(df_data, var_cases, csu_merge_cases_pop)
+  core.error_variable(df_cases, var_cases, csu_merge_cases_pop)
 
 
   bool_year <- FALSE
@@ -16,7 +16,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
 
   if (!is.null(var_py)) {
     
-    core.error_variable(df_data, var_py, csu_merge_cases_pop)
+    core.error_variable(df_cases, var_py, csu_merge_cases_pop)
 
     setnames(dt_pop, var_py, "CSU_P")
     for (colyear_pop in colnames(dt_pop)[!colnames(dt_pop) %in% c(var_age,"CSU_P")]) {
