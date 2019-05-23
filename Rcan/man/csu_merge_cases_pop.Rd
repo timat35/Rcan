@@ -31,7 +31,7 @@ csu_merge_cases_pop(df_cases,
 			17 \tab 80-84 \tab 80 \cr
 			18 \tab 85+ \tab 85 \cr
 		}
-		\bold{This variable must be a column name in both dataset} (\code{df_cases} and \code{df_pop}).\cr
+		\bold{This variable must be a variable with the same column name in both dataset } (\code{df_cases} and \code{df_pop}).\cr
 		Age >= 85 in the \code{df_pop} dataset will be aggregate as 85+.
 	}
   \item{var_cases}{
@@ -43,15 +43,15 @@ csu_merge_cases_pop(df_cases,
 	}
   \item{group_by}{
 		(Optional) A vector of variables to create the different population (sex, country, etc...).\cr
-		\bold{Each columns must be a column name in both dataset} (\code{df_cases} and \code{df_pop}).\cr
-		Do not include the "year" variabel since it is automatically detect (see details).
+		\bold{Each variable must be a variable with the same column name in both dataset } (\code{df_cases} and \code{df_pop}).\cr
+		Do not include the "year" variable since it is automatically detected (see details).
 	}
 }
 
 \details{
 	This function merge registry data and population for further analysis.\cr 
 	both dataset must be group by 5-years age group.\cr
-	\bold{If present, the year information in format "yyyy" will be detect automatically}.\cr 
+	\bold{If present, the year information in format "yyyy" will be detected automatically}.\cr 
 	2 format are accepted for population data:.\cr
 	Long format: (year and population are a variable)\cr
 	\tabular{llll}{
@@ -99,7 +99,7 @@ csu_merge_cases_pop(df_cases,
 # you can import your data from csv file using read.csv:
 # mydata <-  read.csv("mydata.csv", sep=",")
 
-data(ICD_group_file)
+data(ICD_group_GLOBOCAN)
 data(data_individual_file)
 
 #group individual data by 
@@ -111,23 +111,23 @@ df_data_age <- csu_group_cases(data_individual_file,
 
 #group individual data by 
 #	5 year age group 
-#	ICD grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_GLOBOCAN
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_file,
+	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site") 
 
 #group individual data by 
 #	5 year age group 
-#	ICD grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_GLOBOCAN
 #	year (extract from date of incidence)
 
 df_data_year <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_file,
+	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site",
 	var_year = "doi") 			
 

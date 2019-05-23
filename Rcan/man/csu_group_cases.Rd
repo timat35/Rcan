@@ -54,7 +54,7 @@ csu_group_cases(df_data,
 	Must be filled if \code{var_ICD} argument is defined
 	\cr
 
-	example: \code{\link{ICD_group_file}}
+	example: \code{\link{ICD_group_GLOBOCAN}}
 }
   \item{var_ICD}{
 	(Optional) ICD variable: ICD variable in the individual data.\cr
@@ -95,7 +95,7 @@ csu_group_cases(df_data,
 # you can import your data from csv file using read.csv:
 # mydata <-  read.csv("mydata.csv", sep=",")
 
-data(ICD_group_file)
+data(ICD_group_GLOBOCAN)
 data(data_individual_file)
 
 #group individual data by 
@@ -107,23 +107,23 @@ df_data_age <- csu_group_cases(data_individual_file,
 
 #group individual data by 
 #	5 year age group 
-#	ICD grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_GLOBOCAN
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_file,
+	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site") 
 
 #group individual data by 
 #	5 year age group 
-#	ICD grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_GLOBOCAN
 #	year (extract from date of incidence)
 
 df_data_year <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_file,
+	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site",
 	var_year = "doi") 			
 

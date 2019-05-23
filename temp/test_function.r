@@ -22,9 +22,9 @@ dpop <- read.csv("200612_population.csv")
 
 names(dpop)[3] <- "age_group"
 
-data("ICD_group_file")
+data("ICD_group_GLOBOCAN")
 
-dcases <- csu_group_cases(dcas, var_age = "age", group_by = c("sex"), df_ICD = ICD_group_file, var_ICD = "site", var_year = "doi", all_cancer=FALSE)
+dcases <- csu_group_cases(dcas, var_age = "age", group_by = c("sex"), df_ICD = ICD_group_GLOBOCAN, var_ICD = "site", var_year = "doi", all_cancer=FALSE)
 dcaspop <- csu_merge_cases_pop(dcases, dpop, var_age = "age_group", var_cases = "cases", var_py = "pop", group_by = c("sex"))
 
 #calculate ASR
@@ -39,7 +39,7 @@ dcasasr <- csu_asr(dcaspop,
 	"age_group", 
 	"cases",
 	"pop",
-	group_by=c("sex", "ICD_group", "LABEL"),
+	group_by=c("sex", "ICD_group", "LABEL", "year"),
 	missing_age =19)
 
 
@@ -53,9 +53,8 @@ dcasasr <- dcasasr[!LABEL %in% c("Other", "Other skin"), ]
 source("function.r")
 data <- csu_bar_top(
    dcasasr,
-   var_top="asr",
+   var_top="cases",
    var_bar="LABEL",
-   group_by="sex", 
    nb_top = 10,
    plot_title = "Top 10 cancer sites",
    ytitle= "Number of cases",
@@ -64,15 +63,12 @@ data <- csu_bar_top(
    digits=1) 
 
 dcasasr_male <- dcasasr[sex==1,]
-write.csv(dcasasr_male, "temp_color.csv")
-
-color_test <- read.csv("temp_color.csv")
 dcasasr_male <- merge(dcasasr_male, color_test, by="LABEL")
 
 source("function.r")
 data <- csu_bar_top(
    dcasasr_male,
-   var_top="asr",
+   var_top="cases",
    var_bar="LABEL",
    nb_top = 10,
    plot_title = "Top 10 cancer sites",
@@ -82,7 +78,7 @@ data <- csu_bar_top(
 
 data <- csu_bar_top(
    dcasasr_male,
-   var_top="pop",
+   var_top="cases",
    var_bar="LABEL",
    nb_top = 10,
    plot_title = "Top 10 cancer sites",

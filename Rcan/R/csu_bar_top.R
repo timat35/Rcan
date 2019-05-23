@@ -1,18 +1,18 @@
 csu_bar_top <-
   function(df_data,
-   var_top,
+   var_value,
    var_bar,
    group_by=NULL,
    nb_top = 10,
    plot_title=NULL,
    plot_subtitle=NULL,
-   ytitle= NULL,
+   xtitle= NULL,
    label_by=NULL,
    color=NULL,
    digits = 1) {
 
-  Rcan:::core.error_variable(df_data, var_top, csu_ageSpecific_top)
-  Rcan:::core.error_variable(df_data, var_bar, csu_ageSpecific_top, type="")
+  core.error_variable(df_data, var_value, csu_ageSpecific_top)
+  core.error_variable(df_data, var_bar, csu_ageSpecific_top, type="")
  
   dt <- data.table(df_data)
 
@@ -26,7 +26,7 @@ csu_bar_top <-
   line_size <- 0.4
   text_size <- 14
 
-  setnames(dt, var_top, "CSU_ASR")
+  setnames(dt, var_value, "CSU_ASR")
   setnames(dt, var_bar, "CSU_BAR")
 
   bool_group <- !is.null(group_by)
@@ -34,7 +34,7 @@ csu_bar_top <-
 
 
   if (bool_group) {
-     Rcan:::core.error_variable(df_data, group_by, csu_ageSpecific_top, type="")
+     core.error_variable(df_data, group_by, csu_ageSpecific_top, type="")
      setnames(dt, group_by, "CSU_BY")
      if (!is.factor(dt$CSU_BY)) {
       dt[,CSU_BY:=as.factor(CSU_BY)]
@@ -58,11 +58,11 @@ csu_bar_top <-
 
   }
 
-  dt <- Rcan:::core.csu_dt_rank(dt, var_value = "CSU_ASR", var_rank = "CSU_BAR",number = nb_top)
+  dt <- core.csu_dt_rank(dt, var_value = "CSU_ASR", var_rank = "CSU_BAR",number = nb_top)
 
   dt_return <- dt
   
-  dt$CSU_BAR <-Rcan:::core.csu_legend_wrapper(dt$CSU_BAR, 15)
+  dt$CSU_BAR <-core.csu_legend_wrapper(dt$CSU_BAR, 15)
 
 
   if (bool_group) {
@@ -81,7 +81,7 @@ csu_bar_top <-
 
 
   if (bool_group) {
-    tick_minor_list <- Rcan:::core.csu_tick_generator(max = max(dt$CSU_ASR), 0)$tick_list
+    tick_minor_list <- core.csu_tick_generator(max = max(dt$CSU_ASR), 0)$tick_list
     nb_tick <- length(tick_minor_list) 
     tick_space <- tick_minor_list[nb_tick] - tick_minor_list[nb_tick-1]
     if ((tick_minor_list[nb_tick] -  max(dt$CSU_ASR))/tick_space < 1/4){
@@ -94,7 +94,7 @@ csu_bar_top <-
 
   }
   else {
-    tick_major_list <- Rcan:::core.csu_tick_generator(max = max(dt$CSU_ASR), 0)$tick_list
+    tick_major_list <- core.csu_tick_generator(max = max(dt$CSU_ASR), 0)$tick_list
     nb_tick <- length(tick_major_list) 
     tick_space <- tick_major_list[nb_tick] - tick_major_list[nb_tick-1]
     if ((tick_major_list[nb_tick] -  max(dt$CSU_ASR))/tick_space < 1/4){
@@ -162,7 +162,7 @@ csu_bar_top <-
 
 
   csu_plot <- csu_plot+
-  scale_y_continuous(name = ytitle,
+  scale_y_continuous(name = xtitle,
                      breaks=tick_major_list,
                      minor_breaks = tick_minor_list,
                      labels=tick_label)+ # tick label
@@ -217,7 +217,7 @@ csu_bar_top <-
   print(csu_plot)
 
   setnames(dt_return, "CSU_BAR",var_bar)
-  setnames(dt_return, "CSU_ASR", var_top)
+  setnames(dt_return, "CSU_ASR", var_value)
   setnames(dt_return, "CSU_RANK","cancer_rank")
   setkeyv(dt_return, c("cancer_rank",var_bar))
 

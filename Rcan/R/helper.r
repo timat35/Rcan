@@ -328,7 +328,8 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
                          var_age_group=NULL, missing_age = NULL,db_rate = 100000,
                          first_age = 1, last_age = 18, pop_base = "SEGI",
                          var_st_err=NULL,correction_info=FALSE, var_asr="asr", age_dropped = FALSE,
-                         pop_base_count = NULL, age_label_list = NULL, Rcan_print=FALSE) {
+                         pop_base_count = NULL, age_label_list = NULL, Rcan_print=FALSE) 
+{
   
   
   
@@ -571,7 +572,8 @@ core.csu_eapc <- function(df_data,
            var_year="year",
            group_by= NULL,
            var_eapc="eapc", 
-					 CI_level = 0.95) {
+					 CI_level = 0.95)
+{
     
     #create fake group to have group_by optional 
     bool_dum_by <- FALSE
@@ -653,7 +655,7 @@ core.csu_ageSpecific <-function(df_data,
 					 ytitle = "Age-specific incidence rate per",
 					 label_group_by = waiver())
 
-					 {
+{
     
     
     

@@ -2,14 +2,14 @@
 test_that("Test csu_group_cases: 1",{
 
   #input data
-  data(ICD_group_file)
+  data(ICD_group_GLOBOCAN)
   data(data_individual_file)
 
   #output result
   output_test <- csu_group_cases(data_individual_file,
     var_age="age",
     group_by=c("sex", "regcode","reglabel"),
-    df_ICD = ICD_group_file,
+    df_ICD = ICD_group_GLOBOCAN,
     var_ICD  ="site") 
 
   expect_test <- readRDS(system.file("testdata","csu_group_cases_test1.rds",package="Rcan"))
