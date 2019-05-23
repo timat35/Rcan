@@ -3,11 +3,13 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
 
 
   core.error_variable(df_cases, var_cases, csu_merge_cases_pop)
+  core.error_variable(df_cases, var_age, csu_merge_cases_pop,type= "")
+  core.error_variable(df_pop, var_age, csu_merge_cases_pop,type= "")
 
   if (!is.null(group_by)){
     for (var in group_by) {
-      core.error_variable(df_cases, var, csu_merge_cases_pop)
-      core.error_variable(df_pop, var, csu_merge_cases_pop)
+      core.error_variable(df_cases, var, csu_merge_cases_pop,type= "")
+      core.error_variable(df_pop, var, csu_merge_cases_pop,type= "")
     }
   }
 
