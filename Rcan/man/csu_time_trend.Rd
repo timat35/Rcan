@@ -73,7 +73,7 @@ csu_time_trend(df_data,
 	Mathieu Laversanne
 }
 
-\seealso{
+
 \seealso{
 	\code{\link{csu_group_cases}}
 	\code{\link{csu_merge_cases_pop}}
@@ -84,7 +84,7 @@ csu_time_trend(df_data,
 	\code{\link{csu_bar_top}}
 	\code{\link{csu_trendCohortPeriod}}
 }
-}
+
 
 \examples{
 
