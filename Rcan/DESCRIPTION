@@ -8,7 +8,7 @@ Authors@R: c(
     )
 Author: Mathieu Laversanne [aut, cre], Cancer Surveillance Unit [cph]
 Maintainer: Mathieu Laversanne <laversannem@iarc.fr>
-Depends: R (>= 3.4)
+Depends: R (>= 3.5)
 Description: Tools for basic and advance cancer statistics and graphics.
 	Groups individual data, merges registry data and population data, calculates age-specific rate, age-standardized rate, estimated annual percentage rate with standards error. Creates graphics across variable and
     time, such as age-specific trends, bar chart and period-cohort trends.

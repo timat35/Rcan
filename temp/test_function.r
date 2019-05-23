@@ -12,8 +12,6 @@ library(Rcan)
 
 setwd("C:/Projects/Rcan/temp")
 
-#prepare data
-
 
 dcas <- read.csv("Exercise2_qui.csv")
 dpop <- read.csv("200612_population.csv")
@@ -51,7 +49,7 @@ data <- csu_bar_top(
    digits=1) 
 
 dcasasr_male <- dcasasr[sex==1,]
-
+color_test <- read.csv("temp_color.csv")
 dcasasr_male <- merge(dcasasr_male, color_test, by="LABEL")
 
 source("function.r")
