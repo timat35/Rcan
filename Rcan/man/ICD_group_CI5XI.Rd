@@ -36,6 +36,7 @@ See: \code{\link{csu_group_cases}}
 }
 \seealso{
 	\code{\link{csu_group_cases}}
+	\code{\link{ICD_group_GLOBOCAN}}
 }
 
 \examples{

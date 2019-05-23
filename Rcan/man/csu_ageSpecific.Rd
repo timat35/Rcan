@@ -91,8 +91,12 @@ csu_ageSpecific(df_data,
 }
 
 \seealso{
+	\code{\link{csu_group_cases}}
+	\code{\link{csu_merge_cases_pop}}
 	\code{\link{csu_asr}}
 	\code{\link{csu_eapc}}
+	\code{\link{csu_ageSpecific_top}}
+	\code{\link{csu_bar_top}}
 	\code{\link{csu_time_trend}}
 	\code{\link{csu_trendCohortPeriod}}
 }

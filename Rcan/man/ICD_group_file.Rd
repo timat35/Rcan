@@ -5,7 +5,7 @@
 	ICD10 group example
 }
 \description{
-	ICD10 group example for the function \code{\link{csu_group_cases}}
+	ICD10 group example for the function \code{\link{csu_group_cases}} based on GLOBOCAN
 }
 \usage{data("ICD_group_GLOBOCAN")}
 \format{
@@ -36,6 +36,7 @@ See: \code{\link{csu_group_cases}}
 }
 \seealso{
 	\code{\link{csu_group_cases}}
+	\code{\link{ICD_group_CI5}}
 }
 
 \examples{

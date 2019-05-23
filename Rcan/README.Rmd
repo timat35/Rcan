@@ -5,11 +5,12 @@ Tools for basic and advance cancer statistics and graphics.
 
 * Group individual data cases (by 5-years age group, ICD group, year, sex, ...)
 * Merge registry data and population data. (by 5-years age group, year, sex, ...)
-* Calculate Age-Standardized Rate (ASR) and Truncated Age-Standardized Rate (TASR) across different population (Registry, year, sex...).
+* Calculate Age-Standardized Rate (ASR) and Truncated Age-Stadardized Rate (TASR) across different population (Registry, year, sex...).
 * Calculate and plot Age-Specific Rate
 * Calculate and plot Age-Specific Rate for the top X cancer or top X population
+* Plot single-sided and double-sided  top X bar chart
 * Plot cancer statistics over year.
-* Calculate the Estimated Annual Percentage Change (EAPC) of rates during a time period with the Confidence Interval (CI) across different population (Registry, year, sex...).
+* Calculate the Estimated Annual Percentage Change (EAPC) of rates during a time period with the Confidence Intervalle (CI) across different population (Registry, year, sex...).
 * Plot cohort period age specific graph.
 
 Rcan have been created at [the Cancer Surveillance Unit at International Agency for Research on Cancer](https://www.iarc.fr/en/research-groups/sec1/index.php) and 

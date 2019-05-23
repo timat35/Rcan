@@ -29,6 +29,7 @@ This dataset provide an example how to group individual cases to 5 years data, g
 \seealso{
 	\code{\link{csu_group_cases}}
 	\code{\link{ICD_group_GLOBOCAN}}
+  \code{\link{ICD_group_CI5}}
 }
 
 \examples{
