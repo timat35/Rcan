@@ -1,13 +1,13 @@
-\name{ICD_group_file}
-\alias{ICD_group_file}
+\name{ICD_group_GLOBOCAN}
+\alias{ICD_group_GLOBOCAN}
 \docType{data}
 \title{
 	ICD10 group example
 }
 \description{
-	ICD10 group example for the function \code{\link{csu_group_cases}}
+	ICD10 group example for the function \code{\link{csu_group_cases}} based on GLOBOCAN
 }
-\usage{data("ICD_group_file")}
+\usage{data("ICD_group_GLOBOCAN")}
 \format{
   A data frame with 97 observations on the following 2 variables.
   \describe{
@@ -36,22 +36,23 @@ See: \code{\link{csu_group_cases}}
 }
 \seealso{
 	\code{\link{csu_group_cases}}
+	\code{\link{ICD_group_CI5}}
 }
 
 \examples{
 
 
-data(ICD_group_file)
+data(ICD_group_GLOBOCAN)
 data(data_individual_file)
 
 #group individual data by 
 #	5 year age group 
-#	ICd grouping from dataframe ICD_group_file
+#	ICd grouping from dataframe ICD_group_GLOBOCAN
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_file,
+	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site") 
 }
 \keyword{datasets}

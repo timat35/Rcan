@@ -24,17 +24,18 @@
   }
 }
 \details{
-This dataset provide an example how to group individual cases to 5 years data, grouped bu ICD code and year using the function \code{\link{csu_group_cases}} and the database \code{\link{ICD_group_file}} 
+This dataset provide an example how to group individual cases to 5 years data, grouped bu ICD code and year using the function \code{\link{csu_group_cases}} and the database \code{\link{ICD_group_GLOBOCAN}} 
 }
 \seealso{
 	\code{\link{csu_group_cases}}
-	\code{\link{ICD_group_file}}
+	\code{\link{ICD_group_GLOBOCAN}}
+  \code{\link{ICD_group_CI5}}
 }
 
 \examples{
 
 
-data(ICD_group_file)
+data(ICD_group_GLOBOCAN)
 data(data_individual_file)
 
 #group individual data by 
@@ -47,12 +48,12 @@ df_data_age <- csu_group_cases(data_individual_file,
 
 #group individual data by 
 #	5 year age group 
-#	ICD grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_GLOBOCAN
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_file,
+	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site") 
 
 }

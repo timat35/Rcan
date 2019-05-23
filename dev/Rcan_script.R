@@ -82,11 +82,11 @@ getOption("repos")
 # example csu_cases_group--------
 
 data(data_individual_file)
-data(ICD_group_file)
-data(ICD_group_CI5XI)
+data(ICD_group_GLOBOCAN)
+data(ICD_group_CI5)
 csu_group_cases(data_individual_file, var_age = "age")
-test <- csu_group_cases(data_individual_file, var_age = "age",df_ICD = ICD_group_file,var_ICD  ="site", all_cancer=FALSE)
-csu_group_cases(data_individual_file, var_age = "age", df_ICD = ICD_group_CI5XI,var_ICD  ="site", all_cancer=TRUE) 
+test <- csu_group_cases(data_individual_file, var_age = "age",df_ICD = ICD_group_GLOBOCAN,var_ICD  ="site", all_cancer=FALSE)
+csu_group_cases(data_individual_file, var_age = "age", df_ICD = ICD_group_CI5,var_ICD  ="site", all_cancer=TRUE) 
 dat <- csu_group_cases(data_individual_file, var_age = "age",
                        group_by = c("sex", "regcode", "reglabel", "site"))
 
@@ -98,16 +98,16 @@ datt$ncas <- round(runif(n)*100,0)
 
 sum(datt$ncas)
 
-dat2 <- csu_group_cases(datt, var_age = "age", var_cases = "ncas",df_ICD = ICD_group_CI5XI,var_ICD  ="site", all_cancer=TRUE)
+dat2 <- csu_group_cases(datt, var_age = "age", var_cases = "ncas",df_ICD = ICD_group_CI5,var_ICD  ="site", all_cancer=TRUE)
 
-data(ICD_group_file)
+data(ICD_group_GLOBOCAN)
 data(data_individual_file)
-data(ICD_group_CI5XI)
+data(ICD_group_CI5)
 
 df_data_icd <- csu_group_cases(data_individual_file,
   var_age="age",
   group_by=c("sex", "regcode","reglabel"),
-  df_ICD = ICD_group_CI5XI,
+  df_ICD = ICD_group_CI5,
   var_ICD  ="site") 
 
 

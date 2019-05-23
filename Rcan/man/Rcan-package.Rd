@@ -19,20 +19,21 @@ Maintainer: \packageMaintainer{Rcan}
 }
 
 \seealso{
-	\code{\link{csu_ageSpecific}}
-	\code{\link{csu_asr}}
-	\code{\link{csu_eapc}}
-	\code{\link{csu_time_trend}}
-	\code{\link{csu_trendCohortPeriod}}
 	\code{\link{csu_group_cases}}
 	\code{\link{csu_merge_cases_pop}}
-
+	\code{\link{csu_asr}}
+	\code{\link{csu_eapc}}
+	\code{\link{csu_ageSpecific}}
+	\code{\link{csu_ageSpecific_top}}
+	\code{\link{csu_bar_top}}
+	\code{\link{csu_time_trend}}
+	\code{\link{csu_trendCohortPeriod}}
 }
 
 \examples{
 
 
-data(ICD_group_file)
+data(ICD_group_GLOBOCAN)
 data(data_individual_file)
 
 #group individual data by 
@@ -44,11 +45,11 @@ df_data_age <- csu_group_cases(data_individual_file,
 
 #group individual data by 
 #	5 year age group 
-#	ICD grouping from dataframe ICD_group_file
+#	ICD grouping from dataframe ICD_group_GLOBOCAN
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
 	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_file,
+	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site") 
 
 data(csu_registry_data_2)
