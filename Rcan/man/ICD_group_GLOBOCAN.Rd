@@ -16,23 +16,23 @@
   }
 }
 \details{
-This dataset provide an example how to regroup ICD code using the function \code{\link{csu_group_cases}}
-For instance this group
-\tabular{ll}{
-	ICD \tab LABEL\cr
-	C18 \tab COLORECTUM\cr
-	C19 \tab COLORECTUM\cr
-	C20 \tab COLORECTUM\cr
-	C21 \tab COLORECTUM\cr
-}
+	This dataset provide an example how to regroup ICD code using the function \code{\link{csu_group_cases}}
+	For instance this group
+	\tabular{ll}{
+		ICD \tab LABEL\cr
+		C18 \tab COLORECTUM\cr
+		C19 \tab COLORECTUM\cr
+		C20 \tab COLORECTUM\cr
+		C21 \tab COLORECTUM\cr
+	}
 
-Will become:
-\tabular{ll}{
-	ICD_group \tab LABEL\cr
-	C18-C21 \tab COLORECTUM\cr
-}
+	Will become:
+	\tabular{ll}{
+		ICD_group \tab LABEL\cr
+		C18-C21 \tab COLORECTUM\cr
+	}
 
-See: \code{\link{csu_group_cases}}
+	See: \code{\link{csu_group_cases}}
 }
 \seealso{
 	\code{\link{csu_group_cases}}
@@ -51,7 +51,7 @@ data(data_individual_file)
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
-	group_by=c("sex", "regcode","reglabel"),
+	group_by=c("sex", "regcode"),
 	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site") 
 }

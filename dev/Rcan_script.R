@@ -79,36 +79,222 @@ source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
 getOption("repos")
 
 
+
+
+
 # example csu_cases_group--------
 
-data(data_individual_file)
-data(ICD_group_GLOBOCAN)
-data(ICD_group_CI5)
-csu_group_cases(data_individual_file, var_age = "age")
-test <- csu_group_cases(data_individual_file, var_age = "age",df_ICD = ICD_group_GLOBOCAN,var_ICD  ="site", all_cancer=FALSE)
-csu_group_cases(data_individual_file, var_age = "age", df_ICD = ICD_group_CI5,var_ICD  ="site", all_cancer=TRUE) 
-dat <- csu_group_cases(data_individual_file, var_age = "age",
-                       group_by = c("sex", "regcode", "reglabel", "site"))
-
-
-datt <- data_individual_file
-n <-nrow(data_individual_file)
-
-datt$ncas <- round(runif(n)*100,0)
-
-sum(datt$ncas)
-
-dat2 <- csu_group_cases(datt, var_age = "age", var_cases = "ncas",df_ICD = ICD_group_CI5,var_ICD  ="site", all_cancer=TRUE)
-
 data(ICD_group_GLOBOCAN)
 data(data_individual_file)
-data(ICD_group_CI5)
+
+#group individual data by 
+# 5 year age group 
+df_data_age <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode", "site")) 
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
 
 df_data_icd <- csu_group_cases(data_individual_file,
   var_age="age",
-  group_by=c("sex", "regcode","reglabel"),
-  df_ICD = ICD_group_CI5,
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
   var_ICD  ="site") 
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+# year (extract from date of incidence)
+
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "doi")       
+
+
+# example csu_pop_cases--------
+
+
+data(ICD_group_GLOBOCAN)
+data(data_individual_file)
+
+
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+# year (extract from date of incidence)
+
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "doi")     
+
+#Merge 5-years age grouped data with population by year (automatic) and sex
+
+df_pop <- csu_merge_cases_pop(df_data_year, data_population_file, var_age = "age_group", 
+                           var_cases = "cases", var_py = "pop", group_by = c("sex"))
+
+
+#example csu bar top 
+
+
+data(ICD_group_GLOBOCAN)
+data(data_individual_file)
+data(data_population_file)
+load("data_individual_file.rda")
+load("data_population_file.rda")
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+# year (extract from date of incidence)
+
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "doi")     
+
+#Merge 5-years age grouped data with population by year (automatic) and sex
+
+df_data <- csu_merge_cases_pop(
+  df_data_year, 
+  data_population_file, 
+  var_age = "age_group",
+  var_cases = "cases",
+  var_py = "pop",
+  group_by = c("sex"))
+
+# calculate asr
+df_asr <- csu_asr(df_pop,
+  "age_group", 
+  "cases",
+  "pop",
+  group_by=c("sex", "ICD_group", "LABEL"),
+  missing_age =19)
+
+#remove Other cancer
+df_asr <- df_asr[!df_asr$LABEL %in% c("Other", "Other skin"), ]
+
+#keep male
+df_asr_male <- df_asr[df_asr$sex==1,]
+
+
+#Single sided bar plot 
+data1 <- csu_bar_top(
+   df_asr_male,
+   var_value="cases",
+   var_bar="LABEL",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Number of cases",
+   color= c("#2c7bb6"),
+   digits=0) 
+
+#Double sided bar plot example 1
+data2 <- csu_bar_top(
+   df_asr,
+   var_value="cases",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 15,
+   plot_title = "Top 15 cancer sites",
+   xtitle= "Number of cases",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=0) 
+
+#Double sided bar plot example 2
+data2 <- csu_bar_top(
+   df_asr,
+   var_value="asr",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Age-standardized rate per 100,00",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=1) 
+
+
+
+# example bar top
+
+data(data_individual_file)
+data(csu_registry_data_2)
+
+# you can import your data from csv file using read.csv:
+# mydata <-  read.csv("mydata.csv", sep=",")
+   
+# ASR
+result <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"))
+
+result <- result[]
+
+df_asr_male <- df_asr[dcasasr$sex==1,]
+
+
+data <- csu_bar_top(
+   dcasasr_male,
+   var_value="cases",
+   var_bar="LABEL",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Number of cases",
+   color= c("#2c7bb6"),
+   digits=0) 
+
+color_test <- read.csv("temp_color.csv")
+dcasasr_male <- merge(dcasasr_male, color_test, by="LABEL")
+
+data <- csu_bar_top(
+   dcasasr_male,
+   var_value="cases",
+   var_bar="LABEL",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Number of cases",
+   color="hex_color",
+   digits=0) 
+
+
+
+data2 <- csu_bar_top(
+   dcasasr,
+   var_value="cases",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 15,
+   plot_title = "Top 15 cancer sites",
+   xtitle= "Number of cases",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=0) 
+
+data2 <- csu_bar_top(
+   dcasasr,
+   var_value="asr",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Age-standardized rate per 100,00",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=1)
+
 
 
 

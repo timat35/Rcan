@@ -40,17 +40,38 @@ data(data_individual_file)
 #	5 year age group 
 df_data_age <- csu_group_cases(data_individual_file,
 	var_age="age",
-	group_by=c("sex", "regcode", "site","reglabel"))
+	group_by=c("sex", "regcode", "site"))
 
 
 #group individual data by 
 #	5 year age group 
 #	ICD grouping from dataframe ICD_group_GLOBOCAN
-df_data_icd <- csu_group_cases(data_individual_file,
-	var_age="age",
-	group_by=c("sex", "regcode","reglabel"),
-	df_ICD = ICD_group_GLOBOCAN,
-	var_ICD  ="site") 
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "doi")     
+
+head(df_data_year)
+# individual cases grouped by ICD and 5 years age group and year.
+readline(prompt="Press [enter] to continue to merge cases and population)")	
+
+
+data(data_population_file)	
+
+df_data <- csu_merge_cases_pop(
+	df_data_year, 
+	data_population_file, 
+	var_age = "age_group",
+	var_cases = "cases",
+	var_py = "pop",
+	group_by = c("sex"))
+
+head(df_data)
+#Merge 5-years age grouped data with population by year (automatic) and sex
+readline(prompt="Press [enter] to continue to merge cases and population)")	
+
 
 data(csu_registry_data_2)
 				  

@@ -13,9 +13,18 @@ library(Rcan)
 setwd("C:/Projects/Rcan/temp")
 
 
-dcas <- read.csv("Exercise2_qui.csv")
+data_individual_file <- read.csv("Exercise2_qui.csv")
+save(data_individual_file, file="data_individual_file.rda")
+
+data_population_file <- read.csv("200612_population.csv")
+
+unique(data_population_file$year)
+
+data_population_file <- data_population_file[data_population_file$year >= 2008,]
+save(data_population_file, file="data_population_file.rda")
+
 dpop <- read.csv("200612_population.csv")
-names(dpop)[3] <- "age_group"
+names(data_population_file)[3] <- "age_group"
 data("ICD_group_GLOBOCAN")
 
 dcases <- csu_group_cases(dcas, var_age = "age", group_by = c("sex"), df_ICD = ICD_group_GLOBOCAN, var_ICD = "site", var_year = "doi", all_cancer=FALSE)
