@@ -26,4 +26,4 @@
 ## 1.3.6
 
 * add NEWS.RMD :)
-* This is a new CRAN submission, so there is no news for this relase.
+* This is a new CRAN submission, so there is no news for this release.
