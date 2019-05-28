@@ -93,7 +93,10 @@ data(data_individual_file)
 data(data_population_file)
 data(ICD_group_GLOBOCAN)
 
-#Group individual data by 5 year age group, ICD grouping from dataframe ICD_group_GLOBOCAN and year (extract from date of incidence)
+#Group individual data by:
+#5 year age group
+#ICD grouping from dataframe ICD_group_GLOBOCAN
+#year extract from date of incidence
 
 df_data_year <- csu_group_cases(data_individual_file,
   var_age="age",

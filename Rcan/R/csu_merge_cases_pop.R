@@ -2,14 +2,14 @@
 csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_py=NULL,group_by=NULL) {
 
 
-  Rcan:::core.error_variable(df_cases, var_cases, csu_merge_cases_pop)
-  Rcan:::core.error_variable(df_cases, var_age, csu_merge_cases_pop,type= "")
-  Rcan:::core.error_variable(df_pop, var_age, csu_merge_cases_pop,type= "")
+  core.error_variable(df_cases, var_cases, csu_merge_cases_pop)
+  core.error_variable(df_cases, var_age, csu_merge_cases_pop,type= "")
+  core.error_variable(df_pop, var_age, csu_merge_cases_pop,type= "")
 
   if (!is.null(group_by)){
     for (var in group_by) {
-      Rcan:::core.error_variable(df_cases, var, csu_merge_cases_pop,type= "")
-      Rcan:::core.error_variable(df_pop, var, csu_merge_cases_pop,type= "")
+      core.error_variable(df_cases, var, csu_merge_cases_pop,type= "")
+      core.error_variable(df_pop, var, csu_merge_cases_pop,type= "")
     }
   }
 
@@ -25,7 +25,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
 
   if (!is.null(var_py)) {
     
-    Rcan:::core.error_variable(df_pop, var_py, csu_merge_cases_pop)
+    core.error_variable(df_pop, var_py, csu_merge_cases_pop)
 
     setnames(dt_pop, var_py, "CSU_P")
     for (colyear_pop in colnames(dt_pop)[!colnames(dt_pop) %in% c(var_age,"CSU_P")]) {
@@ -92,7 +92,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
     }
   }
 
-  var_data_pop <- colnames(data_population_file)
+  var_data_pop <- colnames(df_pop)
   var_data_pop <- var_data_pop[!var_data_pop  %in% c("pop", merge_col)]
 
   if (length(var_data_pop) > 0) {

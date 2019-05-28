@@ -20,11 +20,12 @@
     \item{\code{site}}{ICD10 code}
     \item{\code{histo}}{histology}
     \item{\code{beh}}{behavior code}
+    \item{\code{grade}}{grade}
     \item{\code{basis}}{basis}
   }
 }
 \details{
-This dataset provide an example how to group individual cases to 5 years data, grouped bu ICD code and year using the function \code{\link{csu_group_cases}} and the database \code{\link{ICD_group_GLOBOCAN}} 
+This dataset provide an example how to group individual cases to 5 years data, grouped by ICD code and year using the function \code{\link{csu_group_cases}} and the database \code{\link{ICD_group_GLOBOCAN}} 
 }
 \seealso{
 	\code{\link{csu_group_cases}}
