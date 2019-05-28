@@ -3,20 +3,20 @@
 \title{csu_bar_top}
 
 \description{
-\code{csu_bar_top} Plot top X single-sided or double-sided bar chart.
+\code{csu_bar_top} plots top X single-sided or double-sided bar chart.
 }
 \usage{
 csu_bar_top(df_data,
-           var_value, 
-           var_bar,
-           group_by=NULL,
-           nb_top = 10,
-		   plot_title=NULL,
-		   plot_subtitle=NULL,
-		   xtitle= NULL,
-		   label_by=NULL,
-		   color=NULL,
-		   digits = 1)
+	var_value, 
+	var_bar,
+	group_by=NULL,
+	nb_top = 10,
+	plot_title=NULL,
+	plot_subtitle=NULL,
+	xtitle= NULL,
+	label_by=NULL,
+	color=NULL,
+	digits = 1)
 }
 
 \arguments{
@@ -56,7 +56,7 @@ csu_bar_top(df_data,
   \item{color}{
   	Color codes are hexadecimal.\cr
 	\itemize{
-  		\item Single-sided bar chart. 1 hexadecimal color code (same color for each bar) or variable name with a color associate to each bar label variable. 
+  		\item Single-sided bar chart. 1 hexadecimal color code (same color for each bar) or variable name with a color associated to each bar label variable. 
   		\item Double-sided bar chart. 2 values vector. For example: c("#2c7bb6","#b62ca1").
   	}
 	}
@@ -66,7 +66,7 @@ csu_bar_top(df_data,
  
 }
 \details{
-	This function plot a top X bar chart, single-sided or double sided.
+	This function plots a top X (default is top 10) bar chart, single-sided or double sided.
 }
 \value{
 	Return plots and a \code{data.frame}.
@@ -93,9 +93,11 @@ data(data_individual_file)
 data(data_population_file)
 data(ICD_group_GLOBOCAN)
 
+#Group individual data by 5 year age group, ICD grouping from dataframe ICD_group_GLOBOCAN and year (extract from date of incidence)
+
 df_data_year <- csu_group_cases(data_individual_file,
   var_age="age",
-  group_by=c("sex", "regcode"),
+  group_by=c("sex", "regcode", "reglabel"),
   df_ICD = ICD_group_GLOBOCAN,
   var_ICD  ="site",
   var_year = "doi")     
@@ -136,7 +138,6 @@ data1 <- csu_bar_top(
    color= c("#2c7bb6"),
    digits=0) 
 
-
 #Double sided bar plot example 1
 data2 <- csu_bar_top(
    df_asr,
@@ -158,7 +159,7 @@ data3 <- csu_bar_top(
    group_by="sex",
    nb_top = 10,
    plot_title = "Top 10 cancer sites",
-   xtitle= "Age-standardized rate per 100,00",
+   xtitle= "Age-standardized rate per 100,000",
    label_by=c("Male", "Female"),
    color = c("#2c7bb6","#b62ca1"),
    digits=1) 

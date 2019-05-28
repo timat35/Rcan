@@ -13,7 +13,7 @@ library(Rcan)
 setwd("C:/Projects/Rcan/temp")
 
 
-data_individual_file <- read.csv("Exercise2_qui.csv")
+data_individual_file <- read.csv("data-individual_test.csv")
 save(data_individual_file, file="data_individual_file.rda")
 
 data_population_file <- read.csv("200612_population.csv")

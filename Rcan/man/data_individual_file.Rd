@@ -10,9 +10,10 @@
 }
 \usage{data("data_individual_file")}
 \format{
-  A data frame with 19284 observations on the following 9 variables.
+  A data frame with 19284 observations on the following 10 variables.
   \describe{
     \item{\code{regcode}}{registry code}
+    \item{\code{reglabel}}{registry label}
     \item{\code{sex}}{sex}
     \item{\code{age}}{age}
     \item{\code{doi}}{date of birth (yyyymmdd)}
@@ -42,7 +43,7 @@ data(data_individual_file)
 
 df_data_age <- csu_group_cases(data_individual_file,
 	var_age="age",
-	group_by=c("sex", "regcode", "site"))
+	group_by=c("sex", "regcode", "reglabel", "site"))
 
 
 #group individual data by 
@@ -51,7 +52,7 @@ df_data_age <- csu_group_cases(data_individual_file,
 
 df_data_icd <- csu_group_cases(data_individual_file,
 	var_age="age",
-	group_by=c("sex", "regcode"),
+	group_by=c("sex", "regcode", "reglabel"),
 	df_ICD = ICD_group_GLOBOCAN,
 	var_ICD  ="site") 
 

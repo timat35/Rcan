@@ -8,11 +8,12 @@ test_that("Test csu_group_cases: 1",{
   #output result
   output_test <- csu_group_cases(data_individual_file,
     var_age="age",
-    group_by=c("sex", "regcode"),
+    group_by=c("sex", "regcode", "reglabel"),
     df_ICD = ICD_group_GLOBOCAN,
     var_ICD  ="site") 
 
   expect_test <- readRDS(system.file("testdata","csu_group_cases_test1.rds",package="Rcan"))
+  saveRDS(output_test,"csu_group_cases_test1.rds")
 
   #test
   expect_equal(output_test, expect_test)

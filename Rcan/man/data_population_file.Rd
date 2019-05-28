@@ -9,7 +9,7 @@
 }
 \usage{data("data_population_file")}
 \format{
-  A data frame with 160 observations on the following 9 variables.
+  A data frame with 160 observations on the following 4 variables.
   \describe{
     \item{\code{year}}{year}
     \item{\code{sex}}{sex}
@@ -38,7 +38,7 @@ data(data_population_file)
 
 df_data_year <- csu_group_cases(data_individual_file,
   var_age="age",
-  group_by=c("sex", "regcode"),
+  group_by=c("sex", "regcode", "reglabel"),
   df_ICD = ICD_group_GLOBOCAN,
   var_ICD  ="site",
   var_year = "doi")     

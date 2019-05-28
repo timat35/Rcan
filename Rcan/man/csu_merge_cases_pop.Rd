@@ -16,13 +16,13 @@ csu_merge_cases_pop(df_cases,
 
 \arguments{
   \item{df_cases}{
-  		Registry data group by 5 years-age group (need to be R \code{data.frame} format, see example to import csv file).
+  		Registry data group by 5 years-age group (need to be R \code{data.frame} format, see examples to import csv file).
 	}
   \item{df_pop}{
-  		Population data group by 5-years age group (need to be R \code{data.frame} format, see example to import csv file).
+  		Population data group by 5-years age group (need to be R \code{data.frame} format, see examples to import csv file).
 	}
   \item{var_age}{
-		Age variable. Several format are accepted 
+		Age variable. Severals format are accepted 
 		\tabular{lll}{
 			1 \tab 0-4 \tab 0 \cr
 			2 \tab 5-9 \tab 5 \cr
@@ -32,7 +32,7 @@ csu_merge_cases_pop(df_cases,
 			18 \tab 85+ \tab 85 \cr
 		}
 		\bold{This variable must be a variable with the same column name in both dataset } (\code{df_cases} and \code{df_pop}).\cr
-		Age >= 85 in the \code{df_pop} dataset will be aggregate as 85+.
+		Age >= 85 in the \code{df_pop} dataset will be aggregated as 85+.
 	}
   \item{var_cases}{
 		Cases variable in the \code{df_cases} dataset.\cr
@@ -49,11 +49,11 @@ csu_merge_cases_pop(df_cases,
 }
 
 \details{
-	This function merge registry data and population for further analysis.\cr 
-	both dataset must be group by 5-years age group.\cr
+	This function merges registry data and population for further analysis.\cr 
+	Both datasets must be group by 5-years age group.\cr
 	\bold{If present, the year information in format "yyyy" will be detected automatically}.\cr 
-	2 format are accepted for population data:.\cr
-	Long format: (year and population are a variable)\cr
+	2 formats are accepted for population data:.\cr
+	Long format: (year and population are 2 variables)\cr
 	\tabular{llll}{
 		sex	\tab age \tab pop \tab year \cr
 		1 \tab 1 \tab 116128 \tab 2005 \cr
@@ -111,7 +111,7 @@ data(data_population_file)
 
 df_data_year <- csu_group_cases(data_individual_file,
   var_age="age",
-  group_by=c("sex", "regcode"),
+  group_by=c("sex", "regcode", "reglabel"),
   df_ICD = ICD_group_GLOBOCAN,
   var_ICD  ="site",
   var_year = "doi")     
