@@ -1,4 +1,55 @@
 
+test_that("Test csu_group_cases: 1",{
+
+  #input data
+  data(ICD_group_GLOBOCAN)
+  data(data_individual_file)
+
+  #output result
+  output_test <- csu_group_cases(data_individual_file,
+    var_age="age",
+    group_by=c("sex", "regcode", "reglabel"),
+    df_ICD = ICD_group_GLOBOCAN,
+    var_ICD  ="site") 
+
+  expect_test <- readRDS(system.file("testdata","csu_group_cases_test1.rds",package="Rcan"))
+  saveRDS(output_test,"csu_group_cases_test1.rds")
+
+  #test
+  expect_equal(output_test, expect_test)
+})
+
+test_that("Test csu_merge_cases_pop: 1",{
+
+  #input data
+  data(ICD_group_GLOBOCAN)
+  data(data_individual_file)
+  data(data_population_file)
+
+  #output result
+  df_data_year <- csu_group_cases(data_individual_file,
+    var_age="age",
+    group_by=c("sex", "regcode"),
+    df_ICD = ICD_group_GLOBOCAN,
+    var_ICD  ="site",
+    var_year = "doi")     
+
+
+  output_test <- csu_merge_cases_pop(
+    df_data_year, 
+    data_population_file, 
+    var_age = "age_group",
+    var_cases = "cases",
+    var_py = "pop",
+    group_by = c("sex"))
+
+  expect_test <- readRDS(system.file("testdata","csu_merge_cases_pop1.rds",package="Rcan"))
+  #test
+  expect_equal(output_test, expect_test)
+})
+
+
+
 
 test_that("Test csu_asr: 1",{
 

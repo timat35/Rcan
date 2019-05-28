@@ -6,14 +6,19 @@ install.packages("ggplot2")
 install.packages("grid")
 install.packages("scales")
 install.packages("testthat")
-
 install.packages("devtools")
+install.packages("digest")
 
 
-#update package (last version)
+#update package (last stable version)
 detach(package:Rcan)
 remove.packages("Rcan")
 devtools::install_github("timat35/Rcan", subdir="Rcan")
+
+#update package (dev version)
+detach(package:Rcan)
+remove.packages("Rcan")
+devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 
 #run test unit
 library("Rcan")
@@ -23,22 +28,23 @@ test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
 #check packages: (check need Roxygene) and built
 
 library(devtools)
+library(spelling)
+
 
 check("C:/Projects/Rcan/Rcan") #local check
+check_man("C:/Projects/Rcan/Rcan") #local check documentation
 build("C:/Projects/Rcan/Rcan", path="C:/Projects/Rcan/release", manual = TRUE) # build package
 build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 
-
 # post package on CRAN
 
-spell_check("C:/Projects/Rcan/Rcan")
+spell_check_package("C:/Projects/Rcan/Rcan")
 check_rhub("C:/Projects/Rcan/Rcan")
 check_win_devel("C:/Projects/Rcan/Rcan") #build win check
 release_checks("C:/Projects/Rcan/Rcan")
 release("C:/Projects/Rcan/Rcan", check=FALSE)
 
-
-#create dataset fro shiny app
+#create dataset from shiny app
 
 library(data.table)
 app_folder <- "C:/Projects/Rcan/Shiny"
@@ -76,137 +82,357 @@ getOption("repos")
 
 
 
-# example age specific ---------
+# example csu_cases_group--------
 
-data(csu_registry_data_1)
+data(ICD_group_GLOBOCAN)
+data(data_individual_file)
+
+#group individual data by 
+# 5 year age group 
+df_data_age <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode", "site")) 
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+
+df_data_icd <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site") 
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+# year (extract from date of incidence)
+
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "doi")       
+
+
+# example csu_pop_cases--------
+
+
+data(ICD_group_GLOBOCAN)
+data(data_individual_file)
+
+
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+# year (extract from date of incidence)
+
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "doi")     
+
+#Merge 5-years age grouped data with population by year (automatic) and sex
+
+df_pop <- csu_merge_cases_pop(df_data_year, data_population_file, var_age = "age_group", 
+                           var_cases = "cases", var_py = "pop", group_by = c("sex"))
+
+
+#example csu bar top 
+
+
+data(ICD_group_GLOBOCAN)
+data(data_individual_file)
+data(data_population_file)
+load("data_individual_file.rda")
+load("data_population_file.rda")
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+# year (extract from date of incidence)
+
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "doi")     
+
+#Merge 5-years age grouped data with population by year (automatic) and sex
+
+df_data <- csu_merge_cases_pop(
+  df_data_year, 
+  data_population_file, 
+  var_age = "age_group",
+  var_cases = "cases",
+  var_py = "pop",
+  group_by = c("sex"))
+
+# calculate asr
+df_asr <- csu_asr(df_pop,
+  "age_group", 
+  "cases",
+  "pop",
+  group_by=c("sex", "ICD_group", "LABEL"),
+  missing_age =19)
+
+#remove Other cancer
+df_asr <- df_asr[!df_asr$LABEL %in% c("Other", "Other skin"), ]
+
+#keep male
+df_asr_male <- df_asr[df_asr$sex==1,]
+
+
+#Single sided bar plot 
+data1 <- csu_bar_top(
+   df_asr_male,
+   var_value="cases",
+   var_bar="LABEL",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Number of cases",
+   color= c("#2c7bb6"),
+   digits=0) 
+
+#Double sided bar plot example 1
+data2 <- csu_bar_top(
+   df_asr,
+   var_value="cases",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 15,
+   plot_title = "Top 15 cancer sites",
+   xtitle= "Number of cases",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=0) 
+
+#Double sided bar plot example 2
+data2 <- csu_bar_top(
+   df_asr,
+   var_value="asr",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Age-standardized rate per 100,00",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=1) 
+
+
+
+# example bar top
+
+data(data_individual_file)
 data(csu_registry_data_2)
 
 # you can import your data from csv file using read.csv:
 # mydata <-  read.csv("mydata.csv", sep=",")
+   
+# ASR
+result <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"))
 
-# to select only 1 population.
-test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
+result <- result[]
 
-# plot age specific rate for 1 population.
-csu_ageSpecific(test,
-                plot_title = "Colombia, Liver, male")
-
-# plot age specific rate for 1 population, and comparison with CI5X data.
-csu_ageSpecific(test,
-                plot_title = "Colombia, Liver, male",
-                CI5_comparison = "Liver")
-
-# plot age specific rate for 4 population, legend at the bottom and comparison with CI5X data.
-csu_ageSpecific(csu_registry_data_1,
-                group_by="registry_label",
-                legend=csu_trend_legend(position="bottom", nrow = 1),
-                plot_title = "Liver, male",
-                CI5_comparison = 7)
-
-# plot age specific rate for 4 population, legend at the right.
-csu_ageSpecific(csu_registry_data_1,
-                group_by="registry_label",
-                legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-                plot_title = "Liver, male")	
-
-#plot logscale with CI5 data
-temp <- csu_ageSpecific(csu_registry_data_1,
-                log_scale = TRUE,
-                group_by="registry_label",
-                legend=csu_trend_legend(position="bottom", nrow = 1),
-                plot_title = "Liver, male",
-                CI5_comparison = 7)
+df_asr_male <- df_asr[dcasasr$sex==1,]
 
 
+data <- csu_bar_top(
+   dcasasr_male,
+   var_value="cases",
+   var_bar="LABEL",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Number of cases",
+   color= c("#2c7bb6"),
+   digits=0) 
 
-# Plot embedded in a graphic device
-pdf("test.pdf",width = 11.692 , height =  8.267) 
+color_test <- read.csv("temp_color.csv")
+dcasasr_male <- merge(dcasasr_male, color_test, by="LABEL")
 
-
-csu_ageSpecific(csu_registry_data_1,
-                group_by="registry_label",
-                legend=csu_trend_legend(position="bottom", nrow = 2),
-                plot_title = "Liver, male",
-                CI5_comparison = 7)
-
-plot.new()
-
-csu_ageSpecific(csu_registry_data_1,
-                group_by="registry_label",
-                legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-                plot_title = "Liver, male")	
+data <- csu_bar_top(
+   dcasasr_male,
+   var_value="cases",
+   var_bar="LABEL",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Number of cases",
+   color="hex_color",
+   digits=0) 
 
 
 
-dev.off()
+data2 <- csu_bar_top(
+   dcasasr,
+   var_value="cases",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 15,
+   plot_title = "Top 15 cancer sites",
+   xtitle= "Number of cases",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=0) 
+
+data2 <- csu_bar_top(
+   dcasasr,
+   var_value="asr",
+   var_bar="LABEL",
+   group_by="sex",
+   nb_top = 10,
+   plot_title = "Top 10 cancer sites",
+   xtitle= "Age-standardized rate per 100,00",
+   label_by=c("Male", "Female"),
+   color = c("#2c7bb6","#b62ca1"),
+   digits=1)
+
+
+
+
+
+
+
+
+# example age specific ---------
+
+  data(csu_registry_data_1)
+  data(csu_registry_data_2)
+
+  # you can import your data from csv file using read.csv:
+  # mydata <-  read.csv("mydata.csv", sep=",")
+
+  # to select only 1 population.
+  test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
+
+  # plot age specific rate for 1 population.
+  csu_ageSpecific(test,
+                  plot_title = "Colombia, Liver, male")
+
+  # plot age specific rate for 1 population, and comparison with CI5X data.
+  csu_ageSpecific(test,
+                  plot_title = "Colombia, Liver, male",
+                  CI5_comparison = "Liver")
+
+  # plot age specific rate for 4 population, legend at the bottom and comparison with CI5X data.
+  csu_ageSpecific(csu_registry_data_1,
+                  group_by="registry_label",
+                  legend=csu_trend_legend(position="bottom", nrow = 1),
+                  plot_title = "Liver, male",
+                  CI5_comparison = 7)
+
+  # plot age specific rate for 4 population, legend at the right.
+  csu_ageSpecific(csu_registry_data_1,
+                  group_by="registry_label",
+                  legend=csu_trend_legend(position="right", right_space_margin = 6.5),
+                  plot_title = "Liver, male")	
+
+  #plot logscale with CI5 data
+  temp <- csu_ageSpecific(csu_registry_data_1,
+                  log_scale = TRUE,
+                  group_by="registry_label",
+                  legend=csu_trend_legend(position="bottom", nrow = 1),
+                  plot_title = "Liver, male",
+                  CI5_comparison = 7)
+
+
+
+  # Plot embedded in a graphic device
+  pdf("test.pdf",width = 11.692 , height =  8.267) 
+
+
+  csu_ageSpecific(csu_registry_data_1,
+                  group_by="registry_label",
+                  legend=csu_trend_legend(position="bottom", nrow = 2),
+                  plot_title = "Liver, male",
+                  CI5_comparison = 7)
+
+  plot.new()
+
+  csu_ageSpecific(csu_registry_data_1,
+                  group_by="registry_label",
+                  legend=csu_trend_legend(position="right", right_space_margin = 6.5),
+                  plot_title = "Liver, male")	
+
+
+
+  dev.off()
 
 
 #----- example age specific top ------
 
-library(Rcan)
-data("csu_CI5X_data")
+  library(Rcan)
+  data("csu_CI5X_data")
 
-#get the registry code asssociate to registry_label
-print(unique(csu_CI5X_data[,c("registry_label", "registry_code")]),nrows = 1000)
+  #get the registry code asssociate to registry_label
+  print(unique(csu_CI5X_data[,c("registry_label", "registry_code")]),nrows = 1000)
 
-#get the cancer code asssociate to cancer_label
-print(unique(csu_CI5X_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
+  #get the cancer code asssociate to cancer_label
+  print(unique(csu_CI5X_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
 
-#remove all cancers:
-df_data <- csu_CI5X_data[csu_CI5X_data$cancer_code < 62,]
-
-
-#select Thailand changmai
-df_data_1 <- df_data[df_data$registry_code==76401,]
+  #remove all cancers:
+  df_data <- csu_CI5X_data[csu_CI5X_data$cancer_code < 62,]
 
 
-#select USAm NPCR
-df_data_2 <- df_data[df_data$registry_code== 84080,]
+  #select Thailand changmai
+  df_data_1 <- df_data[df_data$registry_code==76401,]
 
 
-# plot for Thailand Changmai
-dt_result_1 <- csu_ageSpecific_top(df_data_1,
-                    var_age="age", 
-                    var_cases="cases", 
-                    var_py="py",
-                    var_top="cancer_label", 
-                    group_by="sex", 
-                    plot_title= "Thailand, Chiangmai",
-                    plot_subtitle = "Top 5 cancer",
-                    missing_age = 19)
+  #select USAm NPCR
+  df_data_2 <- df_data[df_data$registry_code== 84080,]
 
 
-# plot for USA NPCR
-dt_result_2 <- csu_ageSpecific_top(df_data_2,
-                                   var_age="age", 
-                                   var_cases="cases", 
-                                   var_py="py",
-                                   var_top="cancer_label", 
-                                   group_by="sex", 
-                                   plot_title= "USA, NPCR",
-                                   plot_subtitle = "Top 5 cancer",
-                                   missing_age = 19)
-
-# plot for USA NPCR with color
+  # plot for Thailand Changmai
+  dt_result_1 <- csu_ageSpecific_top(df_data_1,
+                      var_age="age", 
+                      var_cases="cases", 
+                      var_py="py",
+                      var_top="cancer_label", 
+                      group_by="sex", 
+                      plot_title= "Thailand, Chiangmai",
+                      plot_subtitle = "Top 5 cancer",
+                      missing_age = 19)
 
 
-#associate cancer with color
+  # plot for USA NPCR
+  dt_result_2 <- csu_ageSpecific_top(df_data_2,
+                                     var_age="age", 
+                                     var_cases="cases", 
+                                     var_py="py",
+                                     var_top="cancer_label", 
+                                     group_by="sex", 
+                                     plot_title= "USA, NPCR",
+                                     plot_subtitle = "Top 5 cancer",
+                                     missing_age = 19)
+
+  # plot for USA NPCR with color
 
 
-dt_cancer_color <- data.table(read.csv(paste0(rcan_folder, "/data_test/color_cancer.csv")))
-setnames(dt_cancer_color, "cancer", "cancer_code")
-setnames(dt_cancer_color, "cancer_lab", "cancer_label")
-df_data_2 <- merge(df_data_2, dt_cancer_color, by=c("cancer_label", "cancer_code"))
-dt_result_2 <- csu_ageSpecific_top(df_data_2,
-                                   var_age="age", 
-                                   var_cases="cases", 
-                                   var_py="py",
-                                   var_top="cancer_label", 
-                                   group_by="sex", 
-                                   var_color="cancer_color",
-                                   plot_title= "USA, NPCR",
-                                   plot_subtitle = "Top 5 cancer",
-                                   missing_age = 19)
+  #associate cancer with color
+
+
+  dt_cancer_color <- data.table(read.csv(paste0(rcan_folder, "/data_test/color_cancer.csv")))
+  setnames(dt_cancer_color, "cancer", "cancer_code")
+  setnames(dt_cancer_color, "cancer_lab", "cancer_label")
+  df_data_2 <- merge(df_data_2, dt_cancer_color, by=c("cancer_label", "cancer_code"))
+  dt_result_2 <- csu_ageSpecific_top(df_data_2,
+                                     var_age="age", 
+                                     var_cases="cases", 
+                                     var_py="py",
+                                     var_top="cancer_label", 
+                                     group_by="sex", 
+                                     var_color="cancer_color",
+                                     plot_title= "USA, NPCR",
+                                     plot_subtitle = "Top 5 cancer",
+                                     missing_age = 19)
 
 
 
@@ -214,50 +440,50 @@ dt_result_2 <- csu_ageSpecific_top(df_data_2,
 # example time trend -----
 
 
-data(csu_registry_data_2)
+  data(csu_registry_data_2)
 
-# you can import your data from csv file using read.csv:
-# mydata <-  read.csv("mydata.csv", sep=",")
+  # you can import your data from csv file using read.csv:
+  # mydata <-  read.csv("mydata.csv", sep=",")
 
-# to select only 1 population 
-test <- csu_registry_data_2[csu_registry_data_2$registry_label=="Colombia, Cali",]
+  # to select only 1 population 
+  test <- csu_registry_data_2[csu_registry_data_2$registry_label=="Colombia, Cali",]
 
-# to change sex variable to factor with label
-test$sex <- factor(test$sex, levels=c(1,2), labels=c("Male", "Female"))
+  # to change sex variable to factor with label
+  test$sex <- factor(test$sex, levels=c(1,2), labels=c("Male", "Female"))
 
-# to calculate the asr
-df_asr <- csu_asr(test,missing_age = 99,
-                  group_by  = c("registry", "registry_label", "year", "sex"),
-                  var_age_group =  c("registry", "registry_label"))
-
-
-# plot ASR ove year, by sex.
-csu_time_trend(df_asr, group_by="sex",
-          plot_title = "Colombia, Liver")
-
-# plot ASR over year, by sex, with small smoothing.
-csu_time_trend(df_asr, group_by="sex",
-          plot_title = "Colombia, Liver",
-          smoothing = 0.3)
-
-# plot ASR over year, by sex, with high smoothing.
-csu_time_trend(df_asr, group_by="sex",
-          plot_title = "Colombia, Liver",
-          smoothing = 0.5)
-
-# Plot embedded in a graphic device
-pdf("example_test.pdf")
-csu_time_trend(df_asr, group_by="sex",
-          plot_title = "Colombia, Liver",
-          smoothing = 0.3)
-
-csu_time_trend(df_asr, group_by="sex",
-          plot_title = "Colombia, Liver",
-          legend=csu_trend_legend(position="right", right_space_margin = 6.5),
-          smoothing = 0.5)
-
-dev.off()
+  # to calculate the asr
+  df_asr <- csu_asr(test,missing_age = 99,
+                    group_by  = c("registry", "registry_label", "year", "sex"),
+                    var_age_group =  c("registry", "registry_label"))
 
 
-getwd()
+  # plot ASR ove year, by sex.
+  csu_time_trend(df_asr, group_by="sex",
+            plot_title = "Colombia, Liver")
+
+  # plot ASR over year, by sex, with small smoothing.
+  csu_time_trend(df_asr, group_by="sex",
+            plot_title = "Colombia, Liver",
+            smoothing = 0.3)
+
+  # plot ASR over year, by sex, with high smoothing.
+  csu_time_trend(df_asr, group_by="sex",
+            plot_title = "Colombia, Liver",
+            smoothing = 0.5)
+
+  # Plot embedded in a graphic device
+  pdf("example_test.pdf")
+  csu_time_trend(df_asr, group_by="sex",
+            plot_title = "Colombia, Liver",
+            smoothing = 0.3)
+
+  csu_time_trend(df_asr, group_by="sex",
+            plot_title = "Colombia, Liver",
+            legend=csu_trend_legend(position="right", right_space_margin = 6.5),
+            smoothing = 0.5)
+
+  dev.off()
+
+
+  getwd()
 
