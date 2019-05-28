@@ -9,6 +9,33 @@ devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 library(Rcan)
 #check new function #
 
+data("ICD_group_GLOBOCAN")
+data("data_individual_file")
+data("data_population_file")
+
+df_data_year <- csu_group_cases(data_individual_file,
+                                var_age="age",
+                                group_by=c("sex", "regcode"),
+                                df_ICD = ICD_group_GLOBOCAN,
+                                var_ICD  ="site",
+                                var_year = "doi")
+
+df_data <- csu_merge_cases_pop(df_data_year, 
+                               data_population_file, 
+                               var_age = "age_group",
+                               var_cases = "cases",
+                               var_py = "pop")
+
+head(data_population_file)
+
+
+
+var_data_pop <- colnames(data_population_file)
+    warning(paste0('The population dataset variable: ',var_data_pop,' is not present in the group_by option.\nPopulation data might have been summed, please check carefully.\n\n'))
+
+
+paste0('The population dataset variable:',var_data_pop,'is not present in the group_by option.\nPopulation data might have been summed, please check carefully')
+
 
 setwd("C:/Projects/Rcan/temp")
 

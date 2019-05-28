@@ -2,16 +2,17 @@
 csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_py=NULL,group_by=NULL) {
 
 
-  core.error_variable(df_cases, var_cases, csu_merge_cases_pop)
-  core.error_variable(df_cases, var_age, csu_merge_cases_pop,type= "")
-  core.error_variable(df_pop, var_age, csu_merge_cases_pop,type= "")
+  Rcan:::core.error_variable(df_cases, var_cases, csu_merge_cases_pop)
+  Rcan:::core.error_variable(df_cases, var_age, csu_merge_cases_pop,type= "")
+  Rcan:::core.error_variable(df_pop, var_age, csu_merge_cases_pop,type= "")
 
   if (!is.null(group_by)){
     for (var in group_by) {
-      core.error_variable(df_cases, var, csu_merge_cases_pop,type= "")
-      core.error_variable(df_pop, var, csu_merge_cases_pop,type= "")
+      Rcan:::core.error_variable(df_cases, var, csu_merge_cases_pop,type= "")
+      Rcan:::core.error_variable(df_pop, var, csu_merge_cases_pop,type= "")
     }
   }
+
 
   bool_year <- FALSE
   bool_temp <- FALSE
@@ -24,7 +25,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
 
   if (!is.null(var_py)) {
     
-    core.error_variable(df_pop, var_py, csu_merge_cases_pop)
+    Rcan:::core.error_variable(df_pop, var_py, csu_merge_cases_pop)
 
     setnames(dt_pop, var_py, "CSU_P")
     for (colyear_pop in colnames(dt_pop)[!colnames(dt_pop) %in% c(var_age,"CSU_P")]) {
@@ -58,6 +59,8 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
     merge_col <- c(merge_col, "year")
   }
 
+
+
   dt_pop[,c(var_age) :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",get(var_age), perl=TRUE))]
 
   if (max(dt_pop[[var_age]]) > 25) {
@@ -89,15 +92,22 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
     }
   }
 
+  var_data_pop <- colnames(data_population_file)
+  var_data_pop <- var_data_pop[!var_data_pop  %in% c("pop", merge_col)]
+
+  if (length(var_data_pop) > 0) {
+        warning(paste0('The population dataset variable: ',var_data_pop,' is not present in the group_by option.\nPopulation data might have been summed, please check carefully.\n\n'))
+  }
 
   
-  
-
-
   dt_data <- merge(dt_cases, dt_pop, by= merge_col, all.x=TRUE)
   dt_data[is.na(CSU_P), CSU_P:=0]
 
   setnames(dt_data, "CSU_P", var_py)
+
+
+
+
 
   df_data <- as.data.frame(dt_data)
   return(df_data)
