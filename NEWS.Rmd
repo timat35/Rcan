@@ -1,5 +1,9 @@
 # Rcan news
 
+## 1.3.71
+
+* fix error in hidden function affecting CanReg5 software
+
 ## 1.3.70
 * Add "csu_group_cases" function to group individual data into 5 years age-group data
 * Add "csu_merge_cases_pop" function to merge registry data and population data

@@ -27,6 +27,13 @@ csu_asr <-
     if (last_age < 2 | last_age > 18 ) {
       stop('The argument "last_age" must be comprise between 2 (5-9) and 18 (85+), see documentation: help(csu_asr)')
     }
+
+    temp <- colnames(df_data)
+    temp <- temp[!temp  %in% c(var_age,var_cases,var_py,group_by)]
+
+    if (length(temp) > 0) {
+        warning(paste0('The dataset variable: ',temp,' is not present in the group_by option.\n Cases data might have been summed while population data use the mean, please check carefully.\n\n'))
+    }
     
     
     df_data <- core.csu_asr(df_data,var_age,var_cases,var_py,group_by,var_age_group,missing_age,db_rate,
