@@ -361,8 +361,6 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   setnames(dt_data, var_cases, "CSU_C")
   setnames(dt_data, var_py, "CSU_P")
 
-  #Sum cases and pop per group_by + age _group
-  dt_data <-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by, "CSU_A")]
 
   # create index to keep order
   index_order <- c(1:nrow(dt_data))
