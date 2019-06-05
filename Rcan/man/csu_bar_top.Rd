@@ -54,7 +54,7 @@ csu_bar_top(df_data,
 	For example: c("Male", "Female"). 
 	}
   \item{color}{
-  	Color codes are hexadecimal.\cr
+  	The color codes are hexadecimal (e.g. "#FF0000") or predefined R color names (e.g. "red").\cr
 	\itemize{
   		\item Single-sided bar chart. 1 hexadecimal color code (same color for each bar) or variable name with a color associated to each bar label variable. 
   		\item Double-sided bar chart. 2 values vector. For example: c("#2c7bb6","#b62ca1").

@@ -49,7 +49,7 @@ csu_time_trend(df_data,
 	}
   \item{color_trend}{
 	Vector of color for the trend.
-	The color code are hexadecimal (see example).
+	The color codes are hexadecimal (e.g. "#FF0000") or predefined R color names (e.g. "red").
 	}
   \item{ytitle}{
 		Y-axis title. Default is "Age standardized rate per 100,000".

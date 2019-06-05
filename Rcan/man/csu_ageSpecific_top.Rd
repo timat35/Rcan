@@ -64,7 +64,8 @@ csu_ageSpecific_top(df_data,
 	Subtitle of the plot. (For example, "Top 5 cancer").
 	}
   \item{var_color}{
-	Variable with a color associate to each cancer. The color code are hexadecimal.
+	Variable with a color associate to each cancer.\cr
+	The color codes are hexadecimal (e.g. "#FF0000") or predefined R color names (e.g. "red").\cr
 	This allow to keep the same color coding for each graph.
 	}
  
