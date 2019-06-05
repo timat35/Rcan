@@ -102,7 +102,7 @@ csu_time_trend(df_data,
 	# to calculate the asr
 	df_asr <- csu_asr(
 		test,missing_age = 99,
-		group_by  = c("registry", "registry_label", "year", "sex"),
+		group_by  = c("registry", "registry_label", "year", "sex", "ethnic"),
 		var_age_group =  c("registry", "registry_label")
 		)
 
