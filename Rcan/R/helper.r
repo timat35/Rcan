@@ -709,8 +709,6 @@ core.csu_ageSpecific <-function(df_data,
     ##group population (use sum)
     dt_data <- dt_data[, list(CSU_C=sum(CSU_C),CSU_P=sum(CSU_P)), by=c("CSU_BY", "CSU_A") ]
 
-    #drop missing age 
-    dt_data <- dt_data[CSU_A!=missing_age] 
     ##change by to factor
     dt_data$CSU_BY <- factor(dt_data$CSU_BY)
 
@@ -735,7 +733,7 @@ core.csu_ageSpecific <-function(df_data,
     dt_data <- dt_data[CSU_P!=0] 
     ##calcul rate 
     dt_data$rate <- dt_data$CSU_C/dt_data$CSU_P *db_rate
-    
+
     ##create age label:
     if (is.null(age_label_list)) {
       

@@ -2,6 +2,7 @@
 
 ## 1.3.71
 
+* Fix calculation in age specific rate for population with less that 18 age group
 * Fix error in hidden function affecting CanReg5 software
 * Edit documentation
 * Add warnings for specific cases

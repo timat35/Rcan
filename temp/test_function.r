@@ -14,6 +14,41 @@ library(ggplot2)
 setwd("C:/Projects/Rcan/temp")
 source("function.r")
 
+## add function barchart
+
+
+data(csu_registry_data_1)
+data(csu_registry_data_2)
+
+# you can import your data from csv file using read.csv:
+# mydata <-  read.csv("mydata.csv", sep=",")
+
+# to select only 1 population.
+test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
+
+# plot age specific rate for 1 population.
+csu_ageSpecific(test,
+        plot_title = "Colombia, Liver, male")
+
+# plot age specific rate for 1 population, and comparison with CI5X data.
+csu_ageSpecific(test,
+        plot_title = "Colombia, Liver, male",
+        CI5_comparison = "Liver")
+
+# plot age specific rate for 4 population, 
+# legend at the bottom and comparison with CI5X data.
+csu_ageSpecific(
+  csu_registry_data_1,
+  group_by="registry_label",
+  legend=csu_trend_legend(position="bottom", nrow = 1),
+  plot_title = "Liver, male",
+  CI5_comparison = 7
+  )
+
+
+
+
+
 dat <- read.table(file="Exercise2-2.csv", header=TRUE,sep=",")
 d <- subset(dat, site == "Stomach" & sex == 1 & year == 2008)
 
@@ -30,9 +65,3 @@ subset(dat, site=="Stomach" & sex == 1 & year == 2008)
 
 test <-  17 / 17025*100000
 test <-  (17+15+11) / 17025 * 100000
-
-
-
-## add function barchart
-
-
