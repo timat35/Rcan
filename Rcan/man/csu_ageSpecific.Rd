@@ -57,7 +57,7 @@ csu_ageSpecific(df_data,
 	}
   \item{color_trend}{
 	Vector of color for the trend.
-	The color code are hexadecimal (see example).
+	The color code are hexadecimal.
 	}
   \item{CI5_comparison}{
 	Add a dotted line representing the CI5X for a specific cancer.\cr

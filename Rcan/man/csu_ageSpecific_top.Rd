@@ -36,7 +36,7 @@ csu_ageSpecific_top(df_data,
 	Population year variable.
 	}
   \item{var_top}{
-	cancer label variable or population variable.
+	Cancer label variable or country/registry variable for example.
 	}
   \item{group_by}{
 	Variable to compare different age specific rate (sex, registry ...).\cr
