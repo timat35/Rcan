@@ -116,7 +116,7 @@ df_data <- csu_merge_cases_pop(
   group_by = c("sex"))
 
 
-#prepare for calulcate ASR
+#prepare for calculate ASR
 df_data$age_group_label <- NULL # to avoid warning
 df_data <- df_data[df_data$year == 2012,] # to keep only 2012 data
 df_data$year <- NULL # to avoid warning
