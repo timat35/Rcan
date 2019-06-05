@@ -22,7 +22,7 @@ csu_merge_cases_pop(df_cases,
   		Population data group by 5-years age group (need to be R \code{data.frame} format, see examples to import csv file).
 	}
   \item{var_age}{
-		Age variable. Severals format are accepted 
+		Age variable. Several format are accepted 
 		\tabular{lll}{
 			1 \tab 0-4 \tab 0 \cr
 			2 \tab 5-9 \tab 5 \cr
