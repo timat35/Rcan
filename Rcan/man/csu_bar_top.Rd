@@ -118,7 +118,7 @@ df_data <- csu_merge_cases_pop(
 
 #prepare for calculate ASR
 df_data$age_group_label <- NULL # to avoid warning
-df_data <- df_data[df_data$year == 2012,] # to keep only 2012 data
+df_data <- subset(df_data , year == 2012) # to keep only 2012 data
 df_data$year <- NULL # to avoid warning
 
 # calculate asr
@@ -130,11 +130,12 @@ df_asr <- csu_asr(df_data,
   missing_age =19)
 
 #remove Other cancer
-df_asr <- df_asr[df_asr$LABEL != "Other",]
-df_asr <- df_asr[df_asr$LABEL != "Other skin",]
+df_asr <- subset(df_asr , LABEL != "Other") 
+df_asr <- subset(df_asr , LABEL != "Other skin")
+
 
 #keep male
-df_asr_M <- df_asr[df_asr$sex==1,]
+df_asr_M <- subset(df_asr , sex==1)
 
 #Single sided bar plot 
 data1 <- csu_bar_top(

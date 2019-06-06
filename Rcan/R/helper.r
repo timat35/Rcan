@@ -666,8 +666,8 @@ core.csu_ageSpecific <-function(df_data,
     if (!is.null(CI5_comparison)) {
       
       bool_CI5_comp <- TRUE
-      data(csu_ci5x_mean, envir = e <- new.env())
-      df_CI5 <- e$csu_ci5x_mean
+      data(csu_ci5_mean, envir = e <- new.env())
+      df_CI5 <- e$csu_ci5_mean
       dt_CI5 <- data.table(df_CI5)
       if (is.character(CI5_comparison)) {
         if (!(CI5_comparison%in% dt_CI5$ci5_cancer_label)) {

@@ -98,7 +98,7 @@ readline(prompt="Press [enter] to continue to age specific graph")
 data(csu_registry_data_1)
 
 # plot age specific rate for 1 population.
-df_colombia <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
+df_colombia <- subset(csu_registry_data_1, registry_label=="Colombia, Cali")
 
 csu_ageSpecific(df_colombia,
 			plot_title = "Colombia, Liver, male")

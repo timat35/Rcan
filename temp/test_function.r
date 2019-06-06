@@ -52,12 +52,12 @@ csu_ageSpecific(
 
 
 dat <- read.table(file="Exercise2-2.csv", header=TRUE,sep=",")
-d <- subset(dat, site == "Stomach" & sex == 1 & year == 2008)
+d <- subset(dat, site == "Prostate" & sex == 1)
 
 
 rate <- csu_ageSpecific(d, var_age = "age_group", var_cases = "cases", var_py = "py",
-                        group_by = "site", missing_age = 19, plot_title = "My registry: 2008-2012",
-                        CI5_comparison = "Stomach")
+                        group_by = "year", missing_age = 19, plot_title = "My registry: 2008-2012",
+                        CI5_comparison = "Prostate")
 
 rate <-as.data.table(rate)
 rate[nb_age_group == 16 & CSU_age_factor >= 16 , cases:=sum(cases), by="site"] ##add total_know

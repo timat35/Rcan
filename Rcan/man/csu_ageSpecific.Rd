@@ -62,7 +62,7 @@ csu_ageSpecific(df_data,
   \item{CI5_comparison}{
 	Add a dotted line representing the CI5X for a specific cancer.\cr
 	Value can be a cancer_label (example: "Liver"), or a cancer_code (example = 7).\cr
-	See \code{\link{csu_ci5x_mean}} to get the list of possible values.
+	See \code{\link{csu_ci5_mean}} to get the list of possible values.
 	}
 
   \item{var_rate}{
@@ -110,7 +110,8 @@ data(csu_registry_data_2)
 # mydata <-  read.csv("mydata.csv", sep=",")
 
 # to select only 1 population.
-test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
+test <- subset(csu_registry_data_1 , registry_label == "Colombia, Cali")
+
 
 # plot age specific rate for 1 population.
 csu_ageSpecific(test,
