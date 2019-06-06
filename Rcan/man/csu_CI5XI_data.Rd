@@ -2,10 +2,10 @@
 \alias{csu_CI5XI_data}
 \docType{data}
 \title{
-Cancer in five continent volume X.
+Cancer in five continent volume XI.
 }
 \description{
- CI5 X summary database.
+ CI5 XI summary database.
 }
 \usage{data("csu_CI5XI_data")}
 \format{

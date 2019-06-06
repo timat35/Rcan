@@ -55,7 +55,7 @@ csu_ageSpecific <-
     
     
     if (!is.null(csu_list$CI5_cancer_label)) {
-      cat("the dotted grey line represente the mean for ", csu_list$CI5_cancer_label, " cancer in CI5 X\n", sep="")
+      cat("the dotted grey line represente the mean for ", csu_list$CI5_cancer_label, " cancer in CI5 XI\n", sep="")
       
     }
     

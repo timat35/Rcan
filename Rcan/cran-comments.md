@@ -6,4 +6,16 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-* fix error in hidden function affecting CanReg5 software
+* Update CI5 data to CI5XI data
+* Fix calculation in age specific rate for population with less that 18 age group
+* Fix error in hidden function affecting CanReg5 software
+* Edit documentation
+* Add warnings
+
+## Comment
+I know package should be update no more than every 1-2 months. 
+I discovered after publication an update affect another software (CanReg5).
+It is my fault, I should I've checked carefully first.
+After checking with coworkers I've also fix other minor issues.
+Hopefully it will be possible to publish this update.
+
