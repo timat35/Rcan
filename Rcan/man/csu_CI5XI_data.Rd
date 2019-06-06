@@ -41,20 +41,20 @@ All information are available here: \url{http://ci5.iarc.fr/CI5-XI/Default.aspx}
 data("csu_CI5XI_data")
 
 #get the registry code asssociate to registry_label
-print(unique(csu_CI5XI_data[,c("registry_code", "registry_label" )]),nrows = 1000)
+#print(unique(csu_CI5XI_data[,c("registry_code", "registry_label" )]),nrows = 1000)
 
 #get the cancer code asssociate to cancer_label
-print(unique(csu_CI5XI_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
+#print(unique(csu_CI5XI_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
 
 #remove all cancers:
 df_data <- subset(csu_CI5XI_data ,cancer_code < 62)
 
+#change group_by option to factor
+df_data$sex <- factor(df_data$sex, levels=c(1,2), labels=c("Male", "Female"))
+
 
 #select Thailand changmai
 df_data_1 <- subset(df_data, registry_code==764001)
-
-
-
 
 
 
