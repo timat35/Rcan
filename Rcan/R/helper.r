@@ -995,7 +995,7 @@ core.csu_ageSpecific_top <- function(df_data,
     df_data$CSU_dum_by <- factor(df_data[[group_by]],levels=c("dummy_by"), labels=c(""))
     bool_dum_by <- TRUE
   } else {
-    df_data$CSU_dum_by <- as.factor(df_data[[group_by]])
+    df_data[[group_by]] <- as.factor(df_data[[group_by]])
   }
   
   df_data <- core.csu_dt_rank(df_data, var_value = var_cases, var_rank = var_top,group_by = group_by, number = nb_top) 
@@ -1434,7 +1434,9 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
 
   if (!is.null(var_year)) {
     dt_data$year <-  core.csu_year_extract(dt_data[[var_year]])
-    dt_data[, (var_year) := NULL]  
+    if (var_year != "year") {
+      dt_data[, (var_year) := NULL]  
+    }
     group_by <- c(group_by, "year")
 
   }
