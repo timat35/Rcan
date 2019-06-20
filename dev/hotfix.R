@@ -36,7 +36,7 @@ age_label_list = NULL
       dt_CI5 <- data.table(df_CI5)
       if (is.character(CI5_comparison)) {
         if (!(CI5_comparison %in% dt_CI5$ci5_cancer_label)) {
-          stop("CI5_comparison value must be a correct cancer label, see documentation: Help(CI5X_mean_data)")
+          stop("CI5_comparison value must be a correct cancer label, see documentation: Help(csu_ci5_mean)")
         }
         else {
           dt_CI5 <- dt_CI5[dt_CI5$ci5_cancer_label == 
@@ -46,7 +46,7 @@ age_label_list = NULL
       else {
         if (is.numeric(CI5_comparison)) {
           if (!(CI5_comparison %in% dt_CI5$ci5_cancer_code)) {
-            stop("CI5_comparison value must be a correct cancer code, see documentation: Help(CI5X_mean_data)")
+            stop("CI5_comparison value must be a correct cancer code, see documentation: Help(csu_ci5_mean)")
           }
           else {
             dt_CI5 <- dt_CI5[dt_CI5$ci5_cancer_code == 

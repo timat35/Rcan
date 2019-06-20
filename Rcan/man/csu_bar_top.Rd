@@ -54,7 +54,7 @@ csu_bar_top(df_data,
 	For example: c("Male", "Female"). 
 	}
   \item{color}{
-  	Color codes are hexadecimal.\cr
+  	The color codes are hexadecimal (e.g. "#FF0000") or predefined R color names (e.g. "red").\cr
 	\itemize{
   		\item Single-sided bar chart. 1 hexadecimal color code (same color for each bar) or variable name with a color associated to each bar label variable. 
   		\item Double-sided bar chart. 2 values vector. For example: c("#2c7bb6","#b62ca1").
@@ -116,9 +116,9 @@ df_data <- csu_merge_cases_pop(
   group_by = c("sex"))
 
 
-#prepare for calulcate ASR
+#prepare for calculate ASR
 df_data$age_group_label <- NULL # to avoid warning
-df_data <- df_data[df_data$year == 2012,] # to keep only 2012 data
+df_data <- subset(df_data , year == 2012) # to keep only 2012 data
 df_data$year <- NULL # to avoid warning
 
 # calculate asr
@@ -130,11 +130,12 @@ df_asr <- csu_asr(df_data,
   missing_age =19)
 
 #remove Other cancer
-df_asr <- df_asr[df_asr$LABEL != "Other",]
-df_asr <- df_asr[df_asr$LABEL != "Other skin",]
+df_asr <- subset(df_asr , LABEL != "Other") 
+df_asr <- subset(df_asr , LABEL != "Other skin")
+
 
 #keep male
-df_asr_M <- df_asr[df_asr$sex==1,]
+df_asr_M <- subset(df_asr , sex==1)
 
 #Single sided bar plot 
 data1 <- csu_bar_top(

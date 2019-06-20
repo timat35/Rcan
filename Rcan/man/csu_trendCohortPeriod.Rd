@@ -137,8 +137,8 @@ csu_trendCohortPeriod(
 	# mydata <-  read.csv("mydata.csv", sep=",")
 	
 	# to select only 1 population 
-	test <- csu_registry_data_2[csu_registry_data_2$registry == 84020,]
-	test <- test[test$sex==1,]
+	test <- subset(csu_registry_data_2,registry == 84020 & sex == 1)
+
 
 	
 	# plot cohort graph from 25-29 years until 75-79 years.

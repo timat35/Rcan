@@ -57,12 +57,12 @@ csu_ageSpecific(df_data,
 	}
   \item{color_trend}{
 	Vector of color for the trend.
-	The color code are hexadecimal (see example).
+	The color codes are hexadecimal (e.g. "#FF0000") or predefined R color names (e.g. "red").
 	}
   \item{CI5_comparison}{
-	Add a dotted line representing the CI5X for a specific cancer.\cr
-	Value can be a cancer_label (example: "Liver"), or a cancer_code (example = 7).\cr
-	See \code{\link{csu_ci5x_mean}} to get the list of possible values.
+	Add a dotted line representing the CI5XI for a specific cancer.\cr
+	Value can be a cancer_label (example: "Liver"), or a cancer_code (example = 16).\cr
+	See \code{\link{csu_ci5_mean}} to get the list of possible values.
 	}
 
   \item{var_rate}{
@@ -74,7 +74,7 @@ csu_ageSpecific(df_data,
 \details{
 	This function calculate and plot the age specific rate. 
 	The \code{group_by} option allow to compare different population or cancer.
-	The \code{CI5_comparison} option allow to compare with the CI5X and therefore test the quality of the data.
+	The \code{CI5_comparison} option allow to compare with the CI5XI and therefore test the quality of the data.
 	If the population data stops before 85+ (75+ for instance), the population data \bold{must} be 0 when the population data is unknown so, the program can detect automatically the last age group (70+,75+,80+ or 85+) for population.
 
 }
@@ -110,25 +110,26 @@ data(csu_registry_data_2)
 # mydata <-  read.csv("mydata.csv", sep=",")
 
 # to select only 1 population.
-test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
+test <- subset(csu_registry_data_1 , registry_label == "Colombia, Cali")
+
 
 # plot age specific rate for 1 population.
 csu_ageSpecific(test,
 				plot_title = "Colombia, Liver, male")
 
-# plot age specific rate for 1 population, and comparison with CI5X data.
+# plot age specific rate for 1 population, and comparison with CI5XI data.
 csu_ageSpecific(test,
 				plot_title = "Colombia, Liver, male",
 				CI5_comparison = "Liver")
 
 # plot age specific rate for 4 population, 
-# legend at the bottom and comparison with CI5X data.
+# legend at the bottom and comparison with CI5XI data using cancer code.
 csu_ageSpecific(
 	csu_registry_data_1,
 	group_by="registry_label",
 	legend=csu_trend_legend(position="bottom", nrow = 1),
 	plot_title = "Liver, male",
-	CI5_comparison = 7
+	CI5_comparison = 16
 	)
 
 	

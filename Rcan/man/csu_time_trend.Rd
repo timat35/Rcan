@@ -49,7 +49,7 @@ csu_time_trend(df_data,
 	}
   \item{color_trend}{
 	Vector of color for the trend.
-	The color code are hexadecimal (see example).
+	The color codes are hexadecimal (e.g. "#FF0000") or predefined R color names (e.g. "red").
 	}
   \item{ytitle}{
 		Y-axis title. Default is "Age standardized rate per 100,000".
@@ -94,7 +94,8 @@ csu_time_trend(df_data,
 	# mydata <-  read.csv("mydata.csv", sep=",")
 
 	# to select only 1 population 
-	test <- csu_registry_data_2[csu_registry_data_2$registry_label=="Colombia, Cali",]
+
+	test <- subset(csu_registry_data_2 , registry_label == "Colombia, Cali")
 
 	# to change sex variable to factor with label
 	test$sex <- factor(test$sex, levels=c(1,2), labels=c("Male", "Female"))

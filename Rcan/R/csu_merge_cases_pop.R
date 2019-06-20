@@ -13,7 +13,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
     }
   }
 
-
+  temp <- NULL
   bool_year <- FALSE
   bool_temp <- FALSE
   regex_year  <- "(18|19|20)\\d{2}"
@@ -44,6 +44,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
     bool_long <- any(grepl(regex_year,colnames(dt_pop)))
      if (bool_long) {
       bool_year <- TRUE
+      temp <- colnames(dt_pop)[grepl(regex_year,colnames(dt_pop))]
       dt_pop <- melt(dt_pop, c(group_by,var_age), patterns(regex_year), "year", "CSU_P")
       dt_pop[, year:= as.numeric(gsub(".*?((?:18|19|20)\\d{2}).*$", "\\1", year, perl=TRUE))]
       var_py <- "py"
@@ -93,7 +94,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
   }
 
   var_data_pop <- colnames(df_pop)
-  var_data_pop <- var_data_pop[!var_data_pop  %in% c("pop", merge_col)]
+  var_data_pop <- var_data_pop[!var_data_pop  %in% c("pop", merge_col, temp)]
 
   if (length(var_data_pop) > 0) {
         warning(paste0('The population dataset variable: ',var_data_pop,' is not present in the group_by option.\nPopulation data might have been summed, please check carefully.\n\n'))

@@ -46,6 +46,9 @@ csu_bar_top <-
     if (!is.null(label_by)) {
        dt[,CSU_BY:=factor(CSU_BY, labels=label_by)]
     }
+
+    dt[, CSU_ASR:= as.double(CSU_ASR)] 
+
     dt_test <- dt[, c("CSU_BAR","CSU_BY"), with=FALSE]
   }
   else {

@@ -41,12 +41,12 @@ df_colombia <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia
 csu_ageSpecific(df_colombia,
                 plot_title = "Colombia, Liver, male")
 
-# plot age specific rate for 1 population, and comparison with CI5X data.
+# plot age specific rate for 1 population, and comparison with CI5XI data.
 csu_ageSpecific(df_colombia,
                 plot_title = "Colombia, Liver, male",
                 CI5_comparison = "Liver")
 
-# plot age specific rate for 4 population, legend at the bottom and comparison with CI5X data.
+# plot age specific rate for 4 population, legend at the bottom and comparison with CI5XI data.
 csu_ageSpecific(csu_registry_data_1,
                 group_by="registry_label",
                 logscale = TRUE,

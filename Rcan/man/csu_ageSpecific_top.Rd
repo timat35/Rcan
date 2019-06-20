@@ -7,9 +7,9 @@
 }
 \usage{
 csu_ageSpecific_top(df_data,
-           var_age, 
-           var_cases,
-           var_py,
+           var_age="age",
+       	   var_cases="cases",
+           var_py="py",
            var_top, 
            group_by=NULL,
            missing_age=NULL,
@@ -36,7 +36,7 @@ csu_ageSpecific_top(df_data,
 	Population year variable.
 	}
   \item{var_top}{
-	cancer label variable or population variable.
+	Cancer label variable or country/registry variable for example.
 	}
   \item{group_by}{
 	Variable to compare different age specific rate (sex, registry ...).\cr
@@ -64,7 +64,8 @@ csu_ageSpecific_top(df_data,
 	Subtitle of the plot. (For example, "Top 5 cancer").
 	}
   \item{var_color}{
-	Variable with a color associate to each cancer. The color code are hexadecimal.
+	Variable with a color associate to each cancer.\cr
+	The color codes are hexadecimal (e.g. "#FF0000") or predefined R color names (e.g. "red").\cr
 	This allow to keep the same color coding for each graph.
 	}
  
@@ -101,19 +102,21 @@ csu_ageSpecific_top(df_data,
 \examples{
 
 library(Rcan)
-data("csu_CI5X_data")
+data("csu_CI5XI_data")
 
 #get the registry code asssociate to registry_label
-print(unique(csu_CI5X_data[,c("registry_label", "registry_code")]),nrows = 1000)
+#print(unique(csu_CI5XI_data[,c("registry_label", "registry_code")]),nrows = 1000)
 
 #get the cancer code asssociate to cancer_label
-print(unique(csu_CI5X_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
+#print(unique(csu_CI5XI_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
 
 #remove all cancers:
-df_data <- csu_CI5X_data[csu_CI5X_data$cancer_code < 62,]
+df_data <- subset(csu_CI5XI_data ,cancer_code < 62)
+df_data$sex <- factor(df_data$sex, levels=c(1,2), labels=c("Male", "Female"))
 
 #select Thailand changmai
-df_data_1 <- df_data[df_data$registry_code==76401,]
+df_data_1 <- subset(df_data, registry_code==764001)
+
 
 # plot for Thailand Changmai
 dt_result_1 <- 
@@ -130,7 +133,8 @@ dt_result_1 <-
 \donttest{
 
 	#select USAm NPCR
-	df_data_2 <- df_data[df_data$registry_code== 84080,]
+	df_data_2 <- subset(df_data,registry_code== 840000 & ethnic_group == 99)
+
 
 	# plot for USA NPCR
 	dt_result_2 <- 
@@ -141,7 +145,7 @@ dt_result_1 <-
 			var_py="py",
 			var_top="cancer_label", 
 			group_by="sex", 
-			plot_title= "USA, NPCR",
+			plot_title= "USA",
 			plot_subtitle = "Top 5 cancer",
 			missing_age = 19
 			)

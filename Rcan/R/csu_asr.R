@@ -32,7 +32,7 @@ csu_asr <-
     temp <- temp[!temp  %in% c(var_age,var_cases,var_py,group_by)]
 
     if (length(temp) > 0) {
-        warning(paste0('The dataset variable: ',temp,' is not present in the group_by option.\n Cases data might have been summed while population data use the mean, please check carefully.\n\n'))
+        warning(paste0('The dataset variable: ',temp,' is not present in the group_by option.\n Cases and population data have been summed by the group_by variable, please check carefully.\n\n'))
     }
     
     

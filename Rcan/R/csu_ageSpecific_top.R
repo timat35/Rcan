@@ -1,9 +1,9 @@
 csu_ageSpecific_top <-
   
   function(df_data,
-           var_age, 
-           var_cases,
-           var_py,
+           var_age="age",
+           var_cases="cases",
+           var_py="py",
            var_top, 
            group_by=NULL,
            missing_age=NULL,

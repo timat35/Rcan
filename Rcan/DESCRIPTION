@@ -1,7 +1,7 @@
 Package: Rcan
 Version: 1.3.71
 Title: Cancer Registry Data Analysis and Visualisation
-Date: 2019-05-23
+Date: 2019-06-06
 Authors@R: c(
     person("Mathieu", "Laversanne", , "laversannem@iarc.fr", c("aut", "cre")),
     person("Cancer Surveillance Unit", role = "cph")

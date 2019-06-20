@@ -361,6 +361,10 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   setnames(dt_data, var_cases, "CSU_C")
   setnames(dt_data, var_py, "CSU_P")
 
+  if (is.null(pop_base_count)) {
+    dt_data <-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by, "CSU_A")]
+  }
+
 
   # create index to keep order
   index_order <- c(1:nrow(dt_data))
@@ -666,12 +670,12 @@ core.csu_ageSpecific <-function(df_data,
     if (!is.null(CI5_comparison)) {
       
       bool_CI5_comp <- TRUE
-      data(csu_ci5x_mean, envir = e <- new.env())
-      df_CI5 <- e$csu_ci5x_mean
+      data(csu_ci5_mean, envir = e <- new.env())
+      df_CI5 <- e$csu_ci5_mean
       dt_CI5 <- data.table(df_CI5)
       if (is.character(CI5_comparison)) {
         if (!(CI5_comparison%in% dt_CI5$ci5_cancer_label)) {
-          stop('CI5_comparison value must be a correct cancer label, see documentation: Help(CI5X_mean_data)')
+          stop('CI5_comparison value must be a correct cancer label, see documentation: Help(csu_ci5_mean)')
           
         } else {
           dt_CI5 <- dt_CI5[dt_CI5$ci5_cancer_label == CI5_comparison, ]
@@ -680,7 +684,7 @@ core.csu_ageSpecific <-function(df_data,
       } else {
         if (is.numeric(CI5_comparison)) {
           if (!(CI5_comparison%in% dt_CI5$ci5_cancer_code)) {
-            stop('CI5_comparison value must be a correct cancer code, see documentation: Help(CI5X_mean_data)')
+            stop('CI5_comparison value must be a correct cancer code, see documentation: Help(csu_ci5_mean)')
             
           } else {
             dt_CI5 <- dt_CI5[dt_CI5$ci5_cancer_code == CI5_comparison, ]
@@ -708,29 +712,32 @@ core.csu_ageSpecific <-function(df_data,
     
     ##group population (use sum)
     dt_data <- dt_data[, list(CSU_C=sum(CSU_C),CSU_P=sum(CSU_P)), by=c("CSU_BY", "CSU_A") ]
-    
-    ##calcul rate 
-    dt_data$rate <- dt_data$CSU_C/dt_data$CSU_P *db_rate
-    
+
     ##change by to factor
     dt_data$CSU_BY <- factor(dt_data$CSU_BY)
+
     
     ##to calcul age group
-    
     dt_data[CSU_A %in% missing_age,CSU_A:=NA ] 
     dt_data[is.na(CSU_A),CSU_P:=0 ] 
-    dt_data <- dt_data[CSU_P!=0] 
+    
     
     dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
-    dt_data[CSU_P != 0,nb_age_group := max(CSU_age_factor), by="CSU_BY"] 
-    
-    
+    dt_data <- merge(dt_data, dt_data[dt_data$CSU_P != 0,list(nb_age_group = max(CSU_age_factor)), by="CSU_BY"], by="CSU_BY")   
+
+  
     for (i in 15:17) {
       if (i %in% dt_data$nb_age_group) {
+
         dt_data[nb_age_group == i & CSU_age_factor >= i , CSU_C:=sum(CSU_C), by="CSU_BY"] ##add total_know
         dt_data[nb_age_group == i & CSU_age_factor > i & !is.na(CSU_age_factor), CSU_C := 0] 
       } 
     }
+
+    dt_data <- dt_data[CSU_P!=0] 
+    ##calcul rate 
+    dt_data$rate <- dt_data$CSU_C/dt_data$CSU_P *db_rate
+
     ##create age label:
     if (is.null(age_label_list)) {
       
@@ -826,7 +833,7 @@ core.csu_ageSpecific <-function(df_data,
       }
       
       if(is.null(plot_caption)) {
-        plot_caption <- paste0("- - - - - - : Mean for ",CI5_cancer_label," cancer in CI5 X")
+        plot_caption <- paste0("- - - - - - : Mean for ",CI5_cancer_label," cancer in CI5 XI")
       }
       
       
