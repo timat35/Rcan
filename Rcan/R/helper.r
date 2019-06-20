@@ -995,7 +995,7 @@ core.csu_ageSpecific_top <- function(df_data,
     df_data$CSU_dum_by <- factor(df_data[[group_by]],levels=c("dummy_by"), labels=c(""))
     bool_dum_by <- TRUE
   } else {
-    df_data$CSU_dum_by <- as.factor(df_data[[group_by]])
+    df_data[[group_by]] <- as.factor(df_data[[group_by]])
   }
   
   df_data <- core.csu_dt_rank(df_data, var_value = var_cases, var_rank = var_top,group_by = group_by, number = nb_top) 
@@ -1377,7 +1377,7 @@ core.csu_icd_ungroup <- function(icd_group) {
   icd_group <- gsub("\\s", "", icd_group)
   
   icd_list <- NULL
-  ICD_reg <-"(C\\d+)([^C+]?)(.+)?"
+  ICD_reg <-"([A-Za-z]\\d+)(\\W?)(.+)?"
 
   while (nchar(icd_group)>=3) {
 
@@ -1388,19 +1388,19 @@ core.csu_icd_ungroup <- function(icd_group) {
 
     if (icd_mark == "-") {
 
-      code_start <- sub("C(\\d+)", "\\1", icd_start)
+      letter_start <- sub("([A-Za-z])(\\d+)", "\\1", icd_start)
+      code_start <- sub("([A-Za-z])(\\d+)", "\\2", icd_start)
       code_nchar <- nchar(code_start)
       code_start <- as.numeric(code_start)
-      code_end <- as.numeric(sub("C?(\\d+)(.+)?", "\\1", icd_group))
+      code_end <- as.numeric(sub("[A-Za-z]?(\\d+)(.+)?", "\\1", icd_group))
 
       for (code in code_start:code_end) {
-        icd_list <- c(icd_list, paste0("C", sprintf(paste0("%0",code_nchar,"d"), code)))
+        icd_list <- c(icd_list, paste0(letter_start, sprintf(paste0("%0",code_nchar,"d"), code)))
       }
-
-      icd_group <- sub("(C?\\d+)([^C+]?)(.+)?", "\\3", icd_group) 
+      icd_group <- sub("([A-Za-z]?\\d+)(\\W?)(.+)?", "\\3", icd_group) 
     }
     else  {
-      icd_list <- c(icd_list, sub("(C\\d+)", "\\1", icd_start))
+      icd_list <- c(icd_list, sub("([A-Za-z]\\d+)", "\\1", icd_start))
     }
   }
 
@@ -1434,7 +1434,9 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
 
   if (!is.null(var_year)) {
     dt_data$year <-  core.csu_year_extract(dt_data[[var_year]])
-    dt_data[, (var_year) := NULL]  
+    if (var_year != "year") {
+      dt_data[, (var_year) := NULL]  
+    }
     group_by <- c(group_by, "year")
 
   }

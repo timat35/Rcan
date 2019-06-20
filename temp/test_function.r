@@ -1,9 +1,9 @@
 #DATA TABLE is DATA TABLE AT THE BEGINNING
 
 
-#detach(package:Rcan)
-#remove.packages("Rcan")
-#devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
+detach(package:Rcan)
+remove.packages("Rcan")
+devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 
 
 library(Rcan)
@@ -14,53 +14,103 @@ library(ggplot2)
 setwd("C:/Projects/Rcan/temp")
 
 
-dat <- read.csv(file="Exercise5.csv", header=TRUE)
 
-dat$year <-as.character(dat$year)
+dat <- read.table(file="Exercise5.csv", header=TRUE,sep=",")
 
+dat$year <- as.character(dat$year)
 
 csu_ageSpecific_top(dat, var_age = "age_group", var_cases = "cases", var_py = "py", nb_top = 5, 
-                    var_top = "site", group_by = "sex", missing_age = 19, plot_title = "My registry: 2008-2012")
-
-
-csu_ageSpecific(dat,
-            var_age="age_group",
-        var_cases="cases",
-        var_py="py",
-        group_by = "year", 
-        missing_age = 19,
-      ) 
-help(csu_ageSpecific_top)
+                    var_top = "site", group_by = "year", missing_age = 19, plot_title = "My registry: 2008-2012")
 
 
 
 
+dg <- read.csv("Exercise2_izm_aggreg.csv")
+
+dpop <- read.table("Data-population.txt", header = T, sep = "\t")
+names(dpop)[2] <- "age_group"
+names(dpop)[3] <- "YEAR"
+
+dgp <- csu_merge_cases_pop(dg, dpop, var_age = "age_group", var_cases = "cases", 
+                           var_py = "POP", group_by = c("SEX"))
+
+data(ICD_group_GLOBOCAN)
+data(data_individual_file)
+
+names(data_individual_file)[5] <- "year"
+
+df_data_year <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode", "reglabel"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site",
+  var_year = "year")   
+
+
+data(csu_registry_data_1)
+data(csu_registry_data_2)
 
 
 
+result1 <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"))
+
+result2 <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ))
+
+
+dt_test <- subset(csu_registry_data_1, registry %in% c("3604", "35604"))
+result1 <- csu_asr(dt_test, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"))
+
+result2 <- csu_asr(dt_test, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ))
+
+library(Rcan)
+
+core.csu_icd_ungroup <- function(icd_group) {
+
+  icd_group <- gsub("\\s", "", icd_group)
+  
+  icd_list <- NULL
+  ICD_reg <-"([A-Za-z]\\d+)(\\W?)(.+)?"
+
+  while (nchar(icd_group)>=3) {
+
+    icd_start <- sub(ICD_reg, "\\1", icd_group)
+    icd_mark <- sub(ICD_reg, "\\2", icd_group)
+    icd_group <- sub(ICD_reg, "\\3", icd_group)
+
+
+    if (icd_mark == "-") {
+
+      letter_start <- sub("([A-Za-z])(\\d+)", "\\1", icd_start)
+      code_start <- sub("([A-Za-z])(\\d+)", "\\2", icd_start)
+      code_nchar <- nchar(code_start)
+      code_start <- as.numeric(code_start)
+      code_end <- as.numeric(sub("[A-Za-z]?(\\d+)(.+)?", "\\1", icd_group))
+
+      for (code in code_start:code_end) {
+        icd_list <- c(icd_list, paste0(letter_start, sprintf(paste0("%0",code_nchar,"d"), code)))
+      }
+      icd_group <- sub("([A-Za-z]?\\d+)(\\W?)(.+)?", "\\3", icd_group) 
+    }
+    else  {
+      icd_list <- c(icd_list, sub("([A-Za-z]\\d+)", "\\1", icd_start))
+    }
+  }
+
+  return(icd_list)
+}
 
 
 
-dasr <- csu_asr(dat, var_age = "age_group", var_cases = "cases", var_py = "py",
-                group_by = c("sex", "site"), missing_age = 19)
-dasr <- subset(dasr, site != "Other" & site != "Other skin")
-
-dasr <- dasr[order(dasr$sex, -dasr$asr),]
-
-par(mfrow=c(1,2))
-
-csu_bar_top(dasr[dasr$sex==1,],var_value = "asr", var_bar = "site", color="lightblue")
-
-csu_bar_top(dasr[dasr$sex==2,],var_value = "asr", var_bar = "site", color="tomato")
-
-csu_bar_top(dasr,var_value = "asr", var_bar = "site",group_by="sex",nb_top=15, 
-      color=c("lightblue", "tomato"),label_by=c("Males","Females"),
-      xtitle="ASR per 100,000")
-
-barplot(rev(dasr$asr[dasr$sex==1]), horiz = TRUE, col = "tomato", xlab = "ASR per 100,000",
-        names.arg = rev(dasr$site[dasr$sex==1]), las=2, main = "Males")
-barplot(rev(dasr$asr[dasr$sex==2]), horiz = TRUE, col = "lightblue", xlab = "ASR per 100,000",
-        names.arg = rev(dasr$site[dasr$sex==2]), las=2, main = "Females")
-
-
-
+test <- "C18,C19,C21, D09-14, D15"
+list <- core.csu_icd_ungroup(test)
+Rcan:::core.csu_icd_group(list)

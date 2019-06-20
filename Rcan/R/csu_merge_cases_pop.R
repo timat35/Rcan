@@ -36,6 +36,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
       }
     }
     if (bool_year) {
+      temp <- colyear_pop
       setnames(dt_pop, colyear_pop, "year")
       dt_pop[,year:=as.numeric(year)]
     }
@@ -94,7 +95,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
   }
 
   var_data_pop <- colnames(df_pop)
-  var_data_pop <- var_data_pop[!var_data_pop  %in% c("pop", merge_col, temp)]
+  var_data_pop <- var_data_pop[!var_data_pop  %in% c(var_py, merge_col, temp)]
 
   if (length(var_data_pop) > 0) {
         warning(paste0('The population dataset variable: ',var_data_pop,' is not present in the group_by option.\nPopulation data might have been summed, please check carefully.\n\n'))
