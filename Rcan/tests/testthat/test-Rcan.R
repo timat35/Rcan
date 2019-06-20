@@ -13,8 +13,6 @@ test_that("Test csu_group_cases: 1",{
     var_ICD  ="site") 
 
   expect_test <- readRDS(system.file("testdata","csu_group_cases_test1.rds",package="Rcan"))
-  saveRDS(output_test,"csu_group_cases_test1.rds")
-
   #test
   expect_equal(output_test, expect_test)
 })
