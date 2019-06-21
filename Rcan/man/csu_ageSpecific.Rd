@@ -154,7 +154,7 @@ csu_ageSpecific(
 	group_by="registry_label",
 	legend=csu_trend_legend(position="bottom", nrow = 2),
 	plot_title = "Liver, male",
-	CI5_comparison = 7)
+	CI5_comparison = 16)
 
 plot.new()
 

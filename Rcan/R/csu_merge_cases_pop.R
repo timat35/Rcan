@@ -72,14 +72,17 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
   dt_pop[get(var_age) >18, c(var_age) := 18 ]
   dt_pop <- dt_pop[, .(CSU_P = sum(CSU_P)), by=merge_col]
 
+
+  #keep cases age format 
+  dt_cases[, temp_label:=get(var_age)]
   dt_cases[,c(var_age) :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",get(var_age), perl=TRUE))]
+  
 
   if (max(dt_cases[[var_age]]) > 25) {
     dt_cases[,c(var_age) := round((get(var_age)/5)+1)]
   }
 
 
- 
   if (bool_year) {
     for (colyear in colnames(dt_cases)[!colnames(dt_cases) %in% c(var_age,var_cases)]) {
       bool_temp = (all(grepl(regex_year,unique(dt_cases[[colyear]]))))
@@ -101,9 +104,11 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
         warning(paste0('The population dataset variable: ',var_data_pop,' is not present in the group_by option.\nPopulation data might have been summed, please check carefully.\n\n'))
   }
 
-  
   dt_data <- merge(dt_cases, dt_pop, by= merge_col, all.x=TRUE)
   dt_data[is.na(CSU_P), CSU_P:=0]
+
+  dt_data[,c(var_age):=temp_label]
+  dt_data[,temp_label:=NULL]
 
   setnames(dt_data, "CSU_P", var_py)
 
