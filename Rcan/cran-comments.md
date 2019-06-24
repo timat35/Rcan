@@ -16,3 +16,4 @@ There were no ERRORs, WARNINGs or NOTEs.
 * "year" accepted as variable name in csu_group_cases
 * ICD grouping accepted other letters than C
 * keep age format in csu_merge_cases_pop
+* Allow year in group_by parameter for csu_merge_cases_pop
