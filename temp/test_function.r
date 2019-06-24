@@ -12,6 +12,16 @@ library(ggplot2)
 
 
 setwd("C:/Projects/Rcan/temp")
+load("oeso.RData")
+
+
+
+df_data <- csu_merge_cases_pop(dg, dpopm, var_age = "age", var_py = "pop", group_by = c("sex", "year"))
+csu_asr (df_data ,  "age", "cases", "pop", group_by=c("sex", "year"),first_age=4, last_age = 18, age_dropped=TRUE)
+
+df_test <- subset(df_data, sex==1 & year == 2004)
+csu_asr (df_test ,  "age", "cases", "pop",first_age=4, last_age = 18, age_dropped=TRUE)
+write.csv(df_test, "test.csv")
 
 
 
