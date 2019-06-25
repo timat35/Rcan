@@ -42,7 +42,7 @@ test_that("Test csu_merge_cases_pop: 1",{
     var_py = "pop",
     group_by = c("sex"))
 
-  #saveRDS(output_test,"csu_merge_cases_pop1.rds")
+  saveRDS(output_test,"csu_merge_cases_pop1.rds")
   expect_test <- readRDS(system.file("testdata","csu_merge_cases_pop1.rds",package="Rcan"))
   #test
   expect_equal(output_test, expect_test)
