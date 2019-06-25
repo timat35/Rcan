@@ -1528,10 +1528,11 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
 
   group_by  <- c(group_by, "age_group")
 
-  ##add ICD group label (but #dad is pink)
+  ##add ICD group label (but #dad is almost pink)
   if (!is.null(df_ICD)) {
     dt_temp <- unique(dt_data[, c("ICD_group","LABEL"), with=FALSE])
     dt_CJ <- merge(dt_CJ, dt_temp, by="ICD_group", all.x=TRUE)
+    temp <- c(temp, "LABEL")
   }
 
   dt_data <- merge(dt_CJ, dt_data,by=temp, all.x=TRUE)[, CSU_C := ifelse(is.na(CSU_C),0, CSU_C )]
@@ -1563,11 +1564,4 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
 
   return (dt_data)
 }
-
-
-
-
-
-
-   
 

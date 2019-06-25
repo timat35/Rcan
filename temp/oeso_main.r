@@ -63,6 +63,7 @@ with(dpopm, table(sex, year))
 dpopm$pop <- as.numeric(levels(dpopm$value))[dpopm$value]
 dpopm$value <- NULL
 
+source("function.r")
 dgp <- csu_merge_cases_pop(dg, dpopm, var_age = "age_group_label", var_cases = "cases", 
                     group_by = c("sex"), var_py = "pop")
 
@@ -73,6 +74,7 @@ tail(dgp)
 
 dpopc <- cast(dpopm, age_group_label+sex ~ year, value = "pop")
 
+source("function.r")
 dgp <- csu_merge_cases_pop(dg, dpopc, var_age = "age_group_label", var_cases = "cases", 
                            group_by = c("sex"), var_py = NULL)
 
