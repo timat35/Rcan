@@ -31,7 +31,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
 
     
     df_all <- core.csu_group_cases(df_data, var_age ,group_by=group_by,var_cases = var_cases,df_ICD = ICD_all,var_ICD=var_ICD,var_year = var_year)
-    df_allbskin <- csu_group_cases(df_data, var_age ,group_by=group_by,var_cases = var_cases,df_ICD = ICD_allbskin,var_ICD=var_ICD,var_year = var_year)
+    df_allbskin <- core.csu_group_cases(df_data, var_age ,group_by=group_by,var_cases = var_cases,df_ICD = ICD_allbskin,var_ICD=var_ICD,var_year = var_year)
 
     dt_result <- rbind(dt_result, df_all, df_allbskin)
   }

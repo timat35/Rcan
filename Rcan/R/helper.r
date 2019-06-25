@@ -1500,24 +1500,33 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
 
   }
 
-  #  create age group 
-  dt_data[, age_group:= cut(get(var_age), c(seq(0, 85, 5), 150), include.lowest = TRUE, right=FALSE)]
-  dt_data[, age_group_label := as.character(age_group)]
-  dt_data[, temp1 := as.numeric(sub("\\[(\\d{1,3}),(\\d{1,3}).+", "\\1",age_group_label))]
-  dt_data[, temp2 := as.numeric(sub("\\[(\\d{1,3}),(\\d{1,3}).+", "\\2",age_group_label))]
-  dt_data[, age_group :=  ifelse(temp2 == 150 ,18,temp2/5)]
-  dt_data[, temp1 := sprintf("%02d", temp1)]
-  dt_data[, age_group_label := ifelse(temp2 == 150, paste0(temp1,"+"), paste0(temp1,"-",  sprintf("%02d", temp2-1)))] 
-  dt_data[is.na(age_group), age_group :=  19]
-  dt_data[age_group == 19 , age_group_label :=  "Unknown"]
-  dt_data[,c("temp1","temp2", var_age) := list(NULL, NULL, NULL)]
+  # create age group
+  dt_data[, age_group:= ((get(var_age) - (get(var_age) %% 5))/5)+1]
+  dt_data[, age_group :=  ifelse(age_group > 18 & age_group <31,18,age_group)]
+  dt_data[, age_group :=  ifelse(age_group > 18 ,19,age_group)]
+  dt_data[, c(var_age) := NULL]
 
   dt_data <-  dt_data[,list(CSU_C = sum(CSU_C)),by=eval(colnames(dt_data)[!colnames(dt_data) %in% c("CSU_C")])]
 
-  label_by  <- c(label_by, c("age_group_label"))
-  group_by  <- c(group_by, "age_group")
+  #complete missing age group
+  if (max(dt_data$age_group) == 19) {
+    temp <- c(1:19)
+  }
+  else {
+     temp <- c(1:18)
+  }
 
-  dt_CJ = dt_data[, do.call(CJ, c(.SD, unique=TRUE)), .SDcols=group_by]
+  dt_CJ = dt_data[, do.call(CJ, c(.SD,list(age_group=temp), unique=TRUE)), .SDcols=group_by]
+  temp <- copy(colnames(dt_CJ))
+
+  # add age_group label
+  dt_CJ[, temp1 := sprintf("%02d",(age_group-1)*5)]
+  dt_CJ[, temp2 := (age_group*5)-1]
+  dt_CJ[, age_group_label := ifelse(temp2 == 89, paste0(temp1,"+"), paste0(temp1,"-",  sprintf("%02d", temp2)))] 
+  dt_CJ[age_group == 19 , age_group_label :=  "Unknown"]
+  dt_CJ[,c("temp1","temp2") := list(NULL, NULL)]
+
+  group_by  <- c(group_by, "age_group")
 
   ##add ICD group label (but #dad is pink)
   if (!is.null(df_ICD)) {
@@ -1525,14 +1534,7 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
     dt_CJ <- merge(dt_CJ, dt_temp, by="ICD_group", all.x=TRUE)
   }
 
-  ##add age group label
-  dt_temp <- unique(dt_data[, c("age_group","age_group_label"), with=FALSE])
-  dt_CJ <- merge(dt_CJ, dt_temp, by="age_group", all.x=TRUE)
-
-
-  dt_data <- merge(dt_CJ, dt_data,by=colnames(dt_CJ), all.x=TRUE)[, CSU_C := ifelse(is.na(CSU_C),0, CSU_C )]
-
-
+  dt_data <- merge(dt_CJ, dt_data,by=temp, all.x=TRUE)[, CSU_C := ifelse(is.na(CSU_C),0, CSU_C )]
   keep_by <- group_by[!group_by %in% c("year", "age_group", "ICD_group")]
 
   setkeyv(dt_data, keep_by)
@@ -1561,6 +1563,9 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
 
   return (dt_data)
 }
+
+
+
 
 
 

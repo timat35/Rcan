@@ -8,6 +8,7 @@
 * ICD grouping accepted other letters than C
 * keep age format in csu_merge_cases_pop
 * Allow year in group_by parameter for csu_merge_cases_pop
+* Create missing age group for csu_group_cases
 
 ## 1.3.71
 

@@ -48,7 +48,9 @@ csu_trendCohortPeriod <- function (
   dt_data <- dt_data[, list(CSU_C=sum(CSU_C),CSU_P=sum(CSU_P)), by=c("CSU_A", "CSU_Y") ]
   
   #drop missing age
-  dt_data <- dt_data[dt_data$CSU_A!=missing_age] 
+  if (!is.null(missing_age)) {
+    dt_data <- dt_data[dt_data$CSU_A!=missing_age] 
+  }
   
   #create age dummy: 1 2 3 4 --- 18
   dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
