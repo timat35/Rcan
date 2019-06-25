@@ -39,6 +39,7 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
     }
     if (bool_year) {
       temp <- colyear_pop
+      col_year_final <- "year"
       if (colyear_pop %in% group_by) {
         col_year_final <- colyear_pop 
         group_by <- group_by[!group_by  %in% c(colyear_pop)]
