@@ -98,6 +98,9 @@ csu_group_cases(df_data,
 # you can import your data from csv file using read.csv:
 # mydata <-  read.csv("mydata.csv", sep=",")
 
+
+\donttest{
+	
 data(ICD_group_GLOBOCAN)
 data(data_individual_file)
 
@@ -107,7 +110,7 @@ df_data_age <- csu_group_cases(data_individual_file,
   var_age="age",
   group_by=c("sex", "regcode", "reglabel", "site")) 
 
-\donttest{
+
 
 	#group individual data by 
 	# 5 year age group 

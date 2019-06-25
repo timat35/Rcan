@@ -19,3 +19,4 @@ There were no ERRORs, WARNINGs or NOTEs.
 * Allow year in group_by parameter for csu_merge_cases_pop
 * Create missing age group for csu_group_cases
 * fix missing age in csu_trendCohortPeriod
+* add don't test for long example
