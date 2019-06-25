@@ -107,28 +107,31 @@ df_data_age <- csu_group_cases(data_individual_file,
   var_age="age",
   group_by=c("sex", "regcode", "reglabel", "site")) 
 
-#group individual data by 
-# 5 year age group 
-# ICD grouping from dataframe ICD_group_GLOBOCAN
+\donttest{
 
-df_data_icd <- csu_group_cases(data_individual_file,
-  var_age="age",
-  group_by=c("sex", "regcode", "reglabel"),
-  df_ICD = ICD_group_GLOBOCAN,
-  var_ICD  ="site") 
+	#group individual data by 
+	# 5 year age group 
+	# ICD grouping from dataframe ICD_group_GLOBOCAN
 
-#group individual data by 
-# 5 year age group 
-# ICD grouping from dataframe ICD_group_GLOBOCAN
-# year (extract from date of incidence)
+	df_data_icd <- csu_group_cases(data_individual_file,
+	  var_age="age",
+	  group_by=c("sex", "regcode", "reglabel"),
+	  df_ICD = ICD_group_GLOBOCAN,
+	  var_ICD  ="site") 
 
-df_data_year <- csu_group_cases(data_individual_file,
-  var_age="age",
-  group_by=c("sex", "regcode", "reglabel"),
-  df_ICD = ICD_group_GLOBOCAN,
-  var_ICD  ="site",
-  var_year = "doi")       
+	#group individual data by 
+	# 5 year age group 
+	# ICD grouping from dataframe ICD_group_GLOBOCAN
+	# year (extract from date of incidence)
+
+	df_data_year <- csu_group_cases(data_individual_file,
+	  var_age="age",
+	  group_by=c("sex", "regcode", "reglabel"),
+	  df_ICD = ICD_group_GLOBOCAN,
+	  var_ICD  ="site",
+	  var_year = "doi")       
 	
+}
 
 # you can export your result as csv file using write.csv:
 # write.csv(result, file="result.csv")
