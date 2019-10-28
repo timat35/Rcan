@@ -1,5 +1,9 @@
 # Rcan news
 
+## 1.3.8
+
+* Add cumulative risk calculation
+
 ## 1.3.72
 
 * Improve warnings system
