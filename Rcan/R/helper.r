@@ -568,6 +568,135 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   
 }
 
+core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
+                         missing_age = NULL, last_age = 18,var_st_err=NULL,correction_info=FALSE,
+                         var_cumrisk="cumrisk", age_label_list = NULL, Rcan_print=FALSE) 
+{
+  
+  
+  
+  bool_dum_by <- FALSE
+  
+  if (is.null(group_by)) {
+    
+    df_data$CSU_dum_by <- "dummy_by"
+    group_by <- "CSU_dum_by"
+    bool_dum_by <- TRUE
+    
+  }
+  
+  
+  dt_data <- data.table(df_data, key = group_by) 
+  setnames(dt_data, var_age, "CSU_A")
+  setnames(dt_data, var_cases, "CSU_C")
+  setnames(dt_data, var_py, "CSU_P")
+
+
+  # create index to keep order
+  index_order <- c(1:nrow(dt_data))
+  dt_data$index_order <- index_order
+  
+  # missing age 
+  dt_data[dt_data$CSU_A %in% missing_age,CSU_A:=NA ] 
+  dt_data[is.na(dt_data$CSU_A),CSU_P:=0 ] 
+  
+  #create age dummy: 1 2 3 4 --- 19
+  dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
+  
+  # correction factor 
+  dt_data$correction <- 1 
+  if (!is.null(missing_age)) {
+    
+    
+    dt_data[, total:=sum(CSU_C), by=group_by] #add total
+    dt_data[!is.na(dt_data$age_factor) , total_known:=sum(CSU_C), by=group_by] #add total_know
+    dt_data$correction <- dt_data$total / dt_data$total_know 
+    dt_data[is.na(dt_data$correction),correction:=1 ] 
+    dt_data$total <- NULL
+    dt_data$total_known <- NULL
+
+    dt_data<- dt_data[!is.na(age_factor),]
+    
+  }
+
+  if (!is.null(age_label_list)) {
+  # calcul year interval from age group label
+  
+    dt_temp <- unique(dt_data[, c(age_label_list), with=FALSE])
+    dt_temp[, min:=as.numeric(regmatches(get(age_label_list), regexpr("[0-9]+",get(age_label_list))))]
+    dt_temp[, max:=shift(min, type ="lead")]
+    dt_temp[, age_span := max-min]
+    dt_temp <- dt_temp[, c("age_span",age_label_list), with=FALSE]
+    dt_data <- merge(dt_data, dt_temp,by= age_label_list, all.x=TRUE)
+  } else {
+    
+    dt_data[, age_span:=5]
+  }
+
+  #keep age group selected 
+  age_max <- max(dt_data$age_factor)
+
+  if (age_max-1 < last_age) {
+    last_age <- age_max-1 
+  }
+  dt_data=dt_data[dt_data$age_factor <= last_age]  
+  
+  #calculate cum risk
+  dt_data[,cumrisk:=age_span*(CSU_C/CSU_P)]
+  dt_data[CSU_P==0,cumrisk:=0]
+  dt_data[, st_err := (CSU_C/CSU_P)/CSU_P]
+  dt_data[is.na(dt_data$st_err),st_err:=0 ] 
+
+  # to check order 
+  dt_data<- dt_data[order(dt_data$index_order ),]
+
+  
+  
+
+  dt_data <- dt_data[,list( cumrisk=sum(cumrisk), CSU_P=sum(CSU_P),CSU_C=sum(CSU_C),st_err = sum(st_err),correction = max(correction)), by=group_by]
+  dt_data[,cumrisk:=(1-exp(-cumrisk))*100*correction]
+  
+  dt_data[, st_err:=(st_err^(1/2))*100*5]
+  dt_data[, st_err:=st_err*correction]
+
+  dt_data[,cumrisk:=round(cumrisk, digits = 2)]
+  dt_data[,st_err:=round(st_err, digits = 2)]
+  dt_data[, correction:=round((correction-1)*100, digits = 1)]
+
+  if (is.null(var_st_err)) {
+    dt_data$st_err <- NULL
+  } else {
+    setnames(dt_data, "st_err", var_st_err)
+  }
+  
+  if (var_cumrisk!="cumrisk") {
+    setnames(dt_data, "cumrisk", var_cum_risk)
+  }
+
+  if (!correction_info) {
+    dt_data$correction <- NULL
+  }
+  
+  setnames(dt_data, "CSU_C", var_cases)
+  setnames(dt_data,  "CSU_P", var_py)
+
+  if (bool_dum_by) {
+    df_data$CSU_dum_by <- NULL
+  }
+  
+ 
+  df_data <- data.frame(dt_data)
+    
+  if (Rcan_print) {
+    temp <- last_age*5-1
+    cat("Cumulative risk have been computed for the age group ","0-", temp , "\n",  sep="" )
+    temp<- NULL
+  }
+  
+  return(df_data)
+  
+}
+
 
 core.csu_eapc <- function(df_data,
            var_rate="asr",
