@@ -3,114 +3,152 @@
 
 detach(package:Rcan)
 remove.packages("Rcan")
-devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 
 
-library(Rcan)
-library(data.table)
-library(ggplot2)
+#devtools::install_github("timat35/Rcan", subdir="Rcan")
 
+install.packages("Rcan")
 
 setwd("C:/Projects/Rcan/temp")
 
 
+library(Rcan)
 
-dat <- read.table(file="Exercise5.csv", header=TRUE,sep=",")
+dat <- read.table(file="Exercise2.csv", header=TRUE,sep=",")
 
-dat$year <- as.character(dat$year)
+range(dat$age)
+range(dat$age[dat$age != 999]) # without the '999' unknown age code
 
-csu_ageSpecific_top(dat, var_age = "age_group", var_cases = "cases", var_py = "py", nb_top = 5, 
-                    var_top = "site", group_by = "year", missing_age = 19, plot_title = "My registry: 2008-2012")
+addmargins(table(dat$age))
+
+d1 <- csu_group_cases(dat, var_age = "age", group_by = c("regcode", "reglabel"))
+
+tail(d1)
 
 
 
 
-dg <- read.csv("Exercise2_izm_aggreg.csv")
 
-dpop <- read.table("Data-population.txt", header = T, sep = "\t")
-names(dpop)[2] <- "age_group"
-names(dpop)[3] <- "YEAR"
-
-dgp <- csu_merge_cases_pop(dg, dpop, var_age = "age_group", var_cases = "cases", 
-                           var_py = "POP", group_by = c("SEX"))
 
 data(ICD_group_GLOBOCAN)
 data(data_individual_file)
 
-names(data_individual_file)[5] <- "year"
+#group individual data by 
+# 5 year age group 
+
+data_individual_file$py = 32 
+
+
+df_data_age <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode", "reglabel", "site")) 
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+
+df_data_icd <- csu_group_cases(data_individual_file,
+  var_age="age",
+  group_by=c("sex", "regcode", "reglabel"),
+  df_ICD = ICD_group_GLOBOCAN,
+  var_ICD  ="site") 
+
+#group individual data by 
+# 5 year age group 
+# ICD grouping from dataframe ICD_group_GLOBOCAN
+# year (extract from date of incidence)
 
 df_data_year <- csu_group_cases(data_individual_file,
   var_age="age",
   group_by=c("sex", "regcode", "reglabel"),
   df_ICD = ICD_group_GLOBOCAN,
   var_ICD  ="site",
-  var_year = "year")   
-
-
-data(csu_registry_data_1)
-data(csu_registry_data_2)
-
-
-
-result1 <- csu_asr(csu_registry_data_1, 
-                  "age", "cases", "py",
-                  group_by = c("registry", "registry_label" ),
-                  var_age_group = c("registry_label"))
-
-result2 <- csu_asr(csu_registry_data_1, 
-                  "age", "cases", "py",
-                  group_by = c("registry", "registry_label" ))
-
-
-dt_test <- subset(csu_registry_data_1, registry %in% c("3604", "35604"))
-result1 <- csu_asr(dt_test, 
-                  "age", "cases", "py",
-                  group_by = c("registry", "registry_label" ),
-                  var_age_group = c("registry_label"))
-
-result2 <- csu_asr(dt_test, 
-                  "age", "cases", "py",
-                  group_by = c("registry", "registry_label" ))
-
-library(Rcan)
-
-core.csu_icd_ungroup <- function(icd_group) {
-
-  icd_group <- gsub("\\s", "", icd_group)
+  var_year = "doi")       
   
-  icd_list <- NULL
-  ICD_reg <-"([A-Za-z]\\d+)(\\W?)(.+)?"
 
-  while (nchar(icd_group)>=3) {
+# you can export your result as csv file using write.csv:
+# write.csv(result, file="result.csv")
+                
 
-    icd_start <- sub(ICD_reg, "\\1", icd_group)
-    icd_mark <- sub(ICD_reg, "\\2", icd_group)
-    icd_group <- sub(ICD_reg, "\\3", icd_group)
+inc_file <-ls_args$inc
+pop_file <-ls_args$pop
+group_by <- c("ICCC",  "YEAR", "SEX")
+var_cases <- "CASES"
+var_age <- "AGE_GROUP"
+var_age_label <- "AGE_GROUP_LABEL"
+var_pop <- "COUNT"
+var_ref_count <- "REFERENCE_COUNT"
 
 
-    if (icd_mark == "-") {
+csu_merge_iccc_pop <- function(inc_file,
+                              pop_file,
+                              var_cases = "CASES",
+                              var_age = "AGE_GROUP",
+                              var_age_label = "AGE_GROUP_LABEL",
+                              var_pop = "COUNT",
+                              var_ref_count = "REFERENCE_COUNT",
+                              group_by = NULL){
+  
+  df_inc <- read.table(inc_file, header=TRUE, sep="\t")
+  df_pop <- read.table(pop_file, header=TRUE, sep="\t")
+  
+  dt_inc <- data.table(df_inc)
+  dt_pop <- data.table(df_pop)
 
-      letter_start <- sub("([A-Za-z])(\\d+)", "\\1", icd_start)
-      code_start <- sub("([A-Za-z])(\\d+)", "\\2", icd_start)
-      code_nchar <- nchar(code_start)
-      code_start <- as.numeric(code_start)
-      code_end <- as.numeric(sub("[A-Za-z]?(\\d+)(.+)?", "\\1", icd_group))
+  table(dt_inc$ICCC)
+  
+  setnames(dt_inc, var_cases, "CSU_C")
 
-      for (code in code_start:code_end) {
-        icd_list <- c(icd_list, paste0(letter_start, sprintf(paste0("%0",code_nchar,"d"), code)))
-      }
-      icd_group <- sub("([A-Za-z]?\\d+)(\\W?)(.+)?", "\\3", icd_group) 
-    }
-    else  {
-      icd_list <- c(icd_list, sub("([A-Za-z]\\d+)", "\\1", icd_start))
-    }
-  }
+  dt_inc <- dt_inc[get(var_age) < 3]
+  
+  group_by <- intersect(group_by,colnames(dt_inc))
+  
+  dt_inc <- dt_inc[, c(var_age, group_by, "CSU_C"), with = FALSE]
+  dt_inc <-  dt_inc[,list(CSU_C = sum(CSU_C)), by=eval(colnames(dt_inc)[!colnames(dt_inc) %in% c("CSU_C")])]
+  
+  cj_var <-colnames(dt_inc)[!colnames(dt_inc) %in% c("CSU_C")]
+  dt_temp = dt_inc[, do.call(CJ, c(.SD, unique=TRUE)), .SDcols=cj_var]
+  
+  dt_inc <- merge(dt_temp, dt_inc,by=colnames(dt_temp), all.x=TRUE)[, CSU_C := ifelse(is.na(CSU_C),0, CSU_C )]
+  
+  dt_pop <- dt_pop[get(var_pop) != 0,]
+  dt_pop[[var_ref_count]] <-  dt_pop[[var_ref_count]]*100
+  
+  dt_all <- merge(dt_inc, dt_pop,by=intersect(colnames(dt_inc),colnames(dt_pop)), all.x=TRUE)
+  
+  
+  setnames(dt_all,var_age,"CSU_A")
+  setnames(dt_all,var_pop,"CSU_P")
+  
+  
+  dt_all[is.na(get(var_age_label)), CSU_A := max(CSU_A)]
+  dt_all[, YEAR:=NULL]
 
-  return(icd_list)
+  dt_all <-  dt_all[,list(CSU_C = sum(CSU_C), CSU_P = sum(CSU_P)), by=eval(colnames(dt_all)[!colnames(dt_all) %in% c("CSU_C", "CSU_P")])]
+  dt_all[, ICCC:=gsub("[a-z]", "", ICCC)]
+  dt_all <-  dt_all[,list(CSU_C = sum(CSU_C)), by=eval(colnames(dt_all)[!colnames(dt_all) %in% c("CSU_C")])]
+
+  #dt_sum <- dt_all 
+  #dt_sum <-  dt_sum[,list(CSU_C = sum(CSU_C)), by=eval(colnames(dt_sum)[!colnames(dt_sum) %in% c("CSU_C")])]
+  #dt_all <- rbind(dt_sum, dt_all)
+
+  iccc_code <- as.data.table(read.csv(paste(sep="/", script.basename, "ICCC.csv")))
+  iccc_code[, ICCC:=as.character(ICCC)]
+  dt_all <- merge(dt_all,iccc_code, by=c("ICCC"), all=TRUE)
+
+  dt_all[, ICCC:=NULL]
+  dt_all <-  dt_all[,list(CSU_C = sum(CSU_C)), by=eval(colnames(dt_all)[!colnames(dt_all) %in% c("CSU_C")])]
+
+  dt_all[is.na(ICCC_order),ICCC_order:=12]  
+  dt_all[ICCC_order==12,ICCC_label:="Unknown"]
+  dt_all[ICCC_order==12,ICCC_code:=" "]
+  dt_all <- dt_all[!is.na(CSU_A),]
+
+
+ 
+  setnames(dt_all,"CSU_P",var_pop)
+  setnames(dt_all,"CSU_A",var_age)
+  setnames(dt_all,"CSU_C",var_cases)
+  return(dt_all)
+
 }
-
-
-
-test <- "C18,C19,C21, D09-14, D15"
-list <- core.csu_icd_ungroup(test)
-Rcan:::core.csu_icd_group(list)

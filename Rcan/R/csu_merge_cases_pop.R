@@ -15,8 +15,10 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
 
   temp <- NULL
   bool_year <- FALSE
+  bool_year_declared <- FALSE
   bool_temp <- FALSE
   regex_year  <- "(18|19|20)\\d{2}"
+
 
 
 
@@ -37,17 +39,23 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
     }
     if (bool_year) {
       temp <- colyear_pop
-      setnames(dt_pop, colyear_pop, "year")
-      dt_pop[,year:=as.numeric(year)]
+      col_year_final <- "year"
+      if (colyear_pop %in% group_by) {
+        col_year_final <- colyear_pop 
+        group_by <- group_by[!group_by  %in% c(colyear_pop)]
+      }
+      setnames(dt_pop, colyear_pop, col_year_final)
+      dt_pop[,c(col_year_final):=as.numeric(get(col_year_final))]
     }
   }
   else {
     bool_long <- any(grepl(regex_year,colnames(dt_pop)))
      if (bool_long) {
       bool_year <- TRUE
+      col_year_final <- "year"
       temp <- colnames(dt_pop)[grepl(regex_year,colnames(dt_pop))]
-      dt_pop <- melt(dt_pop, c(group_by,var_age), patterns(regex_year), "year", "CSU_P")
-      dt_pop[, year:= as.numeric(gsub(".*?((?:18|19|20)\\d{2}).*$", "\\1", year, perl=TRUE))]
+      dt_pop <- melt(dt_pop, c(group_by,var_age), patterns(regex_year), col_year_final, "CSU_P")
+      dt_pop[, c(col_year_final):= as.numeric(gsub(".*?((?:18|19|20)\\d{2}).*$", "\\1", get(col_year_final), perl=TRUE))]
       var_py <- "py"
      }
      else {
@@ -56,12 +64,12 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
      }
   }
   
+ 
+
   merge_col <- c(group_by, var_age)
   if (bool_year) {
-    merge_col <- c(merge_col, "year")
+    merge_col <- c(merge_col,col_year_final)
   }
-
-
 
   dt_pop[,c(var_age) :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",get(var_age), perl=TRUE))]
 
@@ -72,6 +80,9 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
   dt_pop[get(var_age) >18, c(var_age) := 18 ]
   dt_pop <- dt_pop[, .(CSU_P = sum(CSU_P)), by=merge_col]
 
+
+  #keep cases age format 
+  dt_cases[, temp_label:=get(var_age)]
   dt_cases[,c(var_age) :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",get(var_age), perl=TRUE))]
 
   if (max(dt_cases[[var_age]]) > 25) {
@@ -79,12 +90,11 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
   }
 
 
- 
   if (bool_year) {
     for (colyear in colnames(dt_cases)[!colnames(dt_cases) %in% c(var_age,var_cases)]) {
       bool_temp = (all(grepl(regex_year,unique(dt_cases[[colyear]]))))
       if (bool_temp) {
-        setnames(dt_cases, colyear, "year")
+        setnames(dt_cases, colyear, col_year_final)
         break
       }
     }
@@ -102,8 +112,13 @@ csu_merge_cases_pop <- function(df_cases,df_pop, var_age,var_cases="cases",var_p
   }
 
   
-  dt_data <- merge(dt_cases, dt_pop, by= merge_col, all.x=TRUE)
+  dt_data <- merge(dt_cases, dt_pop, by= merge_col, all.x=TRUE) #first error
   dt_data[is.na(CSU_P), CSU_P:=0]
+
+  
+
+  dt_data[,c(var_age):=temp_label]
+  dt_data[,temp_label:=NULL]
 
   setnames(dt_data, "CSU_P", var_py)
 

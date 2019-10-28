@@ -30,7 +30,9 @@ test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
 library(devtools)
 library(spelling)
 
+setwd("C:/Projects/Rcan/Rcan/inst/testdata")
 
+run_examples("C:/Projects/Rcan/Rcan")
 check("C:/Projects/Rcan/Rcan") #local check
 check_man("C:/Projects/Rcan/Rcan") #local check documentation
 build("C:/Projects/Rcan/Rcan", path="C:/Projects/Rcan/release", manual = TRUE) # build package
