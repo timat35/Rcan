@@ -661,7 +661,6 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   dt_data[, st_err:=(st_err^(1/2))*100*5]
   dt_data[, st_err:=st_err*correction]
 
-   dt_data[,CSU_C:=round(CSU_C, digits = 0)]
   dt_data[,cumrisk:=round(cumrisk, digits = 2)]
   dt_data[,st_err:=round(st_err, digits = 2)]
   dt_data[, correction:=round((correction-1)*100, digits = 1)]
