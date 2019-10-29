@@ -28,7 +28,7 @@ csu_cumrisk <-
     }
     
     
-    df_data <- csu_cumrisk(df_data,var_age,var_cases,var_py,group_by,missing_age,
+    df_data <- core.csu_cumrisk(df_data,var_age,var_cases,var_py,group_by,missing_age,
                           last_age,var_st_err,correction_info,var_cumrisk, Rcan_print=TRUE)
     
     
