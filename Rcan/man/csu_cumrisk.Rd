@@ -93,7 +93,7 @@ data(csu_registry_data_2)
 # Cumulative risk, 0-74 years, with no missing age cases.
 result <- csu_cumrisk(csu_registry_data_1, 
                   "age", "cases", "py",
-                  group_by = c("registry", "registry_label" )
+                  group_by = c("registry", "registry_label" ))
 				  
 # you can export your result as csv file using write.csv:
 # write.csv(result, file="result.csv")

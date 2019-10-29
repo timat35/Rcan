@@ -154,7 +154,7 @@ csu_trendCohortPeriod(
 						first_age=1,
 						last_age=18)
 						
-	# plot Cohort-Period graph from 30-64 years until 70-74 years.
+	# plot Cohort-Period graph from 30-34 years until 70-74 years.
 	csu_trendCohortPeriod(df_data=test,
                         missing_age =99,
                         plot_title = "USA, Liver, males",
@@ -162,7 +162,7 @@ csu_trendCohortPeriod(
 						first_age=7,
 						last_age=15)
 
-	# plot Cohort-Period graph from 30-64 years until 70-74 years with Y axis normal scale.
+	# plot Cohort-Period graph from 30-34 years until 70-74 years with Y axis normal scale.
 	csu_trendCohortPeriod(df_data=test,
                         missing_age =99,
                         plot_title = "USA, Liver, males",
