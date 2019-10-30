@@ -603,7 +603,7 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
 
   #parse age
   dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
-  if (max(dt_data$CSU_A) > 25) {
+  if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
     dt_data[,CSU_A := round((CSU_A/5)+1)]
   }
 

@@ -28,7 +28,7 @@ table(dat3$age_label)
 
 ### COMPUTE THE CUMULATIVE RISK 
 csu_cumrisk(dat3, "age_label", "cases", "py",
-                      group_by = c("registry" ),last_age = 17)
+                      group_by = c("registry" ), missing_age = 99)
 
 # GENERATE AN AGE VARIABLE CODED 1, 2, 3, etc...
 dat3$agecl <- c(factor(dat3$age_label, levels = c("00-04","05-09","10-14","15-19","20-24","25-29","30-34","35-39","40-44","45-49",   
