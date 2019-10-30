@@ -593,7 +593,6 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
 
   dt_data <-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by, "CSU_A")]
 
-
   # create index to keep order
   index_order <- c(1:nrow(dt_data))
   dt_data$index_order <- index_order
@@ -601,7 +600,13 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   # missing age 
   dt_data[dt_data$CSU_A %in% missing_age,CSU_A:=NA ] 
   dt_data[is.na(dt_data$CSU_A),CSU_P:=0 ] 
-  
+
+  #parse age
+  dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+  if (max(dt_data$CSU_A) > 25) {
+    dt_data[,CSU_A := round((CSU_A/5)+1)]
+  }
+
   #create age dummy: 1 2 3 4 --- 19
   dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
   
@@ -684,8 +689,7 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
 
   if (bool_dum_by) {
     df_data$CSU_dum_by <- NULL
-  }
-  
+  }  
  
   df_data <- data.frame(dt_data)
     
