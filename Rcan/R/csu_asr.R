@@ -16,7 +16,6 @@ csu_asr <-
            age_dropped = FALSE) 
   {
     
-    core.error_variable(df_data, var_age, csu_asr)
     core.error_variable(df_data, var_cases, csu_asr)
     core.error_variable(df_data, var_py, csu_asr)
     

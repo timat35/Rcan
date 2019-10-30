@@ -22,7 +22,7 @@ csu_cumrisk(df_data,
 	\item{df_data}{
   		Data (need to be R \code{data.frame} format, see example to import csv file).
 	}
-	 \item{var_age}{
+	\item{var_age}{
 		Age variable. Several format are accepted 
 		\tabular{lll}{
 			1 \tab "0-4" \tab 0 \cr

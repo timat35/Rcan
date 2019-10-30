@@ -16,4 +16,3 @@ registry	age_label	cases	py
 "Brazil, Goania 1999-2001 Breast cancer"	70-74	38	25998
 "Brazil, Goania 1999-2001 Breast cancer"	75-79	34	16353
 "Brazil, Goania 1999-2001 Breast cancer"	80+	30	16162
-"Brazil, Goania 1999-2001 Breast cancer"	99	10	0

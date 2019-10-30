@@ -3,6 +3,7 @@
 ## 1.3.8
 
 * Add cumulative risk calculation
+* Several age format are now accepted
 * Correction typo in help files
 
 ## 1.3.72
