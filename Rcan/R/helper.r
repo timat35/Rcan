@@ -657,9 +657,6 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   # to check order 
   dt_data<- dt_data[order(dt_data$index_order ),]
 
-  
-  
-
   dt_data <- dt_data[,list( cumrisk=sum(cumrisk), CSU_P=sum(CSU_P),CSU_C=sum(CSU_C),st_err = sum(st_err),correction = max(correction)), by=group_by]
   dt_data[,cumrisk:=(1-exp(-cumrisk))*100*correction]
   

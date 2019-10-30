@@ -1,0 +1,18 @@
+registry	age_label	cases	py
+"Brazil, Goania 1999-2001 Breast cancer"	0	0	190844
+"Brazil, Goania 1999-2001 Breast cancer"	5	0	191962
+"Brazil, Goania 1999-2001 Breast cancer"	10	0	205378
+"Brazil, Goania 1999-2001 Breast cancer"	15	0	240281
+"Brazil, Goania 1999-2001 Breast cancer"	20	5	243992
+"Brazil, Goania 1999-2001 Breast cancer"	25	6	213839
+"Brazil, Goania 1999-2001 Breast cancer"	30	33	196677
+"Brazil, Goania 1999-2001 Breast cancer"	35	60	176578
+"Brazil, Goania 1999-2001 Breast cancer"	40	99	147456
+"Brazil, Goania 1999-2001 Breast cancer"	45	98	115072
+"Brazil, Goania 1999-2001 Breast cancer"	50	105	86203
+"Brazil, Goania 1999-2001 Breast cancer"	55	75	61930
+"Brazil, Goania 1999-2001 Breast cancer"	60	70	50242
+"Brazil, Goania 1999-2001 Breast cancer"	65	49	36937
+"Brazil, Goania 1999-2001 Breast cancer"	70	38	25998
+"Brazil, Goania 1999-2001 Breast cancer"	75	34	16353
+

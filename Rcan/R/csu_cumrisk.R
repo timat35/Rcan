@@ -11,15 +11,9 @@ csu_cumrisk <-
            var_cumrisk="cumrisk") 
   {
     
-    core.error_variable(df_data, var_age, csu_cumrisk)
     core.error_variable(df_data, var_cases, csu_cumrisk)
     core.error_variable(df_data, var_py, csu_cumrisk)
     
-    
-    if (last_age < 2 | last_age > 18 ) {
-      stop('The argument "last_age" must be comprise between 2 (5-9) and 17 (80-84), see documentation: help(csu_cumrisk)')
-    }
-
     temp <- colnames(df_data)
     temp <- temp[!temp  %in% c(var_age,var_cases,var_py,group_by)]
 
@@ -30,7 +24,7 @@ csu_cumrisk <-
     
     df_data <- core.csu_cumrisk(df_data,var_age,var_cases,var_py,group_by,missing_age,
                           last_age,var_st_err,correction_info,var_cumrisk, Rcan_print=TRUE)
-    
+
     
     
     return(df_data)
