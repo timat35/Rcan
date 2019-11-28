@@ -39,7 +39,7 @@ csu_time_trend <- function (
 
   
  #call to core function
- csu_list <- core.csu_time_trend(df_data,
+ csu_list <- core.csu_time_trend(dt_data,
                                  var_trend,
                                  var_year,
                                  group_by, 
