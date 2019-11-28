@@ -45,3 +45,4 @@ csu_ageSpecific(dat3, "age_label", "cases", "py", group_by = c("registry") )
 
 test <- read.csv(file="test_base.csv", header=TRUE)
 csu_asr(test, "age", "cases", "pop", crude_rate = TRUE)
+csu_asr(test, "age", "cases", "pop", first_age = 3, last_age = 12,crude_rate = TRUE)

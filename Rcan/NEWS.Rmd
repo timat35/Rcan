@@ -1,6 +1,6 @@
 # Rcan news
 
-## 1.3.8
+## 1.3.80
 
 * Add cumulative risk calculation
 * Add crude rate calculation in csu_asr function
