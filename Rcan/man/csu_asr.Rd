@@ -17,6 +17,7 @@ csu_asr(df_data,
 		first_age = 1,
 		last_age = 18,
 		pop_base = "SEGI",
+		crude_rate = FALSE,
 		var_st_err = NULL,
 		correction_info = FALSE,
 		var_asr = "asr",
@@ -74,8 +75,13 @@ csu_asr(df_data,
   	\tabular{ll}{
 		"SEGI" \tab SEGI world standard population.\cr
 		"EURO" \tab EURO is the European standard population.\cr
-		}
 	}
+}
+	\item{crude rate}{
+		Logical value. if \code{TRUE} caculate the crude rate instead of the ASR.\cr
+		Variables \code{var_age_group}, \code{missing_age}, \code{pop_base}, \code{var_st_err}, \code{correction_info} are not used.\cr
+		Default name of the new variable is "crude_rate".
+}
 
   \item{var_st_err}{
 		Calculate the Standard error and name of the new variable. 

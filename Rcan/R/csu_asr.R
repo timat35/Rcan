@@ -10,6 +10,7 @@ csu_asr <-
            first_age = 1,
            last_age = 18,
            pop_base = "SEGI",
+           crude_rate = FALSE,
            var_st_err=NULL,
            correction_info=FALSE,
            var_asr="asr",
@@ -36,7 +37,7 @@ csu_asr <-
     
     
     df_data <- core.csu_asr(df_data,var_age,var_cases,var_py,group_by,var_age_group,missing_age,db_rate,
-                            first_age,last_age,pop_base,var_st_err,correction_info,var_asr,age_dropped, Rcan_print=TRUE)
+                            first_age,last_age,pop_base,crude_rate,var_st_err,correction_info,var_asr,age_dropped, Rcan_print=TRUE)
     
     
     

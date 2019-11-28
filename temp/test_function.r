@@ -34,11 +34,14 @@ dat3$agecl <- c(factor(dat3$age_label, levels = c("00-04","05-09","10-14","15-19
 head(dat3)
 
 ### COMPUTE THE CUMULATIVE RISK 
-csu_asr(dat3, "age_label", "cases", "py", group_by = c("registry") , first_age = 3, last_age = 12)
+csu_asr(dat3, "age_label", "cases", "py", group_by = c("registry") ,  crude_rate = TRUE)
 
 
 ### COMPUTE THE CUMULATIVE RISK 
-csu_asr(dat3, "agecl", "cases", "py", group_by = c("registry") , first_age = 3, last_age = 12)
+csu_asr(dat3, "agecl", "cases", "py", group_by = c("registry") , first_age = 3, last_age = 12, crude_rate = TRUE)
 
 csu_ageSpecific(dat3, "age_label", "cases", "py", group_by = c("registry") )
 
+
+test <- read.csv(file="test_base.csv", header=TRUE)
+csu_asr(test, "age", "cases", "pop", crude_rate = TRUE)
