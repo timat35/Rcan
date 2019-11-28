@@ -858,6 +858,12 @@ core.csu_ageSpecific <-function(df_data,
     ##to calcul age group
     dt_data[CSU_A %in% missing_age,CSU_A:=NA ] 
     dt_data[is.na(CSU_A),CSU_P:=0 ] 
+
+    #parse age
+    dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+    if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
+      dt_data[,CSU_A := round((CSU_A/5)+1)]
+    }
     
     
     dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))

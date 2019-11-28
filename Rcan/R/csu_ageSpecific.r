@@ -26,9 +26,7 @@ csu_ageSpecific <-
       
     }
     
-    
-    core.error_variable(df_data, var_age, csu_ageSpecific)
-    core.error_variable(df_data, var_cases, csu_ageSpecific)
+        core.error_variable(df_data, var_cases, csu_ageSpecific)
     core.error_variable(df_data, var_py, csu_ageSpecific)
     
     csu_list <- core.csu_ageSpecific(df_data,var_age, var_cases, var_py, group_by ,
