@@ -860,11 +860,14 @@ core.csu_ageSpecific <-function(df_data,
     dt_data[is.na(CSU_A),CSU_P:=0 ] 
 
     #parse age
+    dt_data[, temp_label:=CSU_A]
     dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
     if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
       dt_data[,CSU_A := round((CSU_A/5)+1)]
     }
-    
+
+    dt_temp_label <- unique(dt_data[, c("CSU_A", "temp_label"), with=FALSE])
+    dt_data[, temp_label:= NULL]
     
     dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
     dt_data <- merge(dt_data, dt_data[dt_data$CSU_P != 0,list(nb_age_group = max(CSU_age_factor)), by="CSU_BY"], by="CSU_BY")   
@@ -1099,6 +1102,11 @@ core.csu_ageSpecific <-function(df_data,
     if (logscale){
       dt_data[, rate := ifelse(is.na(rate),0, rate )]
     }
+
+    #get back age label 
+    dt_data <- merge(dt_data, dt_temp_label, by=("CSU_A"), all.x=TRUE)
+    dt_data[, CSU_A := NULL]
+    setnames(dt_data, "temp_label", "CSU_A")
     
     
     return(list(csu_plot = csu_plot, dt_data = dt_data, CI5_cancer_label = CI5_cancer_label,legend_position=legend$position,bool_dum_by = bool_dum_by))

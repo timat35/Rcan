@@ -41,4 +41,5 @@ csu_asr(dat3, "age_label", "cases", "py", group_by = c("registry") , first_age =
 ### COMPUTE THE CUMULATIVE RISK 
 csu_asr(dat3, "agecl", "cases", "py", group_by = c("registry") , first_age = 3, last_age = 12)
 
+csu_ageSpecific(dat3, "age_label", "cases", "py", group_by = c("registry") )
 

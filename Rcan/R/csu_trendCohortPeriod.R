@@ -52,6 +52,13 @@ csu_trendCohortPeriod <- function (
     dt_data <- dt_data[dt_data$CSU_A!=missing_age] 
   }
   
+
+  #parse age
+    dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+    if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
+      dt_data[,CSU_A := round((CSU_A/5)+1)]
+  }
+
   #create age dummy: 1 2 3 4 --- 18
   dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
   

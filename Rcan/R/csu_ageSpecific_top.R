@@ -16,7 +16,6 @@ csu_ageSpecific_top <-
 {
 
 
-  core.error_variable(df_data, var_age, csu_ageSpecific_top)
   core.error_variable(df_data, var_cases, csu_ageSpecific_top)
   core.error_variable(df_data, var_py, csu_ageSpecific_top)
   core.error_variable(df_data, var_top, csu_ageSpecific_top, type="")
