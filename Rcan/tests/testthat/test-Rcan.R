@@ -90,8 +90,6 @@ test_that("Test age specific: 1",{
   data(csu_registry_data_2)
   data_test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
 
-
-
   #output result
   output_test <- csu_ageSpecific(data_test,plot_title = "Colombia, Liver, male")
 

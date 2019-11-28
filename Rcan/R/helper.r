@@ -1094,8 +1094,6 @@ core.csu_ageSpecific <-function(df_data,
         guides(color = guide_legend(nrow=legend$nrow))
     }
     
-    
-    
     dt_data$nb_age_group <- NULL
     dt_data$CSU_age_factor <- NULL
     
@@ -1105,6 +1103,9 @@ core.csu_ageSpecific <-function(df_data,
 
     #get back age label 
     dt_data <- merge(dt_data, dt_temp_label, by=("CSU_A"), all.x=TRUE)
+    temp = grep("CSU_A", colnames(dt_data))
+    temp2 = length(colnames(dt_data))
+    dt_data <- dt_data[,c(1:temp, temp2, (temp+2):temp2-1) , with=FALSE ]
     dt_data[, CSU_A := NULL]
     setnames(dt_data, "temp_label", "CSU_A")
     

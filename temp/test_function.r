@@ -8,12 +8,11 @@
 
 
 #update package (local version)
-# detach(package:Rcan)
+detach(package:Rcan)
 remove.packages("Rcan")
 install.packages("C:/Projects/Rcan/Rcan", repos = NULL, type = "source")
 
 setwd("C:/Projects/Rcan/temp")
-
 library(Rcan)
 
 # READ THE DATA FILE
@@ -35,7 +34,7 @@ dat3$agecl <- c(factor(dat3$age_label, levels = c("00-04","05-09","10-14","15-19
 head(dat3)
 
 ### COMPUTE THE CUMULATIVE RISK 
-csu_asr(dat3, "age_label", "cases", "py", group_by = c("registry") , first_age = 3, last_age = 12, age_dropped=TRUE)
+csu_asr(dat3, "age_label", "cases", "py", group_by = c("registry") , first_age = 3, last_age = 12)
 
 
 ### COMPUTE THE CUMULATIVE RISK 
