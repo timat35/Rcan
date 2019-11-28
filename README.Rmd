@@ -5,7 +5,7 @@ Tools for basic and advance cancer statistics and graphics.
 
 * Group individual data cases (by 5-years age group, ICD group, year, sex, ...)
 * Merge registry data and population data. (by 5-years age group, year, sex, ...)
-* Calculate Age-Standardized Rate (ASR) and Truncated Age-Standardized Rate (TASR) across different population (Registry, year, sex...).
+* Calculate Age-Standardized Rate (ASR), crude rate or Truncated Age-Standardized Rate (TASR) across different population (Registry, year, sex...).
 * Calculate cumulative risk across different population (Registry, year, sex...).
 * Calculate and plot Age-Specific Rate
 * Calculate and plot Age-Specific Rate for the top X cancer or top X population

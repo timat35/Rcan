@@ -77,7 +77,7 @@ csu_asr(df_data,
 		"EURO" \tab EURO is the European standard population.\cr
 	}
 }
-	\item{crude rate}{
+	\item{crude_rate}{
 		Logical value. if \code{TRUE} caculate the crude rate instead of the ASR.\cr
 		Variables \code{var_age_group}, \code{missing_age}, \code{pop_base}, \code{var_st_err}, \code{correction_info} are not used.\cr
 		Default name of the new variable is "crude_rate".

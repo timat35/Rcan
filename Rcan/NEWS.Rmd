@@ -3,6 +3,7 @@
 ## 1.3.8
 
 * Add cumulative risk calculation
+* Add crude rate calculation in csu_asr function
 * Several age format are now accepted
 * Correction typo in help files
 
