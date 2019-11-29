@@ -11,8 +11,8 @@ csu_bar_top <-
    color=NULL,
    digits = 1) {
 
-  core.error_variable(df_data, var_value, csu_ageSpecific_top)
-  core.error_variable(df_data, var_bar, csu_ageSpecific_top, type="")
+  core.error_variable(df_data, var_value, csu_bar_top)
+  core.error_variable(df_data, var_bar, csu_bar_top, type="")
  
   dt <- data.table(df_data)
 
@@ -34,7 +34,7 @@ csu_bar_top <-
 
 
   if (bool_group) {
-     core.error_variable(df_data, group_by, csu_ageSpecific_top, type="")
+     core.error_variable(df_data, group_by, csu_bar_top, type="")
      setnames(dt, group_by, "CSU_BY")
      if (!is.factor(dt$CSU_BY)) {
       dt[,CSU_BY:=as.factor(CSU_BY)]

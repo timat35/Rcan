@@ -15,10 +15,10 @@ csu_cumrisk <-
     core.error_variable(df_data, var_py, csu_cumrisk)
 
     if (!is.null(missing_age)) {
-      core.error_missingage(df_data, var_age,missing_age, csu_asr)
+      core.error_missingage(df_data, var_age,missing_age, csu_cumrisk)
     }
 
-    core.error_age_parse(df_data, var_age, missing_age, csu_asr)
+    core.error_age_parse(df_data, var_age, missing_age, csu_cumrisk)
     
     temp <- colnames(df_data)
     temp <- temp[!temp  %in% c(var_age,var_cases,var_py,group_by)]
