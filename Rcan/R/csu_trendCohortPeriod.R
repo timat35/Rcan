@@ -19,6 +19,12 @@ csu_trendCohortPeriod <- function (
   linesize <- 0.75
   landscape <- FALSE
 
+  if (!is.null(missing_age)) {
+    core.error_missingage(df_data, var_age,missing_age, csu_asr)
+  }
+
+  core.error_age_parse(df_data, var_age, missing_age, csu_asr)
+
   dt_data <- data.table(df_data)
   setnames(dt_data, var_age, "CSU_A")
   setnames(dt_data, var_cases, "CSU_C")

@@ -33,6 +33,32 @@ core.error_variable <- function(df_data, varname, funcname,type="numeric") {
   }
 }
 
+core.error_missingage <- function(df_data, var_age,missing_age,funcname) {
+  
+  if (!missing_age %in% df_data[[var_age]]) {
+    stop(paste0("\n",missing_age, " value is not present in the variable ",var_age," see documentation: Help(", deparse(substitute(funcname)), ")"))
+  }
+}
+
+core.error_age_parse <- function(df_data, var_age, missing_age,funcname) {
+
+  dt_data <- as.data.table(df_data)
+  dt_data <- dt_data[, c(var_age), with=FALSE]
+
+  setnames(dt_data, var_age, 'CSU_A')
+  if (!is.null(missing_age)) {
+    dt_data[CSU_A == missing_age, CSU_A := NA]
+  }
+
+  if (!all(grepl(".*?(\\d{1,3}).*$",dt_data[!is.na(CSU_A)]$CSU_A, perl=TRUE)))
+  {
+    temp <- unique(as.character(dt_data[!grepl(".*?(\\d{1,3}).*$",dt_data[!is.na(CSU_A)]$CSU_A, perl=TRUE),]$CSU_A))
+    stop(paste0("\nthe value ",temp,", in the variable ",var_age, "\ncannot be change to numeric and is not declared as missing age,\nSee documentation: Help(", deparse(substitute(funcname)), ")\n"))
+  }
+
+}
+
+
 
 core.error_time_variable <- function(df_data, var_year, group_by, funcname) {
   

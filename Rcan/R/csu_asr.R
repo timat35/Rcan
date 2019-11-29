@@ -19,6 +19,12 @@ csu_asr <-
     
     core.error_variable(df_data, var_cases, csu_asr)
     core.error_variable(df_data, var_py, csu_asr)
+
+    if (!is.null(missing_age)) {
+      core.error_missingage(df_data, var_age,missing_age, csu_asr)
+    }
+
+    core.error_age_parse(df_data, var_age, missing_age, csu_asr)
     
     if (first_age < 1 | first_age > 17 ) {
       stop('The argument "first_age" must be comprise between 1 (0-4) and 17 (80-85), see documentation: help(csu_asr)')
