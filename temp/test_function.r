@@ -14,6 +14,7 @@ install.packages("C:/Projects/Rcan/Rcan", repos = NULL, type = "source")
 
 setwd("C:/Projects/Rcan/temp")
 library(Rcan)
+library(data.table)
 
 # READ THE DATA FILE
 dat3 <- read.table(file="Exercise3-13.txt", header=TRUE,sep="\t")
@@ -46,3 +47,20 @@ csu_ageSpecific(dat3, "age_label", "cases", "py", group_by = c("registry") )
 test <- read.csv(file="test_base.csv", header=TRUE)
 csu_asr(test, "age", "cases", "pop", crude_rate = TRUE)
 csu_asr(test, "age", "cases", "pop", first_age = 3, last_age = 12,crude_rate = TRUE)
+
+dt <- read.csv("C:/Data/WHO_mortality/WHO_cancer_mortality.csv")
+dt <- as.data.table(dt)
+saveRDS(dt, "WHO_mortality.rds")
+
+dt <- readRDS("WHO_mortality.rds")
+
+dts <- dt[country_label=="Philippines" & cancer_label=="Oesophagus",]
+
+dts <- csu_asr(dts,var_age_group = c("country_label"),
+               group_by = c("country_code","country_label","year","cancer_code","cancer_label"),
+               missing_age = 19)
+
+
+csu_time_trend(dts, logscale = TRUE, smoothing = 0.3, plot_title = "")
+
+csu_time_trend(dts, group_by="cancer_label",logscale = TRUE, smoothing = 0, plot_title = "")
