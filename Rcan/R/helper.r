@@ -431,12 +431,18 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
       # create world population DF for different nb of age group
       SEGI_pop <- c(12000,10000,9000,9000,8000,8000,6000,6000,6000,6000,5000,4000,4000,3000,2000,1000,500,500)
       EURO_pop <- c(8000,7000,7000,7000,7000,7000,7000,7000,7000,7000,7000,6000,5000,4000,3000,2000,1000,1000)
-      
-      if (pop_base == "EURO") {
-        pop <- EURO_pop
-      } else {
-        pop <- SEGI_pop
-      }
+      EURO2_pop <- c(5000,5500,5500,5500,6000,6000,6500,7000,7000,7000,7000,6500,6000,5500,5000,4000,2500,2500)
+      WHO_pop <- c(8860,8690,8600,8470,8220,7930,7610,7150,6590,6040,5370,4550,3720,2960,2210,1520,910,630)
+    
+    if (pop_base == "EURO") {
+      pop <- EURO_pop
+    } else if (pop_base == "EURO2") {
+      pop <- EURO2_pop
+    } else if (pop_base == "WHO") {
+      pop <- WHO_pop
+    } else {
+      pop <- SEGI_pop
+    }
       
       # calculated total pop for age selected 
       total_pop <- sum(pop[first_age:last_age])

@@ -73,8 +73,10 @@ csu_asr(df_data,
   \item{pop_base}{
    Select the standard population:\cr
   	\tabular{ll}{
-		"SEGI" \tab SEGI world standard population.\cr
-		"EURO" \tab EURO is the European standard population.\cr
+		"SEGI" \tab SEGI world standard population (1960).\cr
+		"EURO" \tab EURO is the European standard population (1976).\cr
+		"EURO2" \tab EURO2 is the European standard population (2013).\cr
+		"WHO" \tab WHO is the WHO standard population (2001).\cr
 	}
 }
 	\item{crude_rate}{
