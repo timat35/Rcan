@@ -21,12 +21,12 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   core.error_variable(df_data, var_age, csu_group_cases)
 
   dt_warning <- df_data[[var_age]]
-  if (any(dt_warning) < 0))
+  if (any(dt_warning) < 0)
   {
     cat("Warning:\n", sum(dt_warning<0, na.rm=TRUE), " cases have negative age value and will be removed from the calculation", "\n", sep="")
   }
 
-  if (any(dt_warning) > 150))
+  if (any(dt_warning) > 150)
   {
     cat("Warning:\n", sum(dt_warning>150, na.rm=TRUE), " cases have age value > 150 and will be considered as unknown age", "\n", sep="")
   }
