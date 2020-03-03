@@ -647,6 +647,28 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   
 }
 
+core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
+                         missing_age = NULL, last_age = 18,var_st_err=NULL,correction_info=FALSE,
+                         var_cumrisk="cumrisk", age_label_list = NULL, Rcan_print=FALSE) 
+{
+  
+  
+  
+  bool_dum_by <- FALSE
+  
+  if (is.null(group_by)) {
+    
+    df_data$CSU_dum_by <- "dummy_by"
+    group_by <- "CSU_dum_by"
+    bool_dum_by <- TRUE
+    
+  }
+  
+  
+  dt_data <- data.table(df_data, key = group_by) 
+  setnames(dt_data, var_age, "CSU_A")
+  setnames(dt_data, var_cases, "CSU_C")
+  setnames(dt_data, var_py, "CSU_P")
 
   dt_data <-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by, "CSU_A")]
 
@@ -763,7 +785,7 @@ core.csu_eapc <- function(df_data,
            var_year="year",
            group_by= NULL,
            var_eapc="eapc", 
-					 CI_level = 0.95)
+           CI_level = 0.95)
 {
     
     #create fake group to have group_by optional 
@@ -842,9 +864,9 @@ core.csu_ageSpecific <-function(df_data,
            log_point=TRUE,
            plot_subtitle=NULL,
            plot_caption=NULL,
-					 xtitle = "Age at diagnosis",
-					 ytitle = "Age-specific incidence rate per",
-					 label_group_by = waiver())
+           xtitle = "Age at diagnosis",
+           ytitle = "Age-specific incidence rate per",
+           label_group_by = waiver())
 
 {
     
@@ -1107,21 +1129,21 @@ core.csu_ageSpecific <-function(df_data,
                                    size = linesize, linetype = "solid")
       )+
       th_legend
-		
-			
+    
+      
     
     if (!is.null(color_trend)) {
       
       csu_plot <- csu_plot +
         scale_colour_manual(name=legend$title,
-														labels = label_group_by,
+                            labels = label_group_by,
                             values= color_trend,
                             drop = FALSE)
       
       if (logscale) {
         csu_plot <- csu_plot +
           scale_fill_manual(labels = label_group_by,
-														values= color_trend,
+                            values= color_trend,
                             drop = FALSE)
       }
       
@@ -1179,9 +1201,9 @@ core.csu_ageSpecific_top <- function(df_data,
                                      nb_top = 5,
                                      plot_title=NULL,
                                      plot_subtitle=NULL,
-																		 label_group_by=NULL,
-																		 xtitle = "Age at diagnosis",
-																		 ytitle = "Age-specific incidence rate per",
+                                     label_group_by=NULL,
+                                     xtitle = "Age at diagnosis",
+                                     ytitle = "Age-specific incidence rate per",
                                      var_color=NULL,
                                      plot_caption=NULL,
                                      var_age_label_list = NULL,
@@ -1214,14 +1236,14 @@ core.csu_ageSpecific_top <- function(df_data,
   df_data$CSU_dum_by <- as.factor(df_data[[group_by]])
   for (i in levels( df_data$CSU_dum_by)) {
     
-		if (!is.null(label_group_by)) {
-		
-				label_group <- label_group_by[j]
-		}
-		else {
-			label_group <- i
-		}
-		
+    if (!is.null(label_group_by)) {
+    
+        label_group <- label_group_by[j]
+    }
+    else {
+      label_group <- i
+    }
+    
     if (caption_bypass) {
       if (j == 1) {
         plot_caption <- ""
@@ -1275,8 +1297,8 @@ core.csu_ageSpecific_top <- function(df_data,
       logscale = logscale,
       log_point=FALSE,
       age_label_list = age_label_list,
-			xtitle = xtitle,
-			ytitle = ytitle
+      xtitle = xtitle,
+      ytitle = ytitle
       )
     
     dt_temp <- temp$dt_data
@@ -1329,7 +1351,7 @@ core.csu_time_trend <- function (
   legend = csu_trend_legend(),
   color_trend = NULL,
   ytitle = "Age standardized rate per 100000",
-	xtitle = "Year",
+  xtitle = "Year",
   plot_title = "test",
   linesize = 0.5,
   plot_subtitle = NULL,
