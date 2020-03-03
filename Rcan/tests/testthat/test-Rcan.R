@@ -42,27 +42,40 @@ test_that("Test csu_merge_cases_pop: 1",{
     var_py = "pop",
     group_by = c("sex"))
 
-  saveRDS(output_test,"csu_merge_cases_pop1.rds")
   expect_test <- readRDS(system.file("testdata","csu_merge_cases_pop1.rds",package="Rcan"))
   #test
   expect_equal(output_test, expect_test)
 })
 
 
-
-
 test_that("Test csu_asr: 1",{
 
   #input data
-  data_test <-  read.csv(system.file("testdata","data_cervix.csv",package="Rcan"), sep=",")
+  data(csu_registry_data_1)
 
   #output result
-  output_test <- csu_asr(data_test,missing_age = 19,
-                    group_by  = c("country", "country_label", "year", "sex","type"),
-                    var_age_group =  c("country", "country_label","type"))
-
+  output_test <- csu_asr(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ),
+                  var_age_group = c("registry_label"))
 
   expect_test <- readRDS(system.file("testdata","csu_asr_test1.rds",package="Rcan"))
+
+  #test
+  expect_equal(output_test, expect_test)
+})
+
+test_that("Test csu_cumrisk: 1",{
+
+  #input data
+  data(csu_registry_data_1)
+
+  #output result
+  output_test <- csu_cumrisk(csu_registry_data_1, 
+                  "age", "cases", "py",
+                  group_by = c("registry", "registry_label" ))
+
+  expect_test <- readRDS(system.file("testdata","csu_cumrisk_test1.rds",package="Rcan"))
 
   #test
   expect_equal(output_test, expect_test)
@@ -76,8 +89,6 @@ test_that("Test age specific: 1",{
   data(csu_registry_data_1)
   data(csu_registry_data_2)
   data_test <- csu_registry_data_1[csu_registry_data_1$registry_label=="Colombia, Cali",]
-
-
 
   #output result
   output_test <- csu_ageSpecific(data_test,plot_title = "Colombia, Liver, male")

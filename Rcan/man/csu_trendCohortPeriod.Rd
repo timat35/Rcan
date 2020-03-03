@@ -32,8 +32,17 @@ csu_trendCohortPeriod(
   Data (need to be R \code{data.frame} format, see example to import csv file).
 	}
   \item{var_age}{
-	Age group variable: (numerical) 18 5-years age-group, 0-4, 5-9, .. 85+ and an optional missing age.\cr
-	The value can be 1,2..19, as well as 0,5,..85 or other value as long are they are numerical.
+		Age variable. Several format are accepted 
+		\tabular{lll}{
+			1 \tab "0-4" \tab 0 \cr
+			2 \tab "5-9" \tab 5 \cr
+			3 \tab "10-14" \tab 10 \cr
+			... \tab ... \tab ... \cr
+			17 \tab "80-84" \tab 80 \cr
+			18 \tab "85+" \tab 85 \cr
+		}
+		Missing age value must be precise in the option \code{missing_age}.\cr
+		Last age group will always be considere without size (ie: 80+,85+, etc..). 
 	}
   \item{var_cases}{
 	Number of event (cases, deaths, ...) variable.
@@ -121,6 +130,7 @@ csu_trendCohortPeriod(
 	\code{\link{csu_group_cases}}
 	\code{\link{csu_merge_cases_pop}}
 	\code{\link{csu_asr}}
+	\code{\link{csu_cumrisk}}
 	\code{\link{csu_eapc}}
 	\code{\link{csu_ageSpecific}}
 	\code{\link{csu_ageSpecific_top}}
@@ -154,7 +164,7 @@ csu_trendCohortPeriod(
 						first_age=1,
 						last_age=18)
 						
-	# plot Cohort-Period graph from 30-64 years until 70-74 years.
+	# plot Cohort-Period graph from 30-34 years until 70-74 years.
 	csu_trendCohortPeriod(df_data=test,
                         missing_age =99,
                         plot_title = "USA, Liver, males",
@@ -162,7 +172,7 @@ csu_trendCohortPeriod(
 						first_age=7,
 						last_age=15)
 
-	# plot Cohort-Period graph from 30-64 years until 70-74 years with Y axis normal scale.
+	# plot Cohort-Period graph from 30-34 years until 70-74 years with Y axis normal scale.
 	csu_trendCohortPeriod(df_data=test,
                         missing_age =99,
                         plot_title = "USA, Liver, males",

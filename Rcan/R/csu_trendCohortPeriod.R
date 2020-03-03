@@ -19,6 +19,12 @@ csu_trendCohortPeriod <- function (
   linesize <- 0.75
   landscape <- FALSE
 
+  if (!is.null(missing_age)) {
+    core.error_missingage(df_data, var_age,missing_age, csu_trendCohortPeriod)
+  }
+
+  core.error_age_parse(df_data, var_age, missing_age, csu_trendCohortPeriod)
+
   dt_data <- data.table(df_data)
   setnames(dt_data, var_age, "CSU_A")
   setnames(dt_data, var_cases, "CSU_C")
@@ -52,6 +58,13 @@ csu_trendCohortPeriod <- function (
     dt_data <- dt_data[dt_data$CSU_A!=missing_age] 
   }
   
+
+  #parse age
+    dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+    if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
+      dt_data[,CSU_A := round((CSU_A/5)+1)]
+  }
+
   #create age dummy: 1 2 3 4 --- 18
   dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
   

@@ -33,6 +33,32 @@ core.error_variable <- function(df_data, varname, funcname,type="numeric") {
   }
 }
 
+core.error_missingage <- function(df_data, var_age,missing_age,funcname) {
+  
+  if (!missing_age %in% df_data[[var_age]]) {
+    stop(paste0("\n",missing_age, " value is not present in the variable ",var_age," see documentation: Help(", deparse(substitute(funcname)), ")"))
+  }
+}
+
+core.error_age_parse <- function(df_data, var_age, missing_age,funcname) {
+
+  dt_data <- as.data.table(df_data)
+  dt_data <- dt_data[, c(var_age), with=FALSE]
+
+  setnames(dt_data, var_age, 'CSU_A')
+  if (!is.null(missing_age)) {
+    dt_data[CSU_A == missing_age, CSU_A := NA]
+  }
+
+  if (!all(grepl(".*?(\\d{1,3}).*$",dt_data[!is.na(CSU_A)]$CSU_A, perl=TRUE)))
+  {
+    temp <- unique(as.character(dt_data[!grepl(".*?(\\d{1,3}).*$",dt_data[!is.na(CSU_A)]$CSU_A, perl=TRUE),]$CSU_A))
+    stop(paste0("\nthe value ",temp,", in the variable ",var_age, "\ncannot be change to numeric and is not declared as missing age,\nSee documentation: Help(", deparse(substitute(funcname)), ")\n"))
+  }
+
+}
+
+
 
 core.error_time_variable <- function(df_data, var_year, group_by, funcname) {
   
@@ -326,8 +352,8 @@ core.csu_format_export <- function(type, plot_title, landscape=FALSE) {
 
 core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
                          var_age_group=NULL, missing_age = NULL,db_rate = 100000,
-                         first_age = 1, last_age = 18, pop_base = "SEGI",
-                         var_st_err=NULL,correction_info=FALSE, var_asr="asr", age_dropped = FALSE,
+                         first_age = 1, last_age = 18, pop_base = "SEGI", crude_rate = FALSE,
+                         var_st_err=NULL,correction_info=FALSE, var_asr="asr",age_dropped = FALSE,
                          pop_base_count = NULL, age_label_list = NULL, Rcan_print=FALSE) 
 {
   
@@ -361,181 +387,226 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   setnames(dt_data, var_cases, "CSU_C")
   setnames(dt_data, var_py, "CSU_P")
 
-  if (is.null(pop_base_count)) {
-    dt_data <-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by, "CSU_A")]
-  }
+  if (crude_rate == FALSE)
+  {
+    if (is.null(pop_base_count)) {
+      dt_data <-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by, "CSU_A")]
+    }
 
 
-  # create index to keep order
-  index_order <- c(1:nrow(dt_data))
-  dt_data$index_order <- index_order
-  
-  # missing age 
-  dt_data[dt_data$CSU_A %in% missing_age,CSU_A:=NA ] 
-  dt_data[is.na(dt_data$CSU_A),CSU_P:=0 ] 
-  
-  #create age dummy: 1 2 3 4 --- 19
-  dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
-  
-  # correction factor 
-  dt_data$correction <- 1 
-  if (!is.null(missing_age)) {
+    # create index to keep order
+    index_order <- c(1:nrow(dt_data))
+    dt_data$index_order <- index_order
     
+    # missing age 
+    dt_data[dt_data$CSU_A %in% missing_age,CSU_A:=NA ] 
+    dt_data[is.na(dt_data$CSU_A),CSU_P:=0 ] 
+
+    #parse age
+    dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+    if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
+      dt_data[,CSU_A := round((CSU_A/5)+1)]
+    }
     
-    dt_data[, total:=sum(CSU_C), by=group_by] #add total
-    dt_data[!is.na(dt_data$age_factor) , total_known:=sum(CSU_C), by=group_by] #add total_know
-    dt_data$correction <- dt_data$total / dt_data$total_know 
-    dt_data[is.na(dt_data$correction),correction:=1 ] 
-    dt_data$total <- NULL
-    dt_data$total_known <- NULL
+    #create age dummy: 1 2 3 4 --- 19
+    dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
+
     
-  }
-  
-  if (is.null(pop_base_count)) {
+    # correction factor 
+    dt_data$correction <- 1 
+    if (!is.null(missing_age)) {
+      
+      
+      dt_data[, total:=sum(CSU_C), by=group_by] #add total
+      dt_data[!is.na(dt_data$age_factor) , total_known:=sum(CSU_C), by=group_by] #add total_know
+      dt_data$correction <- dt_data$total / dt_data$total_know 
+      dt_data[is.na(dt_data$correction),correction:=1 ] 
+      dt_data$total <- NULL
+      dt_data$total_known <- NULL
+      
+    }
     
-    # create world population DF for different nb of age group
-    SEGI_pop <- c(12000,10000,9000,9000,8000,8000,6000,6000,6000,6000,5000,4000,4000,3000,2000,1000,500,500)
-    EURO_pop <- c(8000,7000,7000,7000,7000,7000,7000,7000,7000,7000,7000,6000,5000,4000,3000,2000,1000,1000)
+    if (is.null(pop_base_count)) {
+      
+      # create world population DF for different nb of age group
+      SEGI_pop <- c(12000,10000,9000,9000,8000,8000,6000,6000,6000,6000,5000,4000,4000,3000,2000,1000,500,500)
+      EURO_pop <- c(8000,7000,7000,7000,7000,7000,7000,7000,7000,7000,7000,6000,5000,4000,3000,2000,1000,1000)
+      EURO2_pop <- c(5000,5500,5500,5500,6000,6000,6500,7000,7000,7000,7000,6500,6000,5500,5000,4000,2500,2500)
+      WHO_pop <- c(8860,8690,8600,8470,8220,7930,7610,7150,6590,6040,5370,4550,3720,2960,2210,1520,910,630)
     
     if (pop_base == "EURO") {
       pop <- EURO_pop
+    } else if (pop_base == "EURO2") {
+      pop <- EURO2_pop
+    } else if (pop_base == "WHO") {
+      pop <- WHO_pop
     } else {
       pop <- SEGI_pop
     }
-    
-    # calculated total pop for age selected 
-    total_pop <- sum(pop[first_age:last_age])
-    
-    Standard_pop <- data.table(pop = pop, age_factor= c(1:18))
-    
-    pop[17] <- pop[17]+ pop[18]
-    pop[18] <- 0
-    Standard_pop$pop17 <- pop
-    pop[16] <- pop[16]+ pop[17]
-    pop[17] <- 0
-    Standard_pop$pop16 <- pop
-    pop[15] <- pop[15]+ pop[16]
-    pop[16] <- 0
-    Standard_pop$pop15 <- pop
-    
+      
+      # calculated total pop for age selected 
+      total_pop <- sum(pop[first_age:last_age])
+      
+      Standard_pop <- data.table(pop = pop, age_factor= c(1:18))
+      
+      pop[17] <- pop[17]+ pop[18]
+      pop[18] <- 0
+      Standard_pop$pop17 <- pop
+      pop[16] <- pop[16]+ pop[17]
+      pop[17] <- 0
+      Standard_pop$pop16 <- pop
+      pop[15] <- pop[15]+ pop[16]
+      pop[16] <- 0
+      Standard_pop$pop15 <- pop
+      
 
+      
+      #age dropped option
+      if (age_dropped) {
+        dt_data$age_factor <- dt_data$age_factor + first_age -1   
+      }
+      
+      
+      # keep age selected 
+      dt_data=dt_data[dt_data$age_factor %in% c(first_age:last_age) | is.na(dt_data$age_factor), ]
+      
+      # calculated maximum age group with population data
+      if (last_age == 18) {
+        dt_data <- merge(dt_data, dt_data[dt_data$CSU_P != 0,list(nb_age_group = max(age_factor)), by=var_age_group], by=var_age_group)  
+      } else {
+        dt_data$nb_age_group <- 18
+      }
+      
+      # show population with less than 18 age group
+      if (last_age == 18) {
+        temp <- subset(dt_data,nb_age_group <18, select= c(var_age_group, "nb_age_group"))
+        if (nrow(temp) >0) {
+          setkey(temp,NULL)
+          
+          
+          if (Rcan_print) {
+          
+            cat("\n")
+            cat("Population with less than 18 age group:\n\n" )
+            print
+            print(unique(temp), row.names = FALSE)
+            cat("\n")
+            
+          }
+        }
+        temp <- NULL
+      }
+      
+      #regroup case for population with nb of age group <  18 
+      for (i in 15:17) {
+        
+        if (i %in% dt_data$nb_age_group) {
+          
+          dt_data[nb_age_group == i & age_factor >= i , CSU_C:=sum(CSU_C), by=group_by] #add total_know
+          dt_data[nb_age_group == i & age_factor > i & !is.na(age_factor), CSU_C := 0] 
+          
+        } 
+      }
+      
+      #add world pop to database 
+      dt_data <- merge(dt_data,Standard_pop, by =c("age_factor"), all.x=TRUE )
+
+      Standard_pop <- NULL
+      dt_data[nb_age_group==17, pop:=pop17]
+      dt_data[nb_age_group==16, pop:=pop16]
+      dt_data[nb_age_group==15, pop:=pop15]
+      
+      #return(dt_data)
+      
+    } else {
+      
+      #keep age group selected 
+      dt_data <- dt_data[age_factor %in% (first_age:last_age), ]
+      
+      #calcul total pop for canreg
+      total_pop <-sum(unique(dt_data[, c("age_factor", pop_base_count), with=FALSE])[[pop_base_count]])
+      
+      #get age group list variable
+      if (is.null(age_label_list)) {
+        age_label_list <- var_age
+      }
+      age_group_list <- as.character(unique(dt_data[[age_label_list]]))
+      age_group_list <- paste(age_group_list,  collapse=" ")
+      
+      #rename variable population reference
+      setnames(dt_data, pop_base_count, "pop")
+    }
+    
+    #calcul ASR
+    
+    dt_data[dt_data$CSU_P != 0,rate:= dt_data$CSU_C[dt_data$CSU_P != 0]/ dt_data$CSU_P[dt_data$CSU_P != 0] * db_rate]
+    dt_data$asr <- dt_data$rate * dt_data$pop
+    dt_data[is.na(dt_data$asr),asr:=0 ] 
+    
+    dt_data$st_err <- ( dt_data$rate * (dt_data$pop^2) * (db_rate - dt_data$rate))/dt_data$CSU_P
+    dt_data[is.na(dt_data$st_err),st_err:=0 ] 
+    
+    # to check order 
+    dt_data<- dt_data[order(dt_data$index_order ),]
+    dt_data<-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P),asr=sum(asr),st_err = sum(st_err),correction = max(correction)), by=group_by]
+    
+    dt_data$asr <- dt_data$asr / total_pop
+    dt_data$asr <- dt_data$asr * dt_data$correction
+    dt_data$st_err <- (dt_data$st_err / (total_pop^2))^(1/2)
+    dt_data$st_err <- dt_data$st_err * dt_data$correction
+    
+    dt_data$asr <- round(dt_data$asr, digits = 2)
+    dt_data$st_err <- round(dt_data$st_err, digits = 2)
+    dt_data$correction <- round((dt_data$correction-1)*100, digits = 1)
+    
+    if (is.null(var_st_err)) {
+      dt_data$st_err <- NULL
+    } else {
+      setnames(dt_data, "st_err", var_st_err)
+    }
+
+     if (var_asr!="asr") {
+      setnames(dt_data, "asr", var_asr)
+    }
+    
+    if (!correction_info) {
+      dt_data$correction <- NULL
+    }
+
+  }
+  else 
+  {
+
+     #parse age
+    dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+    if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
+      dt_data[,CSU_A := round((CSU_A/5)+1)]
+    }
+    
+    #create age dummy: 1 2 3 4 --- 19
+    dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
     
     #age dropped option
     if (age_dropped) {
       dt_data$age_factor <- dt_data$age_factor + first_age -1   
     }
-    
-    
+        
     # keep age selected 
     dt_data=dt_data[dt_data$age_factor %in% c(first_age:last_age) | is.na(dt_data$age_factor), ]
-    
-    # calculated maximum age group with population data
-    if (last_age == 18) {
-      dt_data <- merge(dt_data, dt_data[dt_data$CSU_P != 0,list(nb_age_group = max(age_factor)), by=var_age_group], by=var_age_group)  
-    } else {
-      dt_data$nb_age_group <- 18
-    }
-    
-    # show population with less than 18 age group
-    if (last_age == 18) {
-      temp <- subset(dt_data,nb_age_group <18, select= c(var_age_group, "nb_age_group"))
-      if (nrow(temp) >0) {
-        setkey(temp,NULL)
-        
-        
-        if (Rcan_print) {
-        
-          cat("\n")
-          cat("Population with less than 18 age group:\n\n" )
-          print
-          print(unique(temp), row.names = FALSE)
-          cat("\n")
-          
-        }
-      }
-      temp <- NULL
-    }
-    
-    #regroup case for population with nb of age group <  18 
-    for (i in 15:17) {
-      
-      if (i %in% dt_data$nb_age_group) {
-        
-        dt_data[nb_age_group == i & age_factor >= i , CSU_C:=sum(CSU_C), by=group_by] #add total_know
-        dt_data[nb_age_group == i & age_factor > i & !is.na(age_factor), CSU_C := 0] 
-        
-      } 
-    }
-    
-    #add world pop to database 
-    dt_data <- merge(dt_data,Standard_pop, by =c("age_factor"), all.x=TRUE )
 
-    Standard_pop <- NULL
-    dt_data[nb_age_group==17, pop:=pop17]
-    dt_data[nb_age_group==16, pop:=pop16]
-    dt_data[nb_age_group==15, pop:=pop15]
-    
-    #return(dt_data)
-    
-  } else {
-    
-    #keep age group selected 
-    dt_data <- dt_data[age_factor %in% (first_age:last_age), ]
-    
-    #calcul total pop for canreg
-    total_pop <-sum(unique(dt_data[, c("age_factor", pop_base_count), with=FALSE])[[pop_base_count]])
-    
-    #get age group list variable
-    if (is.null(age_label_list)) {
-      age_label_list <- var_age
+    dt_data <- dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by)]
+    dt_data <- dt_data[, CSU_RESULT := CSU_C/CSU_P*db_rate]
+    if (var_asr=="asr") {
+      setnames(dt_data, "CSU_RESULT", 'crude_rate')
     }
-    age_group_list <- as.character(unique(dt_data[[age_label_list]]))
-    age_group_list <- paste(age_group_list,  collapse=" ")
-    
-    #rename variable population reference
-    setnames(dt_data, pop_base_count, "pop")
+    else 
+    {
+      setnames(dt_data, "CSU_RESULT", var_asr)
+    }
+
   }
-  
-  #calcul ASR
-  
-  dt_data[dt_data$CSU_P != 0,rate:= dt_data$CSU_C[dt_data$CSU_P != 0]/ dt_data$CSU_P[dt_data$CSU_P != 0] * db_rate]
-  dt_data$asr <- dt_data$rate * dt_data$pop
-  dt_data[is.na(dt_data$asr),asr:=0 ] 
-  
-  dt_data$st_err <- ( dt_data$rate * (dt_data$pop^2) * (db_rate - dt_data$rate))/dt_data$CSU_P
-  dt_data[is.na(dt_data$st_err),st_err:=0 ] 
-  
-  # to check order 
-  dt_data<- dt_data[order(dt_data$index_order ),]
-  dt_data<-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P),asr=sum(asr),st_err = sum(st_err),correction = max(correction)), by=group_by]
-  
-  dt_data$asr <- dt_data$asr / total_pop
-  dt_data$asr <- dt_data$asr * dt_data$correction
-  dt_data$st_err <- (dt_data$st_err / (total_pop^2))^(1/2)
-  dt_data$st_err <- dt_data$st_err * dt_data$correction
-  
-  dt_data$asr <- round(dt_data$asr, digits = 2)
-  dt_data$st_err <- round(dt_data$st_err, digits = 2)
-  dt_data$correction <- round((dt_data$correction-1)*100, digits = 1)
-  
-  if (is.null(var_st_err)) {
-    dt_data$st_err <- NULL
-  } else {
-    setnames(dt_data, "st_err", var_st_err)
-  }
-  
-  if (var_asr!="asr") {
-    setnames(dt_data, "asr", var_asr)
-  }
-  
-  if (!correction_info) {
-    dt_data$correction <- NULL
-  }
-  
-  
+
   df_data <- data.frame(dt_data)
-  
-  
   
   if (bool_dum_age) {
     df_data$CSU_dum_age <- NULL
@@ -553,7 +624,15 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
     if (Rcan_print) {
       temp <- last_age*5-1
       if (last_age == 18)  temp <- "99+"
-      cat("ASR have been computed for the age group ", (first_age-1)*5,"-", temp , "\n",  sep="" )
+
+      if (crude_rate == FALSE)
+      {
+         cat("ASR have been computed for the age group ", (first_age-1)*5,"-", temp , "\n",  sep="" )
+      }
+      else {
+        cat("Crude rate have been computed for the age group ", (first_age-1)*5,"-", temp , "\n",  sep="" )
+      }
+      
     }
     temp<- NULL
     
@@ -562,6 +641,116 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
     #cat("ASR have been computed for the age groups:\n",age_group_list , "\n",  sep="" )
     age_group_list<- NULL
     
+  }
+  
+  return(df_data)
+  
+}
+
+
+  dt_data <-  dt_data[,list( CSU_C=sum(CSU_C), CSU_P=sum(CSU_P)), by=c(group_by, "CSU_A")]
+
+  # create index to keep order
+  index_order <- c(1:nrow(dt_data))
+  dt_data$index_order <- index_order
+  
+  # missing age 
+  dt_data[dt_data$CSU_A %in% missing_age,CSU_A:=NA ] 
+  dt_data[is.na(dt_data$CSU_A),CSU_P:=0 ] 
+
+  #parse age
+  dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+  if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
+    dt_data[,CSU_A := round((CSU_A/5)+1)]
+  }
+
+  #create age dummy: 1 2 3 4 --- 19
+  dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
+  
+  # correction factor 
+  dt_data$correction <- 1 
+  if (!is.null(missing_age)) {
+    
+    
+    dt_data[, total:=sum(CSU_C), by=group_by] #add total
+    dt_data[!is.na(dt_data$age_factor) , total_known:=sum(CSU_C), by=group_by] #add total_know
+    dt_data$correction <- dt_data$total / dt_data$total_know 
+    dt_data[is.na(dt_data$correction),correction:=1 ] 
+    dt_data$total <- NULL
+    dt_data$total_known <- NULL
+
+    dt_data<- dt_data[!is.na(age_factor),]
+    
+  }
+
+  if (!is.null(age_label_list)) {
+  # calcul year interval from age group label
+  
+    dt_temp <- unique(dt_data[, c(age_label_list), with=FALSE])
+    dt_temp[, min:=as.numeric(regmatches(get(age_label_list), regexpr("[0-9]+",get(age_label_list))))]
+    dt_temp[, max:=shift(min, type ="lead")]
+    dt_temp[, age_span := max-min]
+    dt_temp <- dt_temp[, c("age_span",age_label_list), with=FALSE]
+    dt_data <- merge(dt_data, dt_temp,by= age_label_list, all.x=TRUE)
+  } else {
+    
+    dt_data[, age_span:=5]
+  }
+
+  #keep age group selected 
+  age_max <- max(dt_data$age_factor)
+
+  if (age_max-1 < last_age) {
+    last_age <- age_max-1 
+  }
+  dt_data=dt_data[dt_data$age_factor <= last_age]  
+  
+  #calculate cum risk
+  dt_data[,cumrisk:=age_span*(CSU_C/CSU_P)]
+  dt_data[CSU_P==0,cumrisk:=0]
+  dt_data[, st_err := (CSU_C/CSU_P)/CSU_P]
+  dt_data[is.na(dt_data$st_err),st_err:=0 ] 
+
+  # to check order 
+  dt_data<- dt_data[order(dt_data$index_order ),]
+
+  dt_data <- dt_data[,list( cumrisk=sum(cumrisk), CSU_P=sum(CSU_P),CSU_C=sum(CSU_C),st_err = sum(st_err),correction = max(correction)), by=group_by]
+  dt_data[,cumrisk:=(1-exp(-cumrisk))*100*correction]
+  
+  dt_data[, st_err:=(st_err^(1/2))*100*5]
+  dt_data[, st_err:=st_err*correction]
+
+  dt_data[,cumrisk:=round(cumrisk, digits = 2)]
+  dt_data[,st_err:=round(st_err, digits = 2)]
+  dt_data[, correction:=round((correction-1)*100, digits = 1)]
+
+  if (is.null(var_st_err)) {
+    dt_data$st_err <- NULL
+  } else {
+    setnames(dt_data, "st_err", var_st_err)
+  }
+  
+  if (var_cumrisk!="cumrisk") {
+    setnames(dt_data, "cumrisk", var_cum_risk)
+  }
+
+  if (!correction_info) {
+    dt_data$correction <- NULL
+  }
+  
+  setnames(dt_data, "CSU_C", var_cases)
+  setnames(dt_data,  "CSU_P", var_py)
+
+  if (bool_dum_by) {
+    df_data$CSU_dum_by <- NULL
+  }  
+ 
+  df_data <- data.frame(dt_data)
+    
+  if (Rcan_print) {
+    temp <- last_age*5-1
+    cat("Cumulative risk have been computed for the age group ","0-", temp , "\n",  sep="" )
+    temp<- NULL
   }
   
   return(df_data)
@@ -720,7 +909,16 @@ core.csu_ageSpecific <-function(df_data,
     ##to calcul age group
     dt_data[CSU_A %in% missing_age,CSU_A:=NA ] 
     dt_data[is.na(CSU_A),CSU_P:=0 ] 
-    
+
+    #parse age
+    dt_data[, temp_label:=CSU_A]
+    dt_data[,CSU_A :=  as.numeric(gsub(".*?(\\d{1,3}).*$", "\\1",CSU_A, perl=TRUE))]
+    if (max(dt_data$CSU_A,na.rm=TRUE) > 25) {
+      dt_data[,CSU_A := round((CSU_A/5)+1)]
+    }
+
+    dt_temp_label <- unique(dt_data[, c("CSU_A", "temp_label"), with=FALSE])
+    dt_data[, temp_label:= NULL]
     
     dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
     dt_data <- merge(dt_data, dt_data[dt_data$CSU_P != 0,list(nb_age_group = max(CSU_age_factor)), by="CSU_BY"], by="CSU_BY")   
@@ -947,14 +1145,20 @@ core.csu_ageSpecific <-function(df_data,
         guides(color = guide_legend(nrow=legend$nrow))
     }
     
-    
-    
     dt_data$nb_age_group <- NULL
     dt_data$CSU_age_factor <- NULL
     
     if (logscale){
       dt_data[, rate := ifelse(is.na(rate),0, rate )]
     }
+
+    #get back age label 
+    dt_data <- merge(dt_data, dt_temp_label, by=("CSU_A"), all.x=TRUE)
+    temp = grep("CSU_A", colnames(dt_data))
+    temp2 = length(colnames(dt_data))
+    dt_data <- dt_data[,c(1:temp, temp2, (temp+2):temp2-1) , with=FALSE ]
+    dt_data[, CSU_A := NULL]
+    setnames(dt_data, "temp_label", "CSU_A")
     
     
     return(list(csu_plot = csu_plot, dt_data = dt_data, CI5_cancer_label = CI5_cancer_label,legend_position=legend$position,bool_dum_by = bool_dum_by))

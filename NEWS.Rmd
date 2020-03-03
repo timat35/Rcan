@@ -1,5 +1,17 @@
 # Rcan news
 
+## 1.3.81
+
+* Add other standard population for ASR
+* Add warning if age value < 0 or age value > 150
+
+## 1.3.80
+
+* Add cumulative risk calculation
+* Add crude rate calculation in csu_asr function
+* Several age format are now accepted
+* Correction typo in help files
+
 ## 1.3.72
 
 * Improve warnings system
@@ -9,7 +21,6 @@
 * keep age format in csu_merge_cases_pop
 * Allow year in group_by parameter for csu_merge_cases_pop
 * Create missing age group for csu_group_cases
-* fix missing age in csu_trendCohortPeriod
 
 ## 1.3.71
 

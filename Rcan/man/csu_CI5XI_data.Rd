@@ -32,6 +32,7 @@ All information are available here: \url{http://ci5.iarc.fr/CI5-XI/Default.aspx}
 
 \seealso{
 	\code{\link{csu_asr}}
+  \code{\link{csu_cumrisk}}
 	\code{\link{csu_eapc}}
 	\code{\link{csu_ageSpecific}}
 }

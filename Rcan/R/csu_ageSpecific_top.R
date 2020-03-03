@@ -16,13 +16,17 @@ csu_ageSpecific_top <-
 {
 
 
-  core.error_variable(df_data, var_age, csu_ageSpecific_top)
   core.error_variable(df_data, var_cases, csu_ageSpecific_top)
   core.error_variable(df_data, var_py, csu_ageSpecific_top)
   core.error_variable(df_data, var_top, csu_ageSpecific_top, type="")
   core.error_variable(df_data, group_by, csu_ageSpecific_top, type="")
   core.error_variable(df_data, var_color, csu_ageSpecific_top, type="")
 
+  if (!is.null(missing_age)) {
+    core.error_missingage(df_data, var_age,missing_age, csu_ageSpecific_top)
+  }
+
+  core.error_age_parse(df_data, var_age, missing_age, csu_ageSpecific_top)
            
   
   

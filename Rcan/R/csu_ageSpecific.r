@@ -26,10 +26,14 @@ csu_ageSpecific <-
       
     }
     
-    
-    core.error_variable(df_data, var_age, csu_ageSpecific)
     core.error_variable(df_data, var_cases, csu_ageSpecific)
     core.error_variable(df_data, var_py, csu_ageSpecific)
+
+    if (!is.null(missing_age)) {
+      core.error_missingage(df_data, var_age,missing_age, csu_ageSpecific)
+    }
+
+    core.error_age_parse(df_data, var_age, missing_age, csu_ageSpecific)
     
     csu_list <- core.csu_ageSpecific(df_data,var_age, var_cases, var_py, group_by ,
                                      missing_age,db_rate,

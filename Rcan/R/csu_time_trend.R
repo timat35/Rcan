@@ -19,9 +19,11 @@ csu_time_trend <- function (
 
   #check by variable adapted (ie: 1 year per variable)
   dt_data <- data.table(df_data, key = group_by)
+  bool_dum_by <- FALSE
   if (is.null(group_by)) {
     dt_data$CSU_dum_by <- "dummy_by"
     group_by <- "CSU_dum_by"
+    bool_dum_by <- TRUE
   }
   
   dt_data$temp <- 1
@@ -37,9 +39,11 @@ csu_time_trend <- function (
     stop("There is more than 1 data per year (see above).\nUse the 'group_by' option or call the function on a subset to define the sub-population of interest.\n")
   }
 
+
+
   
  #call to core function
- csu_list <- core.csu_time_trend(df_data,
+ csu_list <- core.csu_time_trend(dt_data,
                                  var_trend,
                                  var_year,
                                  group_by, 
@@ -76,12 +80,12 @@ csu_time_trend <- function (
   df_data <- data.frame(dt_data)
   setnames(df_data, "CSU_Y", var_year)
   setnames(df_data, "CSU_T", var_trend)
-  if (!csu_list$bool_dum_by) {
-      setnames(df_data,  "CSU_BY", group_by)
-    } else {
-      
-      df_data$CSU_BY <- NULL
-    }
+  if (!bool_dum_by) 
+  {
+    setnames(df_data,  "CSU_BY", group_by)
+  } else {
+    df_data$CSU_BY <- NULL
+  }
   return(df_data)
   
   
