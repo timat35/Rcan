@@ -20,7 +20,7 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   core.error_variable(df_data, var_cases, csu_group_cases)
   core.error_variable(df_data, var_age, csu_group_cases)
 
-  dt_warning <- df_data[[var_age]]
+  dt_warning <- as.vector(df_data[[var_age]])
   if (any(dt_warning) < 0)
   {
     cat("Warning:\n", sum(dt_warning<0, na.rm=TRUE), " cases have negative age value and will be removed from the calculation", "\n", sep="")
