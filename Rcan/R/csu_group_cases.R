@@ -23,12 +23,12 @@ csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NULL,df_
   dt_warning <- as.vector(df_data[[var_age]])
   if (any(dt_warning < 0))
   {
-    cat("Warning:\n", sum(dt_warning<0, na.rm=TRUE), " cases have negative age value and will be removed from the calculation", "\n", sep="")
+    warning(paste0("Warning:\n", sum(dt_warning<0, na.rm=TRUE), " cases have negative age value and will be removed from the calculation\n"))
   }
 
   if (any(dt_warning > 150))
   {
-    cat("Warning:\n", sum(dt_warning>150, na.rm=TRUE), " cases have age value > 150 and will be considered as unknown age", "\n", sep="")
+    warning(paste0("Warning:\n", sum(dt_warning>150, na.rm=TRUE), " cases have age value > 150 and will be considered as unknown age\n"))
   }
 
   dt_result <- core.csu_group_cases(df_data, var_age ,group_by=group_by,var_cases = var_cases,df_ICD = df_ICD,var_ICD=var_ICD,var_year = var_year, all_cancer=all_cancer)
