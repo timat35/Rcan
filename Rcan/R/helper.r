@@ -409,7 +409,7 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
     }
     
     #create age dummy: 1 2 3 4 --- 19
-    dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
+    dt_data$age_factor <- as.numeric(c(as.factor(dt_data$CSU_A)))
 
     
     # correction factor 
@@ -584,7 +584,7 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
     }
     
     #create age dummy: 1 2 3 4 --- 19
-    dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
+    dt_data$age_factor <- as.numeric(c(as.factor(dt_data$CSU_A)))
     
     #age dropped option
     if (age_dropped) {
@@ -687,7 +687,7 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   }
 
   #create age dummy: 1 2 3 4 --- 19
-  dt_data$age_factor <- c(as.factor(dt_data$CSU_A))
+  dt_data$age_factor <- as.numeric(c(as.factor(dt_data$CSU_A)))
   
   # correction factor 
   dt_data$correction <- 1 
