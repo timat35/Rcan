@@ -1,13 +1,17 @@
 
-#install dependant packages...
+# install dependant packages...
 
-# install.packages("data.table")
-# install.packages("ggplot2")
-# install.packages("grid")
-# install.packages("scales")
-# install.packages("testthat")
-# install.packages("devtools")
-# install.packages("digest")
+install.packages("data.table")
+install.packages("ggplot2")
+
+install.packages("scales")
+install.packages("testthat")
+install.packages("devtools")
+install.packages("digest")
+
+library(data.table)
+library(ggplot2)
+library(scales)
 
 
 #update package (last stable version)
