@@ -4,10 +4,8 @@
 install.packages("data.table")
 install.packages("ggplot2")
 
-install.packages("scales")
-install.packages("testthat")
 install.packages("devtools")
-install.packages("digest")
+
 
 library(data.table)
 library(ggplot2)
