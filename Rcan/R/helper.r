@@ -942,7 +942,7 @@ core.csu_ageSpecific <-function(df_data,
     dt_temp_label <- unique(dt_data[, c("CSU_A", "temp_label"), with=FALSE])
     dt_data[, temp_label:= NULL]
     
-    dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
+    dt_data$CSU_age_factor <- as.numeric(c(as.factor(dt_data$CSU_A)))
     dt_data <- merge(dt_data, dt_data[dt_data$CSU_P != 0,list(nb_age_group = max(CSU_age_factor)), by="CSU_BY"], by="CSU_BY")   
 
   
