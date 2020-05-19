@@ -66,7 +66,7 @@ csu_trendCohortPeriod <- function (
   }
 
   #create age dummy: 1 2 3 4 --- 18
-  dt_data$CSU_age_factor <- c(as.factor(dt_data$CSU_A))
+  dt_data$CSU_age_factor <- as.numeric(c(as.factor(dt_data$CSU_A)))
   
   #age dropped option
   if (age_dropped) {
