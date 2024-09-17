@@ -802,6 +802,7 @@ core.csu_eapc <- function(df_data,
 {
 
     
+  
 
     
     #create fake group to have group_by optional 
@@ -815,21 +816,25 @@ core.csu_eapc <- function(df_data,
     }
     
     dt_data <- data.table(df_data, key = c(group_by)) 
+
+   
     
     setnames(dt_data, var_rate, "CSU_R")
     setnames(dt_data, var_year, "CSU_Y")
-    
+
+    # remove 0 data
+    dt_data <- dt_data[!CSU_R == 0,]
+
     dt_data[, id_group:=.GRP, by=group_by]
     
     temp_max <- max(dt_data$id_group)
     for (i in 1:temp_max) {
-      suppressWarnings(
-        temp <- summary(glm(log(CSU_R) ~ CSU_Y,
-                            family=gaussian(link = "identity"),
-                            data=dt_data[dt_data$id_group  == i,] 
-        )
-        )
-      )
+      
+      temp <- summary(glm(log(CSU_R) ~ CSU_Y,
+                          family=gaussian(link = "identity"),
+                          data=dt_data[dt_data$id_group  == i,] 
+      ))
+      
       dt_data[dt_data$id_group  == i, CSU_EAPC:=temp$coefficients[[2]]]
       dt_data[dt_data$id_group  == i, CSU_ST:=temp$coefficients[[4]]]
       
