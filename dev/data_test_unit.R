@@ -18,7 +18,7 @@ library(devtools)
 detach(package:Rcan)
 remove.packages("Rcan")
 devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
-
+3
 
 devtools::test(pkg_folder)
 
@@ -89,13 +89,18 @@ temp <- csu_time_trend(df_asr, group_by="sex",logscale=TRUE,
 
 data(csu_registry_data_2)
 
-df_asr <- csu_asr(csu_registry_data_2, 
+data_test <- as.data.table(csu_registry_data_2)
+
+df_asr <- csu_asr(data_test, 
                   "age", "cases", "py",
                   group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
-                  var_age_group = c("registry_label"), 
+                  var_age_group = c("registry_label", "year"), 
                   missing_age = 99)
 
-temp <- csu_eapc(df_asr,
+df_asr <- df_asr[!is.nan(asr),]
+
+
+temp <- csu_eapc(df_asr[!asr == 0,],
                    "asr", "year",
                    group_by=c("registry", "registry_label", "sex", "ethnic" ))
 

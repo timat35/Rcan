@@ -1,5 +1,14 @@
 # Rcan news
 
+## 1.3.9
+
+* Fixed EAPC calculation to get correct CI.
+* manage data.table input and output
+
+## 1.3.82
+
+* fix for R 4.1.0 (factor variable do not accept numeric operation anymore)
+
 
 ## 1.3.81
 
