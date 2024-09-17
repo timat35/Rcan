@@ -15,6 +15,6 @@
 		"smooth_value","st_err","temp","temp_age","temp_label","temp_label2","total",
 		"total_known","cases","ICD_group", "LABEL", "ICD", "age_group", "age_group_label", 
 		"temp1", "temp2", "ICD_ungroup", "N", "group_id", ".", "patterns", "asr_plot", 
-		"CSU_ASR","asr_label", "CSU_BAR", "asr_round", "age_span", "cumrisk", "var_cum_risk"
+		"CSU_ASR","asr_label", "CSU_BAR", "asr_round", "age_span", "cumrisk", "var_cum_risk","bool_data_table"
 		)
 	)

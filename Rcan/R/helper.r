@@ -606,7 +606,14 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
 
   }
 
-  df_data <- data.frame(dt_data)
+  #manage data.table input and output
+  if (is.data.table(df_data)) 
+  {
+    df_data <- dt_data
+  } else {
+    df_data <- data.frame(dt_data)
+  }
+
   
   if (bool_dum_age) {
     df_data$CSU_dum_age <- NULL
@@ -763,11 +770,17 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   setnames(dt_data, "CSU_C", var_cases)
   setnames(dt_data,  "CSU_P", var_py)
 
+   #manage data.table input and output
+  if (is.data.table(df_data)) 
+  {
+    df_data <- dt_data
+  } else {
+    df_data <- data.frame(dt_data)
+  }
+
   if (bool_dum_by) {
     df_data$CSU_dum_by <- NULL
   }  
- 
-  df_data <- data.frame(dt_data)
     
   if (Rcan_print) {
     temp <- last_age*5-1
@@ -787,6 +800,9 @@ core.csu_eapc <- function(df_data,
            var_eapc="eapc", 
            CI_level = 0.95)
 {
+
+    
+
     
     #create fake group to have group_by optional 
     bool_dum_by <- FALSE
@@ -808,8 +824,8 @@ core.csu_eapc <- function(df_data,
     temp_max <- max(dt_data$id_group)
     for (i in 1:temp_max) {
       suppressWarnings(
-        temp <- summary(glm(CSU_R ~ CSU_Y,
-                            family=poisson(link="log"),
+        temp <- summary(glm(log(CSU_R) ~ CSU_Y,
+                            family=gaussian(link = "identity"),
                             data=dt_data[dt_data$id_group  == i,] 
         )
         )
@@ -832,7 +848,14 @@ core.csu_eapc <- function(df_data,
     setnames(dt_data, "CSU_UP", paste(var_eapc, "up", sep="_"))
     setnames(dt_data, "CSU_LOW", paste(var_eapc, "low", sep="_"))
     
-    df_data <- data.frame(dt_data)
+    #manage data.table input and output
+    if (is.data.table(df_data)) 
+    {
+      df_data <- dt_data
+    } else {
+      df_data <- data.frame(dt_data)
+    }
+
     if (bool_dum_by) {
       df_data$CSU_dum_by <- NULL
     }
@@ -1785,7 +1808,15 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
     dt_data$CSU_dum_by <- NULL
   }
 
-  dt_data <- as.data.frame(dt_data)
+  #manage data.table input and output
+  if (is.data.table(df_data)) 
+  {
+    df_data <- dt_data
+  } else {
+    df_data <- data.frame(dt_data)
+  }
+
+
 
 
   return (dt_data)

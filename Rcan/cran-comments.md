@@ -6,4 +6,5 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-* Add cumulative risk calculation
+* Fixed EAPC calculation to get correct CI.
+* manage data.table input and output
