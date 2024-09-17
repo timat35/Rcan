@@ -8,6 +8,7 @@ library(grid)
 
 
 
+install.packages("devtools")
 
 pkg_folder <- ("c:/Projects/Rcan/Rcan")
 

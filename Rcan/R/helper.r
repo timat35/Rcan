@@ -1817,8 +1817,6 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
   }
 
 
-
-
-  return (dt_data)
+  return (df_data)
 }
 
