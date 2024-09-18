@@ -41,11 +41,11 @@ library(scales)
 
   # 
 
-  run_examples("C:/project/Rcan/Rcan")
-  check("C:/project/Rcan/Rcan") #local check
-  check_man("c:/project/Rcan/Rcan") #local check documentation
-  build("C:/project/Rcan/Rcan", path="C:/project/Rcan/release", manual = TRUE) # build package
-  build("C:/project/Rcan/Rcan",path="C:/project/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
+  run_examples(pkg_folder)
+  check(pkg_folder) #local check
+  check_man(pkg_folder) #local check documentation
+  build(pkg_folder, path="C:/project/Rcan/release", manual = TRUE) # build package
+  build(pkg_folder,path="C:/project/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 
 ## use rhub
 
@@ -56,10 +56,10 @@ library(scales)
 
 # post package on CRAN
 
-  spell_check_package("C:/project/Rcan/Rcan")
-  check_win_devel("C:/project/Rcan/Rcan") #build win check
-  release_checks("C:/project/Rcan/Rcan")
-  release("C:/project/Rcan/Rcan", check=FALSE)
+  spell_check_package(pkg_folder)
+  check_win_devel(pkg_folder) #build win check
+  release_checks(pkg_folder)
+  release(pkg_folder, check=FALSE)
 
 
 
