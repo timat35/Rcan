@@ -47,7 +47,7 @@ csu_eapc(df_data,
 	
 }
 \references{
-	\url{http://rht.iconcologia.net/stats/sart/eapc/eapc_method.pdf}
+	\url{https://regstattools.iconcologia.net/stats/sart/eapc/eapc_method.pdf}
 }
 \author{
 	Mathieu Laversanne

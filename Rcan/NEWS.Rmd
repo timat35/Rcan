@@ -1,6 +1,6 @@
 # Rcan news
 
-## 1.3.9
+## 1.3.90
 
 * Fixed EAPC calculation to get correct CI.
 * manage data.table input and output

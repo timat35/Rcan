@@ -5,7 +5,7 @@
 Cancer in five continent volume XII.
 }
 \description{
- CI5 XI summary database.
+ CI5 XII summary database.
 }
 \usage{data("csu_CI5XII_data")}
 \format{

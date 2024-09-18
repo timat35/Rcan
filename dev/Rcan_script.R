@@ -1,10 +1,11 @@
 
 # install dependant packages...
 
-install.packages("data.table")
-install.packages("ggplot2")
+# install.packages("data.table")
+# install.packages("ggplot2")
 
-install.packages("devtools")
+# install.packages("devtools")
+# install.packages("gitcreds")
 
 
 library(data.table)
@@ -41,13 +42,19 @@ setwd("C:/project/Rcan/")
   build("C:/project/Rcan/Rcan", path="C:/project/Rcan/release", manual = TRUE) # build package
   build("C:/project/Rcan/Rcan",path="C:/project/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 
+## use rhub
+
+  setwd(pkg_folder)
+  rhub::rhub_setup()
+
 # post package on CRAN
 
   spell_check_package("C:/project/Rcan/Rcan")
-  check_rhub("C:/project/Rcan/Rcan")
   check_win_devel("C:/project/Rcan/Rcan") #build win check
   release_checks("C:/project/Rcan/Rcan")
   release("C:/project/Rcan/Rcan", check=FALSE)
+
+
 
 #create dataset from shiny app
 

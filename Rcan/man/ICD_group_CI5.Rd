@@ -5,7 +5,7 @@
 	ICD10 group detailed example
 }
 \description{
-	ICD10 group example for the function \code{\link{csu_group_cases}} based on CI5XI ICD grouping
+	ICD10 group example for the function \code{\link{csu_group_cases}} based on CI5XII ICD grouping
 }
 \usage{data("ICD_group_CI5")}
 \format{
