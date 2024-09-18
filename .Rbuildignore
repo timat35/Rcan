@@ -4,3 +4,4 @@
 ^README-.*\.png$
 ^dev$
 ^release$
+^\.github$
