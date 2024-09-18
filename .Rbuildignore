@@ -2,3 +2,5 @@
 ^README\.Rmd$
 ^NEWS\.Rmd$
 ^README-.*\.png$
+^dev$
+^release$
