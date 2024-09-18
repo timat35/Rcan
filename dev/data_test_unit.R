@@ -87,24 +87,21 @@ temp <- csu_time_trend(df_asr, group_by="sex",logscale=TRUE,
 
 #create expect for csu_eapc 1
 
-data(csu_registry_data_2)
-
-data_test <- as.data.table(csu_registry_data_2)
-
-df_asr <- csu_asr(data_test, 
-                  "age", "cases", "py",
-                  group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
-                  var_age_group = c("registry_label", "year"), 
-                  missing_age = 99)
-
-df_asr <- df_asr[!is.nan(asr),]
-
-
-temp <- csu_eapc(df_asr,
+    data(csu_registry_data_2)
+  
+  #output result
+  data_test <- csu_asr(csu_registry_data_2, 
+                    "age", "cases", "py",
+                    group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
+                    var_age_group = c("registry_label", "year"), 
+                    missing_age = 99)
+  
+  output_test <- csu_eapc(data_test,
                    "asr", "year",
                    group_by=c("registry", "registry_label", "sex", "ethnic" ))
+  
 
 
-saveRDS(temp, paste0(pkg_folder,"/inst/testdata/csu_eapc_test1.rds"))
+    saveRDS(output_test, paste0(pkg_folder,"/inst/testdata/csu_eapc_test1.rds"))
 
 
