@@ -11,127 +11,137 @@ library(data.table)
 library(ggplot2)
 library(scales)
 
+setwd("C:/project/Rcan/")
 
 #update package (last stable version)
-detach(package:Rcan)
-remove.packages("Rcan")
-devtools::install_github("timat35/Rcan", subdir="Rcan")
+  detach(package:Rcan)
+  remove.packages("Rcan")
+  devtools::install_github("timat35/Rcan", subdir="Rcan")
 
 #update package (dev version)
-detach(package:Rcan)
-remove.packages("Rcan")
-devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
+  detach(package:Rcan)
+  remove.packages("Rcan")
+  devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 
 #run test unit
-library(Rcan)
-library("testthat")
-test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
+  pkg_folder <- ("c:/project/Rcan/Rcan")
+  devtools::test(pkg_folder)
+
 
 #check packages: (check need Roxygene) and built
 
-library(devtools)
-library(spelling)
+  library(devtools)
+  library(spelling)
 
-setwd("C:/Projects/Rcan/Rcan/inst/testdata")
+  # 
 
-run_examples("C:/Projects/Rcan/Rcan")
-check("C:/Projects/Rcan/Rcan") #local check
-check_man("C:/Projects/Rcan/Rcan") #local check documentation
-build("C:/Projects/Rcan/Rcan", path="C:/Projects/Rcan/release", manual = TRUE) # build package
-build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
+  run_examples("C:/project/Rcan/Rcan")
+  check("C:/project/Rcan/Rcan") #local check
+  check_man("c:/project/Rcan/Rcan") #local check documentation
+  build("C:/project/Rcan/Rcan", path="C:/project/Rcan/release", manual = TRUE) # build package
+  build("C:/project/Rcan/Rcan",path="C:/project/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 
 # post package on CRAN
 
-spell_check_package("C:/Projects/Rcan/Rcan")
-check_rhub("C:/Projects/Rcan/Rcan")
-check_win_devel("C:/Projects/Rcan/Rcan") #build win check
-release_checks("C:/Projects/Rcan/Rcan")
-release("C:/Projects/Rcan/Rcan", check=FALSE)
+  spell_check_package("C:/project/Rcan/Rcan")
+  check_rhub("C:/project/Rcan/Rcan")
+  check_win_devel("C:/project/Rcan/Rcan") #build win check
+  release_checks("C:/project/Rcan/Rcan")
+  release("C:/project/Rcan/Rcan", check=FALSE)
 
 #create dataset from shiny app
 
-library(data.table)
-app_folder <- "C:/Projects/Rcan/Shiny"
-csu_CI5X_data <- data.table(readRDS(paste0(app_folder, "/data/CI5X.rds")))
-setnames(csu_CI5X_data, "cancer_lab", "cancer_label")
-setnames(csu_CI5X_data, "registry_lab", "registry_label")
-setnames(csu_CI5X_data, "cancer", "cancer_code")
-setnames(csu_CI5X_data, "registry", "registry_code")
-csu_CI5X_data$sex <- factor(csu_CI5X_data$sex, levels=c(1,2), labels =c("Male", "Female"))
-save(csu_CI5X_data, file="csu_CI5X_data.rda")
+  library(data.table)
+  app_folder <- "C:/project/Rcan/Shiny"
+  csu_CI5X_data <- data.table(readRDS(paste0(app_folder, "/data/CI5X.rds")))
+  setnames(csu_CI5X_data, "cancer_lab", "cancer_label")
+  setnames(csu_CI5X_data, "registry_lab", "registry_label")
+  setnames(csu_CI5X_data, "cancer", "cancer_code")
+  setnames(csu_CI5X_data, "registry", "registry_code")
+  csu_CI5X_data$sex <- factor(csu_CI5X_data$sex, levels=c(1,2), labels =c("Male", "Female"))
+  save(csu_CI5X_data, file="csu_CI5X_data.rda")
 
 #CI5 comparaison add checking variable
 
-rcan_folder <- "c:/Projects/Rcan"
+  rcan_folder <- "c:/project/Rcan"
 
 
 
-library(Rcan)
-library(data.table)
-library(ggplot2)
-library(grid)
+  library(Rcan)
+  library(data.table)
+  library(ggplot2)
+  library(grid)
 
 
-source(paste0(rcan_folder, "/Rcan/R/helper.r"))
-source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_eapc.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_asr.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_trend_legend.r"))
-#source(paste0(rcan_folder, "/Rcan/R/csu_trendCohortPeriod.r"))
+  source(paste0(rcan_folder, "/Rcan/R/helper.r"))
+  source(paste0(rcan_folder, "/Rcan/R/csu_ageSpecific.r"))
+  #source(paste0(rcan_folder, "/Rcan/R/csu_trend.r"))
+  #source(paste0(rcan_folder, "/Rcan/R/csu_eapc.r"))
+  #source(paste0(rcan_folder, "/Rcan/R/csu_asr.r"))
+  #source(paste0(rcan_folder, "/Rcan/R/csu_trend_legend.r"))
+  #source(paste0(rcan_folder, "/Rcan/R/csu_trendCohortPeriod.r"))
 
-getOption("repos")
+  getOption("repos")
 
-library(data.table)
+  library(data.table)
 
 # create CI5 mean data for age specific function 
-View(CI5_base)  
+  View(CI5_base)  
 
-CI5_base <- as.data.table(read.csv("C:/Data/CI5XI/CI5XI_country.csv"))
+  CI5_base <- fread("C:/Data/CI5XI/CI5XI_country.csv")
+  names(CI5_base)
 
-setkeyv(CI5_base, c("country_label", "cancer","sex", "age"))
-#select country with population at 85+ 
-CI5_base <- CI5_base[age < 19,]
-CI5_base[,temp:=min(py), by=country_code]
-CI5_base <- CI5_base[temp > 0,]
-CI5_base <- CI5_base[,.(CSU_C=sum(cases), CSU_P=sum(py)), by=c("cancer", "cancer_lab", "age")]
+  CI5_base <- fread("C:/Data/central/CI5XII/summary/data_country.csv")
 
-setnames(CI5_base, "cancer_lab", "ci5_cancer_label")
-setnames(CI5_base, "cancer", "ci5_cancer_code")
-setnames(CI5_base, "age", "CSU_age_factor")
+  setkeyv(CI5_base, c("id_code", "cancer_code","sex", "age"))
 
-# drop some cancer sites
-CI5_base <- CI5_base[!ci5_cancer_code %in% c(22,34,36,41,46,61),]
+  #select country with population at 85+ 
+  CI5_base <- CI5_base[age < 19,]
+  CI5_base[,temp:=min(py), by=id_code]
+  CI5_base <- CI5_base[temp > 0,]
+  CI5_base <- CI5_base[,.(CSU_C=sum(cases), CSU_P=sum(py)), by=c("cancer_code", "age")]
 
-#rename some cancer site
-CI5_base[ci5_cancer_code == 17,ci5_cancer_label := "Gallbladder"]
-CI5_base[ci5_cancer_code == 19,ci5_cancer_label := "Nose, sinuses"]
-CI5_base[ci5_cancer_code == 21,ci5_cancer_label := "Lung"]
+  CI5_cancer_dict <- fread("C:/Data/central/CI5XII/summary/cancer_dict.csv")[, .(cancer_code, cancer_label)]
 
-write.csv(unique(CI5_base[, c("ci5_cancer_code", "ci5_cancer_label"), with=FALSE]), "temp.csv",row.names=FALSE )
-nrow(CI5_base)
+    ## get cancer_lab
+  CI5_base <- merge(CI5_base, CI5_cancer_dict, by=c("cancer_code"))
 
-csu_ci5_mean <- CI5_base
-save(csu_ci5_mean, file = "csu_ci5_mean.rda")
+  setnames(CI5_base, "cancer_code", "ci5_cancer_code")
+  setnames(CI5_base, "age", "CSU_age_factor")
+  setnames(CI5_base, "cancer_label", "ci5_cancer_label")
 
-csu_CI5XI_data <- as.data.table(readRDS("C:/Data/CI5XI/CI5XI.rds"))
+  # drop some cancer sites
+  CI5_base <- CI5_base[!ci5_cancer_code %in% c(22,34,36,41,46,61),]
 
-csu_CI5XI_data$notes <- NULL
-csu_CI5XI_data$total <- NULL
-csu_CI5XI_data$n_agr <- NULL
-nrow(csu_CI5XI_data)
-setnames(csu_CI5XI_data, "registry", "registry_code")
-setnames(csu_CI5XI_data, "registry_lab", "registry_label")
-setnames(csu_CI5XI_data, "cancer", "cancer_code")
-setnames(csu_CI5XI_data, "cancer_lab", "cancer_label")
+  #rename some cancer site
+  CI5_base[ci5_cancer_code == 17,ci5_cancer_label := "Gallbladder"]
+  CI5_base[ci5_cancer_code == 19,ci5_cancer_label := "Nose, sinuses"]
+  CI5_base[ci5_cancer_code == 21,ci5_cancer_label := "Lung"]
 
-csu_CI5XI_data[, CI5_continent:=as.integer(CI5_continent)]
-csu_CI5XI_data[, ethnic_group:=as.integer(ethnic_group)]
+  write.csv(unique(CI5_base[, c("ci5_cancer_code", "ci5_cancer_label"), with=FALSE]), "temp.csv",row.names=FALSE )
+  nrow(CI5_base)
 
-str(csu_CI5XI_data)
-View(csu_CI5XI_data)  
+  csu_ci5_mean <- CI5_base
+  save(csu_ci5_mean, file = "Rcan/data/csu_ci5_mean.rda")
 
-save(csu_CI5XI_data, file = "csu_CI5XI_data.rda")
+  ###
+  data("csu_CI5XI_data")
+
+  old <- copy(csu_CI5XI_data)
+
+  csu_CI5XII_data <- fread("C:/Data/central/CI5XII/summary/data.csv")
+
+  temp <- fread("C:/Data/central/CI5XII/summary/cancer_dict.csv")[, .(cancer_code, cancer_label)]
+  csu_CI5XII_data <- merge(csu_CI5XII_data, temp, by=c("cancer_code"))
+
+  temp <- fread("C:/Data/central/CI5XII/summary/id_dict.csv",  encoding="Latin-1")[, .(id_code, id_label, country_code, ethnic_code, period)]
+  csu_CI5XII_data <- merge(csu_CI5XII_data, temp, by=c("id_code"))
+
+  setcolorder(csu_CI5XII_data, c("id_code", "id_label", "country_code", "ethnic_code", "cancer_code", "cancer_label"))
+
+  save(csu_CI5XII_data, file = "Rcan/data/csu_CI5XII_data.rda")
+
+
 # example csu_cases_group--------
 
   data(ICD_group_GLOBOCAN)
@@ -279,71 +289,71 @@ save(csu_CI5XI_data, file = "csu_CI5XI_data.rda")
 
   # example bar top
 
-  data(data_individual_file)
-  data(csu_registry_data_2)
+    data(data_individual_file)
+    data(csu_registry_data_2)
 
-  # you can import your data from csv file using read.csv:
-  # mydata <-  read.csv("mydata.csv", sep=",")
-     
-  # ASR
-  result <- csu_asr(csu_registry_data_1, 
-                    "age", "cases", "py",
-                    group_by = c("registry", "registry_label" ),
-                    var_age_group = c("registry_label"))
+    # you can import your data from csv file using read.csv:
+    # mydata <-  read.csv("mydata.csv", sep=",")
+       
+    # ASR
+    result <- csu_asr(csu_registry_data_1, 
+                      "age", "cases", "py",
+                      group_by = c("registry", "registry_label" ),
+                      var_age_group = c("registry_label"))
 
-  result <- result[]
+    result <- result[]
 
-  df_asr_male <- df_asr[dcasasr$sex==1,]
-
-
-  data <- csu_bar_top(
-     dcasasr_male,
-     var_value="cases",
-     var_bar="LABEL",
-     nb_top = 10,
-     plot_title = "Top 10 cancer sites",
-     xtitle= "Number of cases",
-     color= c("#2c7bb6"),
-     digits=0) 
-
-  color_test <- read.csv("temp_color.csv")
-  dcasasr_male <- merge(dcasasr_male, color_test, by="LABEL")
-
-  data <- csu_bar_top(
-     dcasasr_male,
-     var_value="cases",
-     var_bar="LABEL",
-     nb_top = 10,
-     plot_title = "Top 10 cancer sites",
-     xtitle= "Number of cases",
-     color="hex_color",
-     digits=0) 
+    df_asr_male <- df_asr[dcasasr$sex==1,]
 
 
+    data <- csu_bar_top(
+       dcasasr_male,
+       var_value="cases",
+       var_bar="LABEL",
+       nb_top = 10,
+       plot_title = "Top 10 cancer sites",
+       xtitle= "Number of cases",
+       color= c("#2c7bb6"),
+       digits=0) 
 
-  data2 <- csu_bar_top(
-     dcasasr,
-     var_value="cases",
-     var_bar="LABEL",
-     group_by="sex",
-     nb_top = 15,
-     plot_title = "Top 15 cancer sites",
-     xtitle= "Number of cases",
-     label_by=c("Male", "Female"),
-     color = c("#2c7bb6","#b62ca1"),
-     digits=0) 
+    color_test <- read.csv("temp_color.csv")
+    dcasasr_male <- merge(dcasasr_male, color_test, by="LABEL")
 
-  data2 <- csu_bar_top(
-     dcasasr,
-     var_value="asr",
-     var_bar="LABEL",
-     group_by="sex",
-     nb_top = 10,
-     plot_title = "Top 10 cancer sites",
-     xtitle= "Age-standardized rate per 100,00",
-     label_by=c("Male", "Female"),
-     color = c("#2c7bb6","#b62ca1"),
-     digits=1)
+    data <- csu_bar_top(
+       dcasasr_male,
+       var_value="cases",
+       var_bar="LABEL",
+       nb_top = 10,
+       plot_title = "Top 10 cancer sites",
+       xtitle= "Number of cases",
+       color="hex_color",
+       digits=0) 
+
+
+
+    data2 <- csu_bar_top(
+       dcasasr,
+       var_value="cases",
+       var_bar="LABEL",
+       group_by="sex",
+       nb_top = 15,
+       plot_title = "Top 15 cancer sites",
+       xtitle= "Number of cases",
+       label_by=c("Male", "Female"),
+       color = c("#2c7bb6","#b62ca1"),
+       digits=0) 
+
+    data2 <- csu_bar_top(
+       dcasasr,
+       var_value="asr",
+       var_bar="LABEL",
+       group_by="sex",
+       nb_top = 10,
+       plot_title = "Top 10 cancer sites",
+       xtitle= "Age-standardized rate per 100,00",
+       label_by=c("Male", "Female"),
+       color = c("#2c7bb6","#b62ca1"),
+       digits=1)
 
 
 

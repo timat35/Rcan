@@ -606,7 +606,14 @@ core.csu_asr <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
 
   }
 
-  df_data <- data.frame(dt_data)
+  #manage data.table input and output
+  if (is.data.table(df_data)) 
+  {
+    df_data <- dt_data
+  } else {
+    df_data <- data.frame(dt_data)
+  }
+
   
   if (bool_dum_age) {
     df_data$CSU_dum_age <- NULL
@@ -763,11 +770,17 @@ core.csu_cumrisk <- function(df_data, var_age, var_cases, var_py, group_by=NULL,
   setnames(dt_data, "CSU_C", var_cases)
   setnames(dt_data,  "CSU_P", var_py)
 
+   #manage data.table input and output
+  if (is.data.table(df_data)) 
+  {
+    df_data <- dt_data
+  } else {
+    df_data <- data.frame(dt_data)
+  }
+
   if (bool_dum_by) {
     df_data$CSU_dum_by <- NULL
   }  
- 
-  df_data <- data.frame(dt_data)
     
   if (Rcan_print) {
     temp <- last_age*5-1
@@ -787,6 +800,10 @@ core.csu_eapc <- function(df_data,
            var_eapc="eapc", 
            CI_level = 0.95)
 {
+
+    
+  
+
     
     #create fake group to have group_by optional 
     bool_dum_by <- FALSE
@@ -799,21 +816,25 @@ core.csu_eapc <- function(df_data,
     }
     
     dt_data <- data.table(df_data, key = c(group_by)) 
+
+   
     
     setnames(dt_data, var_rate, "CSU_R")
     setnames(dt_data, var_year, "CSU_Y")
-    
+
+    # remove 0 data
+    dt_data <- dt_data[!CSU_R == 0,]
+
     dt_data[, id_group:=.GRP, by=group_by]
     
     temp_max <- max(dt_data$id_group)
     for (i in 1:temp_max) {
-      suppressWarnings(
-        temp <- summary(glm(CSU_R ~ CSU_Y,
-                            family=poisson(link="log"),
-                            data=dt_data[dt_data$id_group  == i,] 
-        )
-        )
-      )
+      
+      temp <- summary(glm(log(CSU_R) ~ CSU_Y,
+                          family=gaussian(link = "identity"),
+                          data=dt_data[dt_data$id_group  == i,] 
+      ))
+      
       dt_data[dt_data$id_group  == i, CSU_EAPC:=temp$coefficients[[2]]]
       dt_data[dt_data$id_group  == i, CSU_ST:=temp$coefficients[[4]]]
       
@@ -832,7 +853,14 @@ core.csu_eapc <- function(df_data,
     setnames(dt_data, "CSU_UP", paste(var_eapc, "up", sep="_"))
     setnames(dt_data, "CSU_LOW", paste(var_eapc, "low", sep="_"))
     
-    df_data <- data.frame(dt_data)
+    #manage data.table input and output
+    if (is.data.table(df_data)) 
+    {
+      df_data <- dt_data
+    } else {
+      df_data <- data.frame(dt_data)
+    }
+
     if (bool_dum_by) {
       df_data$CSU_dum_by <- NULL
     }
@@ -1059,7 +1087,7 @@ core.csu_ageSpecific <-function(df_data,
       
       base_plot <- base_plot + 
         geom_line(data = dt_CI5,
-                  size = 1,
+                  linewidth = 1,
                   linetype=2,
                   colour = "grey50", 
                   show.legend=FALSE)
@@ -1068,7 +1096,7 @@ core.csu_ageSpecific <-function(df_data,
     
     
     csu_plot <- base_plot+
-      geom_line(aes(color=CSU_BY), size = 1,na.rm=TRUE)+
+      geom_line(aes(color=CSU_BY), linewidth = 1,na.rm=TRUE)+
       guides(color = guide_legend(override.aes = list(size=0.75)))+
       labs(title = plot_title,
            subtitle = plot_subtitle,
@@ -1121,12 +1149,12 @@ core.csu_ageSpecific <-function(df_data,
         plot.margin=margin(20,20,20,20),
         axis.text = element_text(size=14, colour = "black"),
         axis.text.x = element_text(size=14, angle = 60,  hjust = 1),
-        axis.ticks= element_line(colour = "black", size = linesize),
+        axis.ticks= element_line(colour = "black", linewidth = linesize),
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.x = element_line(colour = "black", 
-                                   size = linesize, linetype = "solid"),
+                                   linewidth = linesize, linetype = "solid"),
         axis.line.y = element_line(colour = "black", 
-                                   size = linesize, linetype = "solid")
+                                   linewidth = linesize, linetype = "solid")
       )+
       th_legend
     
@@ -1449,7 +1477,7 @@ core.csu_time_trend <- function (
   }
   
   csu_plot <- base_plot+
-    geom_line(aes(color=CSU_BY), size = 0.75,na.rm=TRUE)+
+    geom_line(aes(color=CSU_BY), linewidth = 0.75,na.rm=TRUE)+
     guides(color = guide_legend(override.aes = list(size=0.75)))+
     labs(title = plot_title, 
          subtitle = plot_subtitle,
@@ -1508,12 +1536,12 @@ core.csu_time_trend <- function (
       plot.margin=margin(20,20,20,20),
       axis.text = element_text(size=12, colour = "black"),
       axis.text.x = element_text(size=12,  hjust = 0.5),
-      axis.ticks= element_line(colour = "black", size = linesize),
+      axis.ticks= element_line(colour = "black", linewidth = linesize),
       axis.ticks.length = unit(0.2, "cm"),
       axis.line.x = element_line(colour = "black", 
-                                 size = linesize, linetype = "solid"),
+                                 linewidth = linesize, linetype = "solid"),
       axis.line.y = element_line(colour = "black", 
-                                 size = linesize, linetype = "solid")
+                                 linewidth = linesize, linetype = "solid")
     )+
     th_legend
   
@@ -1785,9 +1813,15 @@ core.csu_group_cases <- function(df_data, var_age ,group_by=NULL,var_cases = NUL
     dt_data$CSU_dum_by <- NULL
   }
 
-  dt_data <- as.data.frame(dt_data)
+  #manage data.table input and output
+  if (is.data.table(df_data)) 
+  {
+    df_data <- dt_data
+  } else {
+    df_data <- data.frame(dt_data)
+  }
 
 
-  return (dt_data)
+  return (df_data)
 }
 
