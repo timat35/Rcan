@@ -5,7 +5,7 @@
 cancer registry data 
 }
 \description{
-CI5 XI data, all population grouped.   
+CI5 XII data, all population grouped.   
 }
 \usage{data("csu_ci5_mean")}
 \format{
@@ -20,7 +20,7 @@ CI5 XI data, all population grouped.
   }
 }
 \details{
-This dataset have been created in order to compare age specific rate with the CI5XI mean directly on the age specific rate graph.
+This dataset have been created in order to compare age specific rate with the CI5XII mean directly on the age specific rate graph.
 Here is the table of cancer_label and cancer_code available:
 \tabular{ll}{
 	ci5_cancer_code \tab ci5_cancer_label \cr

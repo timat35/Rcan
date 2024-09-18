@@ -1081,7 +1081,7 @@ core.csu_ageSpecific <-function(df_data,
       }
       
       if(is.null(plot_caption)) {
-        plot_caption <- paste0("- - - - - - : Mean for ",CI5_cancer_label," cancer in CI5 XI")
+        plot_caption <- paste0("- - - - - - : Mean for ",CI5_cancer_label," cancer in CI5 XII")
       }
       
       
