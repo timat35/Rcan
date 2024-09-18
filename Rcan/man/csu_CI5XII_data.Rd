@@ -14,7 +14,7 @@ Cancer in five continent volume XII.
   	\item{\code{id_code}}{population code (integer)}
     \item{\code{id_label}}{population label (character)}
     \item{\code{country_code}}{UN country code (integer)}
-    \item{\code{ethnic_group}}{ethnic code (integer)}
+    \item{\code{ethnic_code}}{ethnic code (integer)}
     \item{\code{cancer_code}}{cancer code (integer)}
     \item{\code{cancer_label}}{cancer label (character)}
     \item{\code{sex}}{sex (integer)}
@@ -75,7 +75,7 @@ dt_result_1 <- csu_ageSpecific_top(df_data_1,
 
 \donttest{					
 #select USA
-df_data_2 <- subset(df_data,id_code== 384008099 & ethnic_group == 99)
+df_data_2 <- subset(df_data,id_code== 384008099 & ethnic_code == 99)
 
 dt_result_2 <- csu_ageSpecific_top(df_data_2,
                                    var_age="age", 
