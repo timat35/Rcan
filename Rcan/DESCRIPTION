@@ -26,4 +26,4 @@ Imports:
 	graphics,
 	utils
 Suggests: testthat
-RoxygenNote: 7.1.0
+RoxygenNote: 7.3.2

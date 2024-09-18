@@ -8,3 +8,5 @@ There were no ERRORs, WARNINGs or NOTEs.
 ## News
 * Fixed EAPC calculation to get correct CI.
 * manage data.table input and output
+* update deprecated "size" with "linewidth"
+* update CI5XI data to CI5XII data

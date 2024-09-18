@@ -11,6 +11,7 @@ library(data.table)
 library(ggplot2)
 library(scales)
 
+setwd("C:/project/Rcan/")
 
 #update package (last stable version)
   detach(package:Rcan)
@@ -23,35 +24,35 @@ library(scales)
   devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 
 #run test unit
-  library(Rcan)
-  library("testthat")
-  test_dir("C:/Projects/Rcan/Rcan/tests/testthat")
+  pkg_folder <- ("c:/project/Rcan/Rcan")
+  devtools::test(pkg_folder)
+
 
 #check packages: (check need Roxygene) and built
 
   library(devtools)
   library(spelling)
 
-  setwd("C:/Projects/Rcan/Rcan/inst/testdata")
+  # 
 
-  run_examples("C:/Projects/Rcan/Rcan")
-  check("C:/Projects/Rcan/Rcan") #local check
-  check_man("C:/Projects/Rcan/Rcan") #local check documentation
-  build("C:/Projects/Rcan/Rcan", path="C:/Projects/Rcan/release", manual = TRUE) # build package
-  build("C:/Projects/Rcan/Rcan",path="C:/Projects/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
+  run_examples("C:/project/Rcan/Rcan")
+  check("C:/project/Rcan/Rcan") #local check
+  check_man("C:/project/Rcan/Rcan") #local check documentation
+  build("C:/project/Rcan/Rcan", path="C:/project/Rcan/release", manual = TRUE) # build package
+  build("C:/project/Rcan/Rcan",path="C:/project/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 
 # post package on CRAN
 
-  spell_check_package("C:/Projects/Rcan/Rcan")
-  check_rhub("C:/Projects/Rcan/Rcan")
-  check_win_devel("C:/Projects/Rcan/Rcan") #build win check
-  release_checks("C:/Projects/Rcan/Rcan")
-  release("C:/Projects/Rcan/Rcan", check=FALSE)
+  spell_check_package("C:/project/Rcan/Rcan")
+  check_rhub("C:/project/Rcan/Rcan")
+  check_win_devel("C:/project/Rcan/Rcan") #build win check
+  release_checks("C:/project/Rcan/Rcan")
+  release("C:/project/Rcan/Rcan", check=FALSE)
 
 #create dataset from shiny app
 
   library(data.table)
-  app_folder <- "C:/Projects/Rcan/Shiny"
+  app_folder <- "C:/project/Rcan/Shiny"
   csu_CI5X_data <- data.table(readRDS(paste0(app_folder, "/data/CI5X.rds")))
   setnames(csu_CI5X_data, "cancer_lab", "cancer_label")
   setnames(csu_CI5X_data, "registry_lab", "registry_label")
@@ -62,7 +63,7 @@ library(scales)
 
 #CI5 comparaison add checking variable
 
-  rcan_folder <- "c:/Projects/Rcan"
+  rcan_folder <- "c:/project/Rcan"
 
 
 
@@ -87,18 +88,27 @@ library(scales)
 # create CI5 mean data for age specific function 
   View(CI5_base)  
 
-  CI5_base <- as.data.table(read.csv("C:/Data/CI5XI/CI5XI_country.csv"))
+  CI5_base <- fread("C:/Data/CI5XI/CI5XI_country.csv")
+  names(CI5_base)
 
-  setkeyv(CI5_base, c("country_label", "cancer","sex", "age"))
+  CI5_base <- fread("C:/Data/central/CI5XII/summary/data_country.csv")
+
+  setkeyv(CI5_base, c("id_code", "cancer_code","sex", "age"))
+
   #select country with population at 85+ 
   CI5_base <- CI5_base[age < 19,]
-  CI5_base[,temp:=min(py), by=country_code]
+  CI5_base[,temp:=min(py), by=id_code]
   CI5_base <- CI5_base[temp > 0,]
-  CI5_base <- CI5_base[,.(CSU_C=sum(cases), CSU_P=sum(py)), by=c("cancer", "cancer_lab", "age")]
+  CI5_base <- CI5_base[,.(CSU_C=sum(cases), CSU_P=sum(py)), by=c("cancer_code", "age")]
 
-  setnames(CI5_base, "cancer_lab", "ci5_cancer_label")
-  setnames(CI5_base, "cancer", "ci5_cancer_code")
+  CI5_cancer_dict <- fread("C:/Data/central/CI5XII/summary/cancer_dict.csv")[, .(cancer_code, cancer_label)]
+
+    ## get cancer_lab
+  CI5_base <- merge(CI5_base, CI5_cancer_dict, by=c("cancer_code"))
+
+  setnames(CI5_base, "cancer_code", "ci5_cancer_code")
   setnames(CI5_base, "age", "CSU_age_factor")
+  setnames(CI5_base, "cancer_label", "ci5_cancer_label")
 
   # drop some cancer sites
   CI5_base <- CI5_base[!ci5_cancer_code %in% c(22,34,36,41,46,61),]
@@ -112,26 +122,24 @@ library(scales)
   nrow(CI5_base)
 
   csu_ci5_mean <- CI5_base
-  save(csu_ci5_mean, file = "csu_ci5_mean.rda")
+  save(csu_ci5_mean, file = "Rcan/data/csu_ci5_mean.rda")
 
-  csu_CI5XI_data <- as.data.table(readRDS("C:/Data/CI5XI/CI5XI.rds"))
+  ###
+  data("csu_CI5XI_data")
 
-  csu_CI5XI_data$notes <- NULL
-  csu_CI5XI_data$total <- NULL
-  csu_CI5XI_data$n_agr <- NULL
-  nrow(csu_CI5XI_data)
-  setnames(csu_CI5XI_data, "registry", "registry_code")
-  setnames(csu_CI5XI_data, "registry_lab", "registry_label")
-  setnames(csu_CI5XI_data, "cancer", "cancer_code")
-  setnames(csu_CI5XI_data, "cancer_lab", "cancer_label")
+  old <- copy(csu_CI5XI_data)
 
-  csu_CI5XI_data[, CI5_continent:=as.integer(CI5_continent)]
-  csu_CI5XI_data[, ethnic_group:=as.integer(ethnic_group)]
+  csu_CI5XII_data <- fread("C:/Data/central/CI5XII/summary/data.csv")
 
-  str(csu_CI5XI_data)
-  View(csu_CI5XI_data)  
+  temp <- fread("C:/Data/central/CI5XII/summary/cancer_dict.csv")[, .(cancer_code, cancer_label)]
+  csu_CI5XII_data <- merge(csu_CI5XII_data, temp, by=c("cancer_code"))
 
-  save(csu_CI5XI_data, file = "csu_CI5XI_data.rda")
+  temp <- fread("C:/Data/central/CI5XII/summary/id_dict.csv",  encoding="Latin-1")[, .(id_code, id_label, country_code, ethnic_code, period)]
+  csu_CI5XII_data <- merge(csu_CI5XII_data, temp, by=c("id_code"))
+
+  setcolorder(csu_CI5XII_data, c("id_code", "id_label", "country_code", "ethnic_code", "cancer_code", "cancer_label"))
+
+  save(csu_CI5XII_data, file = "Rcan/data/csu_CI5XII_data.rda")
 
 
 # example csu_cases_group--------

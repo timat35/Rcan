@@ -112,20 +112,20 @@ csu_ageSpecific_top(df_data,
 \examples{
 
 library(Rcan)
-data("csu_CI5XI_data")
+data("csu_CI5XII_data")
 
-#get the registry code asssociate to registry_label
-#print(unique(csu_CI5XI_data[,c("registry_label", "registry_code")]),nrows = 1000)
+#get the id_code asssociate to id_label
+#print(unique(csu_CI5XII_data[,c("id_label", "id_code")]),nrows = 1000)
 
 #get the cancer code asssociate to cancer_label
-#print(unique(csu_CI5XI_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
+#print(unique(csu_CI5XII_data[,c("cancer_label", "cancer_code")]),nrows = 1000)
 
 #remove all cancers:
-df_data <- subset(csu_CI5XI_data ,cancer_code < 62)
+df_data <- subset(csu_CI5XII_data ,cancer_code < 62)
 df_data$sex <- factor(df_data$sex, levels=c(1,2), labels=c("Male", "Female"))
 
 #select Thailand changmai
-df_data_1 <- subset(df_data, registry_code==764001)
+df_data_1 <- subset(df_data, id_code==476400199)
 
 
 # plot for Thailand Changmai
@@ -143,7 +143,7 @@ dt_result_1 <-
 \donttest{
 
 	#select USAm NPCR
-	df_data_2 <- subset(df_data,registry_code== 840000 & ethnic_group == 99)
+	df_data_2 <- subset(df_data,id_code== 384008099)
 
 
 	# plot for USA NPCR
