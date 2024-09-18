@@ -125,7 +125,7 @@ csu_time_trend(df_data,
 			  smoothing = 0.5)
 
 	# Plot embedded in a graphic device
-	pdf("test.pdf",width = 11.692 , height =  8.267) 
+	pdf(paste0(tempdir(),"/test.pdf"),width = 11.692 , height =  8.267) 
 	csu_time_trend(df_asr, group_by="sex",
 			  plot_title = "Colombia, Liver",
 			  smoothing = 0.3)

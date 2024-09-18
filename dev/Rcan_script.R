@@ -50,7 +50,9 @@ library(scales)
 ## use rhub
 
   setwd(pkg_folder)
-  rhub::rhub_setup()
+  # rhub::rhub_setup()
+  rhub::rhub_doctor()
+  rhub::rhub_check()
 
 # post package on CRAN
 
@@ -418,7 +420,7 @@ library(scales)
 
 
   # Plot embedded in a graphic device
-  pdf("test.pdf",width = 11.692 , height =  8.267) 
+  pdf(paste0(tempdir(),"/test.pdf"),width = 11.692 , height =  8.267) 
 
 
   csu_ageSpecific(csu_registry_data_1,
@@ -543,7 +545,7 @@ library(scales)
             smoothing = 0.5)
 
   # Plot embedded in a graphic device
-  pdf("example_test.pdf")
+  pdf(paste0(tempdir(),"/example_test.pdf"))
   csu_time_trend(df_asr, group_by="sex",
             plot_title = "Colombia, Liver",
             smoothing = 0.3)

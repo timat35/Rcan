@@ -190,7 +190,7 @@ csu_trendCohortPeriod(
 						  year_group = 2)
 						  
 	# Plot embedded in a graphic device
-	pdf("example_test.pdf")
+	pdf(paste0(tempdir(),"/example_test.pdf"))
 	csu_trendCohortPeriod(df_data=test,
                         missing_age =99,
                         plot_title = "USA, Liver, males",

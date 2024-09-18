@@ -156,7 +156,7 @@ csu_ageSpecific(
 
 
 # Plot embedded in a graphic device
-pdf("test.pdf",width = 11.692 , height =  8.267) 
+pdf(paste0(tempdir(),"/test.pdf"),width = 11.692 , height =  8.267) 
 
 
 csu_ageSpecific(
