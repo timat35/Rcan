@@ -22,10 +22,7 @@ library(Rcan)
 
 devtools::test(pkg_folder)
 
-
-
-
-# create expect reusult for csu_asr 1
+# create expect result for csu_asr 1
     data_test <-  read.csv(paste0(rcan_folder,"/data_test/data_cervix.csv"), sep=",")
     df_asr <- csu_asr(data_test,missing_age = 19,
                       group_by  = c("country", "country_label", "year", "sex","type"),

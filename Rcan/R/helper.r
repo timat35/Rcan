@@ -1087,7 +1087,7 @@ core.csu_ageSpecific <-function(df_data,
       
       base_plot <- base_plot + 
         geom_line(data = dt_CI5,
-                  size = 1,
+                  linewidth = 1,
                   linetype=2,
                   colour = "grey50", 
                   show.legend=FALSE)
@@ -1096,7 +1096,7 @@ core.csu_ageSpecific <-function(df_data,
     
     
     csu_plot <- base_plot+
-      geom_line(aes(color=CSU_BY), size = 1,na.rm=TRUE)+
+      geom_line(aes(color=CSU_BY), linewidth = 1,na.rm=TRUE)+
       guides(color = guide_legend(override.aes = list(size=0.75)))+
       labs(title = plot_title,
            subtitle = plot_subtitle,
@@ -1149,12 +1149,12 @@ core.csu_ageSpecific <-function(df_data,
         plot.margin=margin(20,20,20,20),
         axis.text = element_text(size=14, colour = "black"),
         axis.text.x = element_text(size=14, angle = 60,  hjust = 1),
-        axis.ticks= element_line(colour = "black", size = linesize),
+        axis.ticks= element_line(colour = "black", linewidth = linesize),
         axis.ticks.length = unit(0.2, "cm"),
         axis.line.x = element_line(colour = "black", 
-                                   size = linesize, linetype = "solid"),
+                                   linewidth = linesize, linetype = "solid"),
         axis.line.y = element_line(colour = "black", 
-                                   size = linesize, linetype = "solid")
+                                   linewidth = linesize, linetype = "solid")
       )+
       th_legend
     
@@ -1477,7 +1477,7 @@ core.csu_time_trend <- function (
   }
   
   csu_plot <- base_plot+
-    geom_line(aes(color=CSU_BY), size = 0.75,na.rm=TRUE)+
+    geom_line(aes(color=CSU_BY), linewidth = 0.75,na.rm=TRUE)+
     guides(color = guide_legend(override.aes = list(size=0.75)))+
     labs(title = plot_title, 
          subtitle = plot_subtitle,
@@ -1536,12 +1536,12 @@ core.csu_time_trend <- function (
       plot.margin=margin(20,20,20,20),
       axis.text = element_text(size=12, colour = "black"),
       axis.text.x = element_text(size=12,  hjust = 0.5),
-      axis.ticks= element_line(colour = "black", size = linesize),
+      axis.ticks= element_line(colour = "black", linewidth = linesize),
       axis.ticks.length = unit(0.2, "cm"),
       axis.line.x = element_line(colour = "black", 
-                                 size = linesize, linetype = "solid"),
+                                 linewidth = linesize, linetype = "solid"),
       axis.line.y = element_line(colour = "black", 
-                                 size = linesize, linetype = "solid")
+                                 linewidth = linesize, linetype = "solid")
     )+
     th_legend
   
