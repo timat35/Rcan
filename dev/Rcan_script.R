@@ -37,7 +37,7 @@ setwd("C:/project/Rcan/")
 
   run_examples("C:/project/Rcan/Rcan")
   check("C:/project/Rcan/Rcan") #local check
-  check_man("C:/project/Rcan/Rcan") #local check documentation
+  check_man("c:/project/Rcan/Rcan") #local check documentation
   build("C:/project/Rcan/Rcan", path="C:/project/Rcan/release", manual = TRUE) # build package
   build("C:/project/Rcan/Rcan",path="C:/project/canreg5/conf/tables/r/r-packages", manual = TRUE) # build package for canreg
 
