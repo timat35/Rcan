@@ -7,9 +7,6 @@ library(data.table)
 library(grid)
 
 
-
-install.packages("devtools")
-
 pkg_folder <- ("c:/project/Rcan/Rcan")
 
 library(devtools)
@@ -17,7 +14,9 @@ library(devtools)
 #update package (dev version)
 detach(package:Rcan)
 remove.packages("Rcan")
-devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
+
+devtools::install(pkg_folder)
+# devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 
 library(Rcan)
 

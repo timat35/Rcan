@@ -141,7 +141,7 @@ test_that("Test eapc: 1",{
   data_test <- csu_asr(csu_registry_data_2, 
                     "age", "cases", "py",
                     group_by = c("registry", "registry_label", "sex", "year", "ethnic" ),
-                    var_age_group = c("registry_label"), 
+                    var_age_group = c("registry_label", "year"), 
                     missing_age = 99)
   
   output_test <- csu_eapc(data_test,
