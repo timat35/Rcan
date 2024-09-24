@@ -38,8 +38,9 @@ csu_eapc(df_data,
 }
 \details{
 	This function use Generalized Linear Model (GLM):\cr
-	glm(rate ~ year, family=poisson(link="log")). \cr 
-	We use the poisson family instead of Gaussian, so we can compute EAPC even if the is a rate of 0.
+	glm(log(rate) ~ year, family=gaussian(link = "identity")). \cr 
+	0 value are ignored. More details in reference below.\cr
+
 	
 }
 \value{

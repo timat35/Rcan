@@ -17,7 +17,7 @@ library(data.table)
 library(ggplot2)
 library(scales)
 
-
+  pkg_folder <- ("c:/project/Rcan")
 
 #update package (last stable version)
   detach(package:Rcan)
@@ -30,7 +30,7 @@ library(scales)
   devtools::install_github("timat35/Rcan", ref = "dev", subdir="Rcan")
 
 #run test unit
-  pkg_folder <- ("c:/project/Rcan")
+  
   devtools::test(pkg_folder)
 
 
