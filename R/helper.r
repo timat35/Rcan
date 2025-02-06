@@ -130,7 +130,6 @@ core.csu_legend_wrapper <- function(label, width) {
 core.csu_tick_generator <- function(max,min = 0,logscale=FALSE) {
   
   
-  
   if (!logscale) {
     
     if (min > 0) {

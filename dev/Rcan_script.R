@@ -7,7 +7,7 @@
 # install.packages("devtools")
 # install.packages("gitcreds")
 
-install.packages("usethis")
+# install.packages("usethis")
 setwd("C:/project/Rcan/")
 
 usethis::use_build_ignore(c("dev", "release"))

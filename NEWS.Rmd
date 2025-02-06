@@ -1,5 +1,9 @@
 # Rcan news
 
+## 1.3.91
+
+* update EAPC description (poisson -> gaussian)
+
 ## 1.3.90
 
 * Fixed EAPC calculation to get correct CI.
