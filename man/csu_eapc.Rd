@@ -48,7 +48,7 @@ csu_eapc(df_data,
 	
 }
 \references{
-	\url{https://regstattools.iconcologia.net/stats/sart/eapc/eapc_method.pdf}
+	\url{https://nordcan.iarc.fr/docs/eapc_method.pdf}
 }
 \author{
 	Mathieu Laversanne
