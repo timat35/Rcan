@@ -22,8 +22,8 @@ library(scales)
 #update package (last stable version)
   detach(package:Rcan)
   remove.packages("Rcan")
-  devtools::install_github("timat35/Rcan", subdir="Rcan")
-
+  devtools::install_github("timat35/Rcan")
+ 
 #update package (dev version)
   detach(package:Rcan)
   remove.packages("Rcan")
