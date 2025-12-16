@@ -1,22 +1,7 @@
-
-
-pkg_folder <- ("c:/project/Rcan")
-
-setwd(pkg_folder)
-
-
-library(devtools)
-
-#update package (dev version)
-detach(package:Rcan)
-remove.packages("Rcan")
-
-devtools::install(pkg_folder)
 library(Rcan)
 
-
-
-load('temp/Mathieu.Rdata')
+setwd('c:/project/Rcan/temp')
+load('Mathieu.Rdata')
 
 # Age-specific rates above 500 are not plotted. 
 
@@ -28,4 +13,5 @@ p <- csu_trendCohortPeriod(df_data=colrec,
                            type="Cohort",
                            first_age=5,
                            last_age=17, 
-                           logscale = TRUE)
+                           logscale = FALSE)
+

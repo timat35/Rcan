@@ -1116,7 +1116,6 @@ core.csu_ageSpecific <-function(df_data,
         scale_y_continuous(name = paste(ytitle, formatC(db_rate, format="d", big.mark=",")),
                            breaks=tick$tick_list,
                            minor_breaks = tick$tick_minor_list,
-                           limits=c(ylim_inf,ylim_sup),
                            labels=core.csu_axes_label,
                            trans = "log10"
         )
@@ -1497,7 +1496,6 @@ core.csu_time_trend <- function (
       scale_y_continuous(name = ytitle,
                          breaks=tick$tick_list,
                          minor_breaks = tick$tick_minor_list,
-                         limits=c(ylim_inf,ylim_sup),
                          labels=core.csu_axes_label,
                          trans = "log10"
       )

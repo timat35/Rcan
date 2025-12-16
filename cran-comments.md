@@ -6,4 +6,4 @@
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## News
-* update EAPC description (poisson -> gaussian)
+* Remove fixed limits in logscale trends plots (which were dropping some points)

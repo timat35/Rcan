@@ -247,7 +247,6 @@ csu_trendCohortPeriod <- function (
       scale_y_continuous(name = paste("Age-specific rate per", formatC(db_rate, format="d")),
                          breaks=tick$tick_list,
                          minor_breaks = tick$tick_minor_list,
-                         limits=c(tick$tick_list[1],tick$tick_list[length(tick$tick_list)]),
                          labels=core.csu_axes_label,
                          trans = "log10"
       )
